@@ -1,0 +1,33 @@
+imports:
+    - { resource: "services/dto.yml" }
+
+services:
+    apitoken_authenticator:
+        class:  ApiBundle\Security\ApiTokenAuthenticator
+        public: false
+    api_token_user_provider:
+        class: ApiBundle\Security\ApiTokenUserProvider
+        arguments: ['@repository.user_repository', '@api.key_provider']
+        public: false
+    apikey_authenticator:
+        class: ApiBundle\Security\ApiKeyAuthenticator
+        public: false
+    api_key_user_provider:
+        class: ApiBundle\Security\ApiKeyUserProvider
+        arguments: ['@api.key_provider']
+        public: false
+    api.response_handler:
+        class: ApiBundle\View\ResponseViewHandler
+    api.view_handler:
+        parent: fos_rest.view_handler.default
+        calls:
+            - ['registerHandler', [ 'json', ['@api.response_handler', 'createResponse'] ] ]
+    api.auth_service:
+        class: ApiBundle\Service\Authenticate
+        arguments: ['@repository.user_repository', '@security.password_encoder']
+    api.auth_options:
+        class: ApiBundle\Service\AuthenticateOptions
+        arguments: [{'auth_key_ttl': %auth_key_ttl%}]
+    api.key_provider:
+        class: ApiBundle\Service\ApiKeyProvider
+        arguments: ['@bi.service.token.storage', '@api.auth_options']

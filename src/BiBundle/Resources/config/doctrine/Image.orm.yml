@@ -1,0 +1,84 @@
+BiBundle\Entity\Image:
+    type: entity
+    table: images
+    indexes:
+        images_name__idx:
+            columns:
+              - name
+        images_path__idx:
+            columns:
+              - path
+        images_created_on__idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        path:
+            type: string
+            nullable: false
+            length: 1024
+            fixed: false
+        size:
+            type: integer
+            nullable: true
+        mime:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+        cropData:
+            type: text
+            nullable: true
+            column: crop_data
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'дата модификации'
+            column: updated_on
+        queued:
+            type: boolean
+            nullable: false
+            options:
+              default: false
+        published:
+            type: boolean
+            nullable: false
+            options:
+              default: false
+    oneToMany:
+        sizes:
+            targetEntity: ImageSize
+            mappedBy: image
+            cascade: ["persist"]
+            inversedBy: null
+            orphanRemoval: false
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

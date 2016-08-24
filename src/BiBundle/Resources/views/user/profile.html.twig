@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    <h1>Профиль пользователя</h1>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/bi/css/users.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/bi/system/plugins/input-mask/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/bi/system/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+    <script src="{{ asset('bundles/bi/system/plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>
+
+    <script>
+        $(function(){
+            $("[data-mask]").inputmask();
+        });
+    </script>
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block phone_widget %}
+    <div class="input-group">
+        <div class="input-group-addon">
+            <i class="fa fa-phone"></i>
+        </div>
+
+        {% autoescape false %}
+            {% spaceless %}
+            <input type="text" value="{{ value }}" {% if attr['class'] %}class="{{ attr['class'] }}"{% endif %}
+                   data-mask
+                {% if attr['data-inputmask'] %}
+                    {% set inputmask=attr['data-inputmask']|replace("\"", "'") %}
+                    data-inputmask="{{ inputmask }}"
+                {% endif %} />
+            {% endspaceless %}
+        {% endautoescape %}
+    </div>
+{% endblock %}
+
+{% block _profile_phone_widget %}
+    {{ block('phone_widget') }}
+{% endblock %}
+
+{% block form_end %}
+    </form>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Данные пользователя</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {{ form_start(form) }}
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#main" data-toggle="tab" aria-expanded="true">Главная</a></li>
+                                <li><a href="#optional" data-toggle="tab">Дополнительно</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="main">
+                                    <div class="form-group {% if form.avatar.vars.errors|length %}has-error{% endif %}">
+                                        <label>{{ form.avatar.vars.label }}</label>
+                                        <div class="box-body box-profile">
+                                            <div class="col-md-2">
+                                                <div class="img_bl">
+                                                    <img id="profile_img" class="profile-user-img img-responsive img-circle"
+                                                            {% if form.avatar.vars.value %}
+                                                                src="{{form.avatar.vars.value }}"
+                                                            {% else %}
+                                                                src="{{ asset('bundles/bi/img/anonymous-160x160.gif') }}"
+                                                            {% endif %}
+                                                         alt="User profile picture" width="140" height="140">
+                                                    <div class="opacity_btn img-circle">
+                                                        <div id="add-btn" class="fileUpload btn btn-success icon_centr"
+                                                             {% if form.vars.value.avatar %}style="display: none"{% endif %}>
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                            <input id="fileupload" type="file" name="file" class="upload"/>
+                                                            <input id="fileupload_avatar" type="hidden" value="{{form.avatar.vars.value}}" name="fileupload_avatar">
+                                                        </div>
+                                                        <span id="clear-btn" class="btn btn-danger fileinput-button icon_centr"
+                                                              {% if not form.avatar.vars.errors|length %}style="display: none"{% endif %}>
+                                                            <i class="glyphicon glyphicon-remove" onclick="clearImage()"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group {% if form.login.vars.errors|length %}has-error{% endif %}">
+                                        <label>{{ form.login.vars.label }}</label>
+                                        <div>
+                                            {{form_widget(form.login)}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group{% if form.email.vars.errors|length %}has-error{% endif %}">
+                                        <label>{{ form.email.vars.label }}</label>
+                                        <div>
+                                            {{form_widget(form.email)}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="optional">
+                                    {% for field in form if field.vars.name not in ['login', 'email', 'avatar'] %}
+                                        {% if field.vars.name == "_token" %}
+                                            {{ form_widget(field) }}
+                                        {% else %}
+                                        <div class="form-group {% if field.vars.errors|length %}has-error{% endif %}">
+                                            <label>{{field.vars.label}}</label>
+                                                {% if field.vars.name in ["phone"] %}
+
+                                                {{ form_widget(field) }}
+
+                                                {% elseif field.vars.name == "birthDate" %}
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    {{ form_widget(field) }}
+                                                </div>
+                                                {%else%}
+                                                    <div>
+                                                        {{ form_widget(field) }}
+                                                    </div>
+                                                {%endif%}
+                                                {% if field.vars.errors|length %}
+                                                    <div>
+                                                        {{ field.vars.errors }}
+                                                    </div>
+                                                {% endif %}
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form_bottom_btn">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-success">Сохранить</button>
+                            </div>
+                            {% if form.vars.errors|length %}
+                                <div class="has-error">
+                                    <label class="control-label">На форме имеются некорректно заполненные поля!</label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+.form-group {
+    margin-bottom: 0px;
+	margin-top: 15px;
+}
+.box-footer{
+	margin-top: 20px;
+}
+
+.required:after {
+    content: " *";
+	color: red;
+}

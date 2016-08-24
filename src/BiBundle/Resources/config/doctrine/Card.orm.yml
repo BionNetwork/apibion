@@ -1,0 +1,50 @@
+BiBundle\Entity\Card:
+    type: entity
+    table: card
+    repositoryClass: BiBundle\Repository\CardRepository
+    indexes:
+        card_type_idx:
+            columns:
+              - type
+        card_create_on_idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: 'Наименование'
+        type:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        price:
+            type: decimal
+            nullable: false
+            comment: 'Стоимость'
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'Дата модификации'
+            column: updated_on
+    oneToMany:
+        purchase:
+            targetEntity: Purchase
+            mappedBy: card
+    lifecycleCallbacks: {  }

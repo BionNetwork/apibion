@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+{% form_theme form _self %}
+
+{% block javascripts %}
+    {% javascripts
+    'bundles/bi/system/plugins/datepicker/bootstrap-datepicker.js'
+    'bundles/bi/system/plugins/datepicker/locales/bootstrap-datepicker.ru.js'
+    'bundles/bi/plugins/datepicker/settings.js'
+    'bundles/bi/system/plugins/select2/select2.js'
+    'bundles/bi/system/plugins/select2/i18n/ru.js'
+    'bundles/tetranzselect2entity/js/select2entity.js'
+    'bundles/bi/js/collection.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+    'bundles/bi/system/plugins/datepicker/datepicker3.css'
+    'bundles/bi/plugins/datepicker/style.css'
+    'bundles/bi/system/plugins/select2/select2.css'
+    'bundles/bi/plugins/select2/style.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="box box-primary">
+                {{ form_start(form) }}
+                <div class="box-header with-border">
+                    {% if form.vars.value.id is null %}
+                        <h3 class="box-title">Создание проекта</h3>
+                    {% else %}
+                        <h3 class="box-title">Редактирование проекта</h3>
+                    {% endif %}
+                </div>
+                <div class="box-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab"
+                                                                  data-toggle="tab">Основные свойства</a></li>
+                        <li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="tab">Вспомогательные
+                                свойства</a></li>
+                    </ul>
+                    <div class="tab-content top">
+                        <div role="tabpanel" class="tab-pane active" id="main">
+
+
+                            <div class="form-group">
+                                {{ form_label(form.goals) }}
+                                <div class="col-sm-9">
+                                    <div class="collection_widget_prototype"
+                                         data-prototype="{{ form_row(form.goals.vars.prototype.name)|e }}">
+                                        {% for goal in form.goals %}
+                                            <div class="collection_widget_element">
+                                                {{ form_row(goal.name) }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form_label(form.places) }}
+                                <div class="col-sm-9">
+                                    <div class="collection_widget_prototype"
+                                         data-prototype="{{ form_row(form.places.vars.prototype.name)|e }}">
+                                        {% for place in form.places %}
+                                            <div class="collection_widget_element">
+                                                {{ form_row(place.name) }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form_label(form.info) }}
+                                <div class="col-sm-9">
+                                    <div class="collection_widget_prototype"
+                                         data-prototype="{{ form_row(form.info.vars.prototype.name)|e }}">
+                                        {% for info in form.info %}
+                                            <div class="collection_widget_element">
+                                                {{ form_row(info.name) }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form_label(form.reasonOfCreation) }}
+                                <div class="col-sm-9">
+                                    <div class="collection_widget_prototype"
+                                         data-prototype="{{ form_row(form.reasonOfCreation.vars.prototype.name)|e }}">
+                                        {% for reasonOfCreation in form.reasonOfCreation %}
+                                            <div class="collection_widget_element">
+                                                {{ form_row(reasonOfCreation.name) }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {{ form_row(form.name) }}
+                            {{ form_row(form.fullname) }}
+                            {{ form_row(form.description) }}
+                            {{ form_row(form.startDate) }}
+                            {{ form_row(form.dueDate) }}
+                            {{ form_row(form.assignedTo) }}
+                            {{ form_row(form.customer) }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="other">
+                            {{ form_row(form.objective) }}
+                            {{ form_row(form.result) }}
+                            {{ form_row(form.identifier) }}
+                            {{ form_row(form.parent) }}
+                            {% do form.goals.setRendered %}
+                            {% do form.places.setRendered %}
+                            {% do form.info.setRendered %}
+                            {% do form.reasonOfCreation.setRendered %}
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <ul class="pull-right">
+                        <a class="btn btn-default" href="{{ path('project_index') }}">Отмена</a>
+                        <input type="submit" class="btn btn-primary" value="Сохранить"/>
+                        {{ form_end(form) }}
+                    </ul>
+                    {% if delete_form is defined %}
+                        {{ form_start(delete_form) }}
+                        <input id="project_delete_button" class="btn btn-danger pull-left btn-delete" type="submit"
+                               value="Delete">
+                        {{ confirm('#project_delete_button') }}
+                        {{ form_end(delete_form) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+BiBundle\Entity\CardRepresentation:
+    type: entity
+    table: card_representation
+    indexes:
+        card_representation_create_on_idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'Дата модификации'
+            column: updated_on
+    manyToOne:
+        activation:
+            targetEntity: Activation
+            cascade: {  }
+            mappedBy: null
+            inversedBy: card_representation
+            joinColumns:
+                card_activation_id:
+                    referencedColumnName: id
+                    nullable: true
+            orphanRemoval: false
+        card:
+            targetEntity: Card
+            cascade: {  }
+            mappedBy: null
+            inversedBy: card_representation
+            joinColumns:
+                card_id:
+                    referencedColumnName: id
+                    nullable: true
+            orphanRemoval: false
+        representation:
+            targetEntity: Representation
+            cascade: {  }
+            mappedBy: null
+            inversedBy: card_representation
+            joinColumns:
+                card_id:
+                    referencedColumnName: id
+                    nullable: true
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

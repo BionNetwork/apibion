@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% form_theme form _self %}
+
+{% block javascripts %}
+    {% javascripts
+    'bundles/task/system/plugins/datepicker/bootstrap-datepicker.js'
+    'bundles/task/system/plugins/datepicker/locales/bootstrap-datepicker.ru.js'
+    'bundles/task/plugins/datepicker/settings.js'
+	'bundles/task/system/plugins/select2/select2.js'
+	'bundles/task/system/plugins/select2/i18n/ru.js'
+	'bundles/tetranzselect2entity/js/select2entity.js'
+	'bundles/task/js/collection.js'
+	%}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+    'bundles/task/system/plugins/datepicker/datepicker3.css'
+    'bundles/task/plugins/datepicker/style.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="box box-primary">
+                {{ form_start(form) }}
+                <div class="box-header with-border">
+                    {% if form.vars.value.id is null %}
+                        <h3 class="box-title">Создание пользователя</h3>
+                    {% else %}
+                        <h3 class="box-title">Редактирование пользователя</h3>
+                    {% endif %}
+                </div>
+                <div class="box-body">
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.lastname) }}
+                    {{ form_row(form.middlename) }}
+                    {{ form_row(form.login) }}
+                    {{ form_row(form.password) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.phone) }}
+                    <div class="form-group">
+                        {{ form_label(form.NonDefaultContacts,'Contacts') }}
+                        <div class="col-sm-9">
+                            <div class="collection_widget_prototype"
+                                 data-prototype="
+								 {% filter escape %}
+									 {{ include('BiBundle:user:prototype.html.twig', { 'form': form.NonDefaultContacts.vars.prototype }) }}
+								 {% endfilter %}">
+                                {% for contact in form.NonDefaultContacts %}
+                                    <div class="collection_widget_element">
+                                        {{ form_row(contact.type) }}
+                                        {{ form_row(contact.value) }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+					{% do form.NonDefaultContacts.setRendered %}
+					{{ form_widget(form) }}
+				</div>
+				<div class="box-footer">
+					<ul class="pull-right">
+						<a class="btn btn-default" href="{{ path('user_index') }}">Отмена</a>
+						<input type="submit" class="btn btn-primary" value="Сохранить"/>
+						{{ form_end(form) }}
+					</ul>
+					{% if delete_form is defined %}
+						{{ form_start(delete_form) }}
+						<input id="user_delete_button" class="btn btn-danger pull-left btn-delete" type="submit"
+							   value="Delete">
+						{{ form_end(delete_form) }}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ confirm('#user_delete_button') }}
+{% endblock %}

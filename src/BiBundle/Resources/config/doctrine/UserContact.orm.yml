@@ -1,0 +1,61 @@
+BiBundle\Entity\UserContact:
+    type: entity
+    table: user_contacts
+    entityListeners:
+        BiBundle\Entity\Listener\UserContactListener: ~
+    indexes:
+        user_contacts_valuetype__idx:
+            columns:
+              - type
+              - value
+        user_contacts_create_on__idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        type:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        value:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        isDefault:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+            column: is_default
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'Дата модификации'
+            column: updated_on
+    manyToOne:
+        user:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: contacts
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

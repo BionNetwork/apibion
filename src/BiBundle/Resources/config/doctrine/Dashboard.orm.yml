@@ -1,0 +1,48 @@
+BiBundle\Entity\Dashboard:
+    type: entity
+    table: dashboard
+    repositoryClass: BiBundle\Repository\DashboardRepository
+    indexes:
+        dashboard_user_idx:
+            columns:
+              - user_id
+        dashboard_create_on_idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'Дата модификации'
+            column: updated_on
+    manyToOne:
+        user:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: dashboard
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

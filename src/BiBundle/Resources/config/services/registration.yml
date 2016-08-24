@@ -1,0 +1,22 @@
+services:
+    bi.form.flow.registration:
+        class: BiBundle\Form\Wizard\RegistrationFlow
+        arguments: ['@bi.service.registration']
+        parent: craue.form.flow
+    bi.service.token_management:
+        class: BiBundle\Service\Token\TokenManagementService
+        arguments: ['@service_container']
+        abstract: true
+    bi.service.registration:
+        class: BiBundle\Service\RegistrationService
+        parent: bi.service.token_management
+    bi.service.password_recovery:
+        class: BiBundle\Service\PasswordRecoveryService
+        parent: bi.service.token_management
+    bi.service.token.storage:
+        class: BiBundle\Service\Token\Storage
+        calls:
+            - ['setClient', ['@snc_redis.session']]
+    bi.service.authenticate:
+        class: BiBundle\Service\AuthenticateService
+        arguments: ['@service_container']

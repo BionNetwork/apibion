@@ -1,0 +1,57 @@
+imports:
+   - { resource: "services/registration.yml" }
+   - { resource: "services/upload.yml" }
+   - { resource: "services/events.yml" }
+   - { resource: "services/repositories.yml" }
+
+services:
+    twig.extension.dialog:
+        class: BiBundle\Twig\Extension\Dialog\Confirm
+        public: false
+        tags:
+            - { name: twig.extension }
+    bi.doctrine.entity_listener_resolver:
+        class: BiBundle\Doctrine\EntityListenerResolver
+        arguments: [ "@service_container" ]
+    entity.serializer:
+        class: BiBundle\Service\EntitySerializer
+        arguments: ['@doctrine.orm.entity_manager']
+    bi.dashboard.service:
+        class: BiBundle\Service\DashboardService
+        parent: bi.user_aware_service
+    bi.card.service:
+        class: BiBundle\Service\CardService
+        parent: bi.user_aware_service
+    bi.purchase.service:
+        class: BiBundle\Service\PurchaseService
+        parent: bi.user_aware_service
+    bi.dashboard_card.service:
+        class: BiBundle\Service\DashboardCardService
+        parent: bi.user_aware_service
+    user.listener:
+        class: BiBundle\Entity\Listener\UserListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    bi.user_aware_service:
+        class: BiBundle\Service\UserAwareService
+        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage']
+    user.service:
+        class:  BiBundle\Service\User
+        parent: bi.user_aware_service
+        calls:
+          - ['setPasswordEncoder', ['@security.password_encoder']]
+    usercontact.service:
+        class:	BiBundle\Service\UserContact
+        arguments: ['@doctrine.orm.entity_manager']
+    usercontact.listener:
+        class: BiBundle\Entity\Listener\UserContactListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    images.service:
+        class: BiBundle\Service\Images
+        parent: bi.user_aware_service
+    utils.host_based_url:
+        class: BiBundle\Service\Utils\HostBasedUrl
+        arguments: ['@request_stack']

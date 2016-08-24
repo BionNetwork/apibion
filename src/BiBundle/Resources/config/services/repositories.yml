@@ -1,0 +1,26 @@
+services:
+    repository.user_repository:
+        class: BiBundle\Repository\UserRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\User
+    repository.dashboard_repository:
+        class: BiBundle\Repository\DashboardRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\Dashboard
+    repository.card_repository:
+        class: BiBundle\Repository\CardRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\Card
+    repository.purchase_repository:
+        class: BiBundle\Repository\PurchaseRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\Purchase
+    repository.dashboard_card_repository:
+        class: BiBundle\Repository\DashboardCardRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\DashboardCard

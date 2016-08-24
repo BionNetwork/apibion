@@ -1,0 +1,45 @@
+BiBundle\Entity\Purchase:
+    type: entity
+    table: purchase
+    repositoryClass: BiBundle\Repository\PurchaseRepository
+    indexes:
+        purchase_create_on_idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        price:
+            type: decimal
+            nullable: false
+            comment: 'Стоимость, по которой была куплена карточка'
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'Дата модификации'
+            column: updated_on
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: purchase
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        card:
+            targetEntity: Card
+            inversedBy: purchase
+            joinColumn:
+                name: card_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

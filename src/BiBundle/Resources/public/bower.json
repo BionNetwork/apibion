@@ -1,0 +1,24 @@
+{
+  "name": "task management",
+  "authors": [
+    "miholeus <me@miholeus.com>"
+  ],
+  "description": "project management system",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "project", "task", "management"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

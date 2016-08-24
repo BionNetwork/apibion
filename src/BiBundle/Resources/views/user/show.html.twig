@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">User</h3>
+				</div>
+				<div class="box-body">
+					<table class="table table-bordered table-responsive">
+						<tbody>
+							<tr>
+								<th>Id</th>
+								<td>{{ user.id }}</td>
+							</tr>
+							<tr>
+								<th>Firstname</th>
+								<td>{{ user.firstname }}</td>
+							</tr>
+							<tr>
+								<th>Lastname</th>
+								<td>{{ user.lastname }}</td>
+							</tr>
+							<tr>
+								<th>Middlename</th>
+								<td>{{ user.middlename }}</td>
+							</tr>
+							<tr>
+								<th>Login</th>
+								<td>{{ user.login }}</td>
+							</tr>
+							<tr>
+								<th>Email</th>
+								<td>{{ user.email }}</td>
+							</tr>
+							<tr>
+								<th>Password</th>
+								<td>{{ user.password }}</td>
+							</tr>
+							<tr>
+								<th>Salt</th>
+								<td>{{ user.salt }}</td>
+							</tr>
+							<tr>
+								<th>Birthdate</th>
+								<td>{% if user.birthDate %}{{ user.birthDate|date('Y-m-d') }}{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Position</th>
+								<td>{{ user.position }}</td>
+							</tr>
+							<tr>
+								<th>Avatar</th>
+								<td>{{ user.avatar }}</td>
+							</tr>
+							<tr>
+								<th>Avatarsmall</th>
+								<td>{{ user.avatarSmall }}</td>
+							</tr>
+							<tr>
+								<th>Phone</th>
+								<td>{{ user.phone }}</td>
+							</tr>
+							<tr>
+								<th>Lastloginon</th>
+								<td>{% if user.lastLoginOn %}{{ user.lastLoginOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Createdon</th>
+								<td>{% if user.createdOn %}{{ user.createdOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Updatedon</th>
+								<td>{% if user.updatedOn %}{{ user.updatedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Mailnotification</th>
+								<td>{% if user.mailNotification %}Yes{% else %}No{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Mustchangepasswd</th>
+								<td>{% if user.mustChangePasswd %}Yes{% else %}No{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Passwdchangedon</th>
+								<td>{% if user.passwdChangedOn %}{{ user.passwdChangedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Isactive</th>
+								<td>{% if user.isActive %}Yes{% else %}No{% endif %}</td>
+							</tr>
+							<tr>
+								<th>Verifyemailuuid</th>
+								<td>{{ user.verifyEmailUuid }}</td>
+							</tr>
+							<tr>
+								<th>Issuperuser</th>
+								<td>{% if user.isSuperuser %}Yes{% else %}No{% endif %}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="box-footer clearfix">					
+					<ul class="pull-right">
+						<a class="btn btn-default" href="{{ path('user_index') }}">Back to the list</a>
+						<a class="btn btn-primary" href="{{ path('user_edit', { 'id': user.id }) }}">Edit</a>
+					</ul>
+					{{ form_start(delete_form) }}
+					<input id="user_delete_button" class="btn btn-danger pull-left" type="submit" value="Delete">
+					{{ form_end(delete_form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ confirm('#user_delete_button') }}
+{% endblock %}

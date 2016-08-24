@@ -1,0 +1,7 @@
+services:
+    event.event_dispatcher:
+        class: BiBundle\Event\EventDispatcher
+        autowire: true
+    event.notification_manager:
+        class: BiBundle\Event\NotificationManager
+        arguments: ['@event.event_dispatcher']

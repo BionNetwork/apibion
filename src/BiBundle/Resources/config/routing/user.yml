@@ -1,0 +1,34 @@
+user_index:
+    path:     /
+    defaults: { _controller: "BiBundle:User:index" }
+    methods:  GET
+
+user_show:
+    path:     /{id}/show
+    defaults: { _controller: "BiBundle:User:show" }
+    methods:  GET
+
+user_new:
+    path:     /new
+    defaults: { _controller: "BiBundle:User:new" }
+    methods:  [GET, POST]
+
+user_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BiBundle:User:edit" }
+    methods:  [GET, POST]
+
+user_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BiBundle:User:delete" }
+    methods:  DELETE
+
+user_profile:
+    path:     /{id}/profile
+    defaults: {_controller: "BiBundle:User:profile"}
+    methods:  [GET, POST]
+
+user_search:
+    path:     /search
+    defaults: {_controller: "BiBundle:User:search"}
+    methods:  [GET, POST]

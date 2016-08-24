@@ -1,0 +1,32 @@
+api_security:
+    type: rest
+    prefix: 'auth'
+    resource: "ApiBundle\\Controller\\SecurityController"
+api_user:
+    type: rest
+    resource: "ApiBundle\\Controller\\UserController"
+#api_profile:
+#    type: rest
+#    resource: "ApiBundle\\Controller\\ProfileController"
+#api_panel:
+#    type: rest
+#    prefix: 'panel'
+#    resource: "ApiBundle\\Controller\\ControlPanelController"
+api_dashboard:
+    type: rest
+    resource: "ApiBundle\\Controller\\DashboardController"
+api_purchase:
+    type: rest
+    resource: "ApiBundle\\Controller\\PurchaseController"
+api_activation:
+    type: rest
+    resource: "ApiBundle\\Controller\\ActivationController"
+api_card:
+    type: rest
+    resource: "ApiBundle\\Controller\\CardController"
+api_resource:
+    type: rest
+    resource: "ApiBundle\\Controller\\ResourceController"
+api_dashboard_card:
+    type: rest
+    resource: "ApiBundle\\Controller\\DashboardCardController"

@@ -1,0 +1,34 @@
+BiBundle\Entity\CardCategory:
+    type: entity
+    table: card_category
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: 'Наименование'
+        path:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: 'Изображение'
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+    oneToMany:
+        card:
+            targetEntity: Card
+            mappedBy: card_category
+    lifecycleCallbacks: {  }

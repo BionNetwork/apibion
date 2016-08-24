@@ -1,0 +1,61 @@
+BiBundle\Entity\DashboardCard:
+    type: entity
+    table: dashboard_card
+    indexes:
+        dashboard_card_create_on_idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'Дата модификации'
+            column: updated_on
+    manyToOne:
+        dashboard:
+            targetEntity: Dashboard
+            cascade: {  }
+            mappedBy: null
+            inversedBy: dashboard_card
+            joinColumns:
+                dashboard_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
+        activation:
+            targetEntity: Activation
+            cascade: {  }
+            mappedBy: null
+            inversedBy: dashboard_card
+            joinColumns:
+                card_activation_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: contacts
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

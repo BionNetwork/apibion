@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="box box-primary">
+				{{ form_start(edit_form) }}
+				<div class="box-header with-border">
+					<h3 class="box-title">Редактирование организации</h3>
+				</div>
+				<div class="box-body">
+					{{ form_widget(edit_form) }}
+				</div>
+				<div class="box-footer">
+					<ul class="pull-right">
+						<a class="btn btn-default" href="{{ path('department_index') }}">Отмена</a>
+						<input type="submit" class="btn btn-primary" value="Сохранить"/>
+						{{ form_end(edit_form) }}
+					</ul>
+					{{ form_start(delete_form) }}
+					<input id="delete_button" class="btn btn-danger pull-left btn-delete" type="submit" value="Delete">
+					{{ form_end(delete_form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ confirm('#delete_button') }}
+{% endblock %}

@@ -1,0 +1,57 @@
+BiBundle\Entity\ImageSize:
+    type: entity
+    table: image_sizes
+    indexes:
+        image_size_name__idx:
+            columns:
+              - name
+        image_size_sizes__idx:
+            columns:
+              - width
+              - height
+        image_size_created_on__idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        path:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        width:
+            type: integer
+            nullable: false
+        height:
+            type: integer
+            nullable: false
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'дата создания'
+    manyToOne:
+        image:
+            targetEntity: Image
+            cascade: {  }
+            mappedBy: null
+            inversedBy: sizes
+            joinColumns:
+                image_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

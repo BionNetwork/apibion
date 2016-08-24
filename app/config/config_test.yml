@@ -1,0 +1,43 @@
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        collect: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+doctrine:
+    dbal:
+        host: localhost
+        dbname: isup_test
+        user: isup_test
+        password: GfzDn9pS
+
+security:
+    firewalls:
+        main:
+            http_basic: ~
+            provider: db_provider
+        api:
+            stateless: false
+
+snc_redis:
+    clients:
+        default:
+            dsn: "redis://%redis_server%/8"
+        cache:
+            dsn: "redis://%redis_server%/8"
+        session:
+            dsn: "redis://%redis_server%/8"
+
+sms_service:
+    enabled: false

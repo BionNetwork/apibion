@@ -1,0 +1,42 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_driver:   pdo_pgsql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     symfony
+    database_user:     root
+    database_password: ~
+    # You should uncomment this if you want use pdo_sqlite
+    # database_path: "%kernel.root_dir%/data.db3"
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    # A secret key that's used to generate certain security-related tokens
+    secret:            ThisTokenIsNotSoSecretChangeIt
+    uglifyjs_bin:      /usr/local/bin/uglifyjs
+    uglifycss_bin:     /usr/local/bin/uglifycss
+    node_bin: /usr/local/bin/node
+    # Project name used to store sessions with prefix
+    project_name: isup
+    # Redis server host
+    redis_server: localhost
+    upload_dir: '%kernel.root_dir%/../web'
+    profile_upload_photo_dir: uploads/profiles
+    projects_upload_photo_dir: uploads/projects
+    mongodb_host: localhost
+    mongodb_port: 27017
+    sms_infobip_login: test
+    sms_infobip_password: test
+    sms_infobip_originator: isup
+    sms_smstraffic_login: test
+    sms_smstraffic_password: test
+    sms_smstraffic_originator: isup
+    # time to live for authenticated user's key
+    auth_key_ttl: 36000
+    # count of projects in toplist
+    projects_toplist_count: 6

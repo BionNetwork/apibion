@@ -1,0 +1,22 @@
+project_index:
+    path:     /
+    defaults: { _controller: "BiBundle:Card:index" }
+    methods:  GET
+task_user_role:
+    resource: "@BiBundle/Resources/config/routing/userrole.yml"
+    prefix:   /user/role
+task_user_status:
+    resource: "@BiBundle/Resources/config/routing/userstatus.yml"
+    prefix:   /user/status
+task_user:
+    resource: "@BiBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+task_homepage:
+    path:     /
+    defaults: { _controller: BiBundle:User:index }
+login:
+    path: /login
+    defaults: {_controller: BiBundle:Security:login}
+register:
+    path: /register
+    defaults: {_controller: BiBundle:Security:register}

@@ -1,0 +1,9 @@
+imports:
+   - { resource: "@BiBundle/Resources/config/services.yml" }
+   - { resource: "@ApiBundle/Resources/config/services.yml" }
+
+parameters:
+#    parameter_name: value
+
+services:
+  # some services
