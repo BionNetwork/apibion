@@ -28,15 +28,14 @@ class DashboardCard
     private $dashboard;
 
     /**
-     * @var \BiBundle\Entity\Card
-     */
-    private $card;
-
-    /**
      * @var \BiBundle\Entity\User
      */
     private $user;
 
+    /**
+     * @var \BiBundle\Entity\Activation
+     */
+    private $activation;
 
     /**
      * Get id
@@ -121,30 +120,6 @@ class DashboardCard
     }
 
     /**
-     * Set card
-     *
-     * @param \BiBundle\Entity\Card $card
-     *
-     * @return DashboardCard
-     */
-    public function setCard(\BiBundle\Entity\Card $card)
-    {
-        $this->card = $card;
-
-        return $this;
-    }
-
-    /**
-     * Get card
-     *
-     * @return \BiBundle\Entity\Card
-     */
-    public function getCard()
-    {
-        return $this->card;
-    }
-
-    /**
      * Set user
      *
      * @param \BiBundle\Entity\User $user
@@ -167,5 +142,28 @@ class DashboardCard
     {
         return $this->user;
     }
-}
 
+    /**
+     * Set activation
+     *
+     * @param \BiBundle\Entity\Activation $activation
+     *
+     * @return DashboardCard
+     */
+    public function setActivation(\BiBundle\Entity\Activation $activation)
+    {
+        $this->activation = $activation;
+
+        return $this;
+    }
+
+    /**
+     * Get activation
+     *
+     * @return \BiBundle\Entity\Activation
+     */
+    public function getActivation()
+    {
+        return $this->activation;
+    }
+}

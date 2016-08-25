@@ -24,11 +24,15 @@ BiBundle\Entity\Resource:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
+        platformId:
+            type: integer
+            nullable: true
+            length: 1024
+            fixed: false
         path:
             type: string
             nullable: false
-            length: 1024
-            fixed: false
+            unsigned: false
     manyToOne:
         activation:
             targetEntity: Activation
@@ -36,7 +40,7 @@ BiBundle\Entity\Resource:
             mappedBy: null
             inversedBy: resource
             joinColumns:
-                card_activation_id:
+                activation_id:
                     referencedColumnName: id
                     onDelete: CASCADE
                     nullable: false

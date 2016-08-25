@@ -167,6 +167,9 @@ BiBundle\Entity\User:
         purchase:
             targetEntity: Purchase
             mappedBy: user
+        activation:
+            targetEntity: Activation
+            mappedBy: user
     manyToOne:
         status:
             targetEntity: UserStatus

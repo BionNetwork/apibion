@@ -101,7 +101,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
      * @param \BiBundle\Entity\User $user
      * @return \BiBundle\Entity\Card[]
      */
-    public function getCards($user) {
+    public function getUserCards($user) {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
 

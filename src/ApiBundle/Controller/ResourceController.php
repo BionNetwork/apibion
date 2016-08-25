@@ -45,7 +45,7 @@ class ResourceController extends RestController
      *
      * @return Response
      */
-    public function postProfileUploadphotoAction(Request $request)
+    public function postReourceAction(Request $request)
     {
         $resource = new \BiBundle\Entity\Resource();
 
@@ -59,7 +59,6 @@ class ResourceController extends RestController
 
         $uploadedResourcePathArray = $uploadResourceService->upload($resourceFile);
 
-        // сохраняем фото в БД
         $resource->setPath($uploadedResourcePathArray['path']);
         $resourceService->save($resource);
 

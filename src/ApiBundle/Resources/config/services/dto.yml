@@ -11,6 +11,9 @@ services:
     api.data.transfer_object.purchase_transfer_object:
         class: ApiBundle\Service\DataTransferObject\PurchaseTransferObject
         arguments: ['@repository.purchase_repository', '@bi.user_aware_service', '@utils.host_based_url']
+    api.data.transfer_object.activation_transfer_object:
+        class: ApiBundle\Service\DataTransferObject\ActivationTransferObject
+        arguments: ['@bi.user_aware_service', '@utils.host_based_url']
     api.data.transfer_object.dashboard_card_transfer_object:
         class: ApiBundle\Service\DataTransferObject\DashboardCardTransferObject
         arguments: ['@repository.dashboard_card_repository', '@bi.user_aware_service', '@utils.host_based_url']

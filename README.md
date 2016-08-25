@@ -1,4 +1,3 @@
-Project Management Information system 
+BI Shop System
 =====================================
 
-A project created on April 11, 2016, 3:59 pm.

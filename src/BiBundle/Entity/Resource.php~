@@ -32,6 +32,10 @@ class Resource
      */
     private $dashboard_card;
 
+    /**
+     * @var \BiBundle\Entity\Activation
+     */
+    private $activation;
 
     /**
      * Get id
@@ -139,5 +143,27 @@ class Resource
         return $this->dashboard_card;
     }
 
+    /**
+     * Set activation
+     *
+     * @param \BiBundle\Entity\Activation $activation
+     *
+     * @return Resource
+     */
+    public function setActivation(\BiBundle\Entity\Activation $activation)
+    {
+        $this->activation = $activation;
 
+        return $this;
+    }
+
+    /**
+     * Get activation
+     *
+     * @return \BiBundle\Entity\Activation
+     */
+    public function getActivation()
+    {
+        return $this->activation;
+    }
 }

@@ -42,7 +42,7 @@ class PurchaseController extends RestController
     public function getPurchasesAction()
     {
         $purchaseService = $this->get('bi.purchase.service');
-        $cards = $purchaseService->getByUser($this->getUser());
+        $cards = $purchaseService->getUserCards($this->getUser());
         $service = $this->get('api.data.transfer_object.card_transfer_object');
         $view = $this->view($service->getObjectListData($cards));
         return $this->handleView($view);
@@ -107,7 +107,7 @@ class PurchaseController extends RestController
      *    }
      * )
      *
-     * @Route("/purchase/activate/{purchase_id}", requirements={"purchase_id": "\d+"})
+     * @Route("/purchase/activate/{purchase}", requirements={"purchase": "\d+"})
      *
      * @param \BiBundle\Entity\Purchase $purchase
      * @return Response

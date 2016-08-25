@@ -168,3 +168,4 @@ class CardRepresentation
         return $this->representation;
     }
 }
+

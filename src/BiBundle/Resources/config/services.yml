@@ -25,6 +25,9 @@ services:
     bi.purchase.service:
         class: BiBundle\Service\PurchaseService
         parent: bi.user_aware_service
+    bi.activation.service:
+        class: BiBundle\Service\ActivationService
+        parent: bi.user_aware_service
     bi.dashboard_card.service:
         class: BiBundle\Service\DashboardCardService
         parent: bi.user_aware_service

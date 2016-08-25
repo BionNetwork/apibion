@@ -18,6 +18,26 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  */
 class DashboardService extends UserAwareService
 {
+
+    /**
+     * Возвращает рабочие столы по фильтру
+     *
+     * @param \BiBundle\Entity\Filter\Dashboard $filter
+     *
+     * @return \BiBundle\Entity\Dashboard[]
+     */
+    public function getByFilter(\BiBundle\Entity\Filter\Dashboard $filter)
+    {
+        $em = $this->getEntityManager();
+        $items = $em->getRepository('BiBundle:Dashboard')->getByFilter($filter);
+
+        $resultArray = [];
+        foreach ($items as $item) {
+            $resultArray[] = $item;
+        }
+        return $resultArray;
+    }
+
     /**
      * Save dashboard
      *

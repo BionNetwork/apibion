@@ -10,4 +10,10 @@ class Dashboard extends AbstractFilter
      */
     public $id;
 
+    /**
+     * Идентификатор рабочего пользоватея
+     * @var int
+     */
+    public $user_id;
+
 }

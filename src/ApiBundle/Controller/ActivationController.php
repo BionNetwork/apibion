@@ -42,10 +42,14 @@ class ActivationController extends RestController
      */
     public function getActivationsAction()
     {
-        $activationsService = $this->get('bi.card_activations.service');
-        $cards = $activationsService->getByUser($this->getUser());
-        $service = $this->get('api.data.transfer_object.card_transfer_object');
-        $view = $this->view($service->getObjectListData($cards));
+        $activations = $this->getUser()->getActivation();
+
+        $data = [];
+        foreach ($activations as $activation) {
+            $data[] = $activation;
+        }
+        $service = $this->get('api.data.transfer_object.activation_transfer_object');
+        $view = $this->view($service->getListData($data));
         return $this->handleView($view);
     }
 

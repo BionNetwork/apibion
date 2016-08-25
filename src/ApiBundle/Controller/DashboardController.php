@@ -47,12 +47,16 @@ class DashboardController extends RestController
     public function getDashboardsAction(ParamFetcher $paramFetcher)
     {
         $dashboardService = $this->get('bi.dashboard.service');
+
         $params = $this->getParams($paramFetcher, 'dashboard');
         $params['user_id'] = $this->getUser()->getId();
         $filter = new \BiBundle\Entity\Filter\Dashboard($params);
+
         $dashboards = $dashboardService->getByFilter($filter);
-        $service = $this->get('api.data.transfer_object.dashboard_transfer_object');
+
+        $service = $this->get('api.data_transfer_object.dashboard_transfer_object');
         $view = $this->view($service->getListData($dashboards));
+
         return $this->handleView($view);
     }
     
@@ -95,7 +99,7 @@ class DashboardController extends RestController
      *      }
      *
      * @ApiDoc(
-     *  section="Рабочие столы",
+     *  section="6. Рабочие столы",
      *  resource=true,
      *  description="Создание рабочего стола",
      *  statusCodes={
@@ -157,7 +161,7 @@ class DashboardController extends RestController
      *      }
      *
      * @ApiDoc(
-     *  section="Рабочие столы",
+     *  section="6. Рабочие столы",
      *  resource=true,
      *  description="Рабочий стол",
      *  statusCodes={
@@ -221,7 +225,7 @@ class DashboardController extends RestController
      *      }
      *
      * @ApiDoc(
-     *  section="Рабочие столы",
+     *  section="6. Рабочие столы",
      *  resource=true,
      *  description="Редактирование рабочего стола",
      *  statusCodes={
@@ -236,19 +240,20 @@ class DashboardController extends RestController
      *      }
      *    },
      *  input={
-     *      "class"="BiBundle\Form\Type\Profile",
+     *      "class"="BiBundle\Form\Type\Dashboard",
      *      "name"=""
      *  }
      * )
      *
      *
+     * @param \BiBundle\Entity\Dashboard $dashboard
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function putDashboardAction(Request $request)
+    public function putDashboardAction(\BiBundle\Entity\Dashboard $dashboard, Request $request)
     {
-        $user = $this->getUser();
-        $form = $this->createForm('BiBundle\Form\Type\Dashboard', $user);
+        $form = $this->createForm('BiBundle\Form\Type\Dashboard', $dashboard);
 
         $this->processForm($request, $form);
 
@@ -256,8 +261,8 @@ class DashboardController extends RestController
             throw $this->createFormValidationException($form);
         }
 
-        $userService = $this->get('user.service');
-        $userService->save($user);
+        $dashboardService = $this->get('bi.dashboard.service');
+        $dashboardService->save($dashboard);
         $view = $this->view(null, 204);
         return $this->handleView($view);
     }

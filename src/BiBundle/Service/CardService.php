@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 class CardService extends UserAwareService
 {
 
-
     /**
      * Возвращает проект по фильтру
      *

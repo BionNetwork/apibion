@@ -42,7 +42,7 @@ BiBundle\Entity\DashboardCard:
             mappedBy: null
             inversedBy: dashboard_card
             joinColumns:
-                card_activation_id:
+                activation_id:
                     referencedColumnName: id
                     onDelete: CASCADE
                     nullable: false

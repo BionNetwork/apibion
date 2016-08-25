@@ -15,20 +15,15 @@ class DashboardRepository extends \Doctrine\ORM\EntityRepository
      * Find dashboards by filter
      *
      * @param \BiBundle\Entity\Filter\Dashboard $filter
-     * @return array
+     * @return \BiBundle\Entity\Dashboard
      */
-    public function getByFilter(\BiBundle\Entity\Filter\Card $filter)
+    public function getByFilter(\BiBundle\Entity\Filter\Dashboard $filter)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->select([
-            'd.id',
-            'd.name',
-            'd.type',
-            'd.createdOn',
-        ])
+        $qb->select('d')
             ->from('BiBundle:Dashboard', 'd')
-            ->orderBy('d.createdOn', 'DESC');
+            ->orderBy('d.createdOn', 'desc');
         if ($filter->id) {
             $qb->andWhere('d.id = :id');
             $qb->setParameter('id', $filter->id);

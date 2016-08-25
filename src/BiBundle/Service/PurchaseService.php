@@ -2,6 +2,7 @@
 
 namespace BiBundle\Service;
 
+use BiBundle\BiBundle;
 use BiBundle\Service\Exception\Purchase\AlreadyPurchasedException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
@@ -46,6 +47,39 @@ class PurchaseService extends UserAwareService
         $em->flush();
 
         return $purchase;
+    }
+
+
+    /**
+     * Создает экземпляр активации карточки
+     *
+     * @param \BiBundle\Entity\Purchase $purchase
+     */
+    public function activate(\BiBundle\Entity\Purchase $purchase)
+    {
+        $em = $this->getEntityManager();
+
+        $activation = new \BiBundle\Entity\Activation();
+
+        $activation->setCard($purchase->getCard());
+        $activation->setUser($this->getUser());
+        $activation->setCreatedOn(new \DateTime());
+
+        $em->persist($activation);
+        $em->flush();
+
+        return $activation;
+    }
+
+    /**
+     * Получение карточек пользователя
+     *
+     * @param User $user
+     */
+    public function getUserCards(\BiBundle\Entity\User $user)
+    {
+        $em = $this->getEntityManager();
+        return $em->getRepository('BiBundle:Purchase')->getUserCards($user);
     }
 
 }

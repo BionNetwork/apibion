@@ -191,6 +191,11 @@ class User implements UserInterface, \Serializable
     private $role;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $purchase;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -852,13 +857,7 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $purchase;
-
 
     /**
      * Add purchase

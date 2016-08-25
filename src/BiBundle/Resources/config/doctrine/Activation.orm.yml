@@ -1,6 +1,7 @@
 BiBundle\Entity\Activation:
     type: entity
     table: activation
+    repositoryClass: BiBundle\Repository\ActivationRepository
     indexes:
         activation_create_on_idx:
             columns:

@@ -139,4 +139,3 @@ class Activation
         return $this->user;
     }
 }
-
