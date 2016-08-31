@@ -1,4 +1,4 @@
 services:
-    file.upload:
+    file.upload_resource:
         class: BiBundle\Service\UploadResource
         arguments: ['@service_container']

@@ -45,22 +45,25 @@ class ResourceController extends RestController
      *
      * @return Response
      */
-    public function postReourceAction(Request $request)
+    public function postResourceAction(Request $request)
     {
         $resource = new \BiBundle\Entity\Resource();
 
         $resourceFile = $request->files->get('resource_file');
         if (!$resourceFile) {
-            //throw new HttpException(400, 'Файл не загружен');
+            throw new HttpException(400, 'Файл не загружен');
         }
 
-        $resourceService = $this->get('resource.service');
+        $resourceService = $this->get('bi.resource.service');
+
         $uploadResourceService = $this->get('file.upload_resource');
+        $uploadResourceService->setUploadPath('uploads/resource');
 
         $uploadedResourcePathArray = $uploadResourceService->upload($resourceFile);
 
         $resource->setPath($uploadedResourcePathArray['path']);
-        $resourceService->save($resource);
+        $resource->setUser($this->getUser());
+        $resource = $resourceService->save($resource);
 
         $view = $this->view(null, 204);
         return $this->handleView($view);

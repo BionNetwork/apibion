@@ -23,4 +23,23 @@ class ActivationService extends UserAwareService
         return $em->getRepository('BiBundle:Activation')->getUserActivations($user);
     }
 
+    /**
+     * Возвращает активации по фильтру
+     *
+     * @param \BiBundle\Entity\Filter\Activation $filter
+     *
+     * @return \BiBundle\Entity\Activation[]
+     */
+    public function getByFilter(\BiBundle\Entity\Filter\Activation $filter)
+    {
+        $em = $this->getEntityManager();
+        $items = $em->getRepository('BiBundle:Activation')->getByFilter($filter);
+
+        $resultArray = [];
+        foreach ($items as $item) {
+            $resultArray[] = $item;
+        }
+        return $resultArray;
+    }
+
 }

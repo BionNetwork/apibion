@@ -3,9 +3,9 @@
 namespace BiBundle\Entity;
 
 /**
- * Resource
+ * DashboardActivation
  */
-class Resource
+class DashboardActivation
 {
     /**
      * @var integer
@@ -23,19 +23,20 @@ class Resource
     private $updatedOn;
 
     /**
-     * @var string
+     * @var \BiBundle\Entity\Dashboard
      */
-    private $path;
-
-    /**
-     * @var \BiBundle\Entity\DashboardCard
-     */
-    private $dashboard_card;
+    private $dashboard;
 
     /**
      * @var \BiBundle\Entity\Activation
      */
     private $activation;
+
+    /**
+     * @var \BiBundle\Entity\User
+     */
+    private $user;
+
 
     /**
      * Get id
@@ -52,7 +53,7 @@ class Resource
      *
      * @param \DateTime $createdOn
      *
-     * @return Resource
+     * @return DashboardActivation
      */
     public function setCreatedOn($createdOn)
     {
@@ -76,7 +77,7 @@ class Resource
      *
      * @param \DateTime $updatedOn
      *
-     * @return Resource
+     * @return DashboardActivation
      */
     public function setUpdatedOn($updatedOn)
     {
@@ -96,51 +97,27 @@ class Resource
     }
 
     /**
-     * Set path
+     * Set dashboard
      *
-     * @param string $path
+     * @param \BiBundle\Entity\Dashboard $dashboard
      *
-     * @return Resource
+     * @return DashboardActivation
      */
-    public function setPath($path)
+    public function setDashboard(\BiBundle\Entity\Dashboard $dashboard)
     {
-        $this->path = $path;
+        $this->dashboard = $dashboard;
 
         return $this;
     }
 
     /**
-     * Get path
+     * Get dashboard
      *
-     * @return string
+     * @return \BiBundle\Entity\Dashboard
      */
-    public function getPath()
+    public function getDashboard()
     {
-        return $this->path;
-    }
-
-    /**
-     * Set dashboardCard
-     *
-     * @param \BiBundle\Entity\DashboardCard $dashboardCard
-     *
-     * @return Resource
-     */
-    public function setDashboardCard(\BiBundle\Entity\DashboardCard $dashboardCard)
-    {
-        $this->dashboard_card = $dashboardCard;
-
-        return $this;
-    }
-
-    /**
-     * Get dashboardCard
-     *
-     * @return \BiBundle\Entity\DashboardCard
-     */
-    public function getDashboardCard()
-    {
-        return $this->dashboard_card;
+        return $this->dashboard;
     }
 
     /**
@@ -148,7 +125,7 @@ class Resource
      *
      * @param \BiBundle\Entity\Activation $activation
      *
-     * @return Resource
+     * @return DashboardActivation
      */
     public function setActivation(\BiBundle\Entity\Activation $activation)
     {
@@ -166,33 +143,28 @@ class Resource
     {
         return $this->activation;
     }
-    /**
-     * @var integer
-     */
-    private $platformId;
-
 
     /**
-     * Set platformId
+     * Set user
      *
-     * @param integer $platformId
+     * @param \BiBundle\Entity\User $user
      *
-     * @return Resource
+     * @return DashboardActivation
      */
-    public function setPlatformId($platformId)
+    public function setUser(\BiBundle\Entity\User $user)
     {
-        $this->platformId = $platformId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get platformId
+     * Get user
      *
-     * @return integer
+     * @return \BiBundle\Entity\User
      */
-    public function getPlatformId()
+    public function getUser()
     {
-        return $this->platformId;
+        return $this->user;
     }
 }

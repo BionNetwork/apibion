@@ -14,18 +14,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OverdueCommand extends ContainerAwareCommand
+class ApiCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('issues:overdue:update')
-            ->setDescription('Updating overdue attribute of issues');
+            ->setName('platform:api:test')
+            ->setDescription('Testing service call for BI Platform API');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $service = $this->getContainer()->get('statistics.service');
-        $output->writeln("<info>Overdues updated</info>");
+        $service = $this->getContainer()->get('bi.card.service');
+        $service->call();
+        $output->writeln("<info>Remove API call sent.</info>");
     }
 }

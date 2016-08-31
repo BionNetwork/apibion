@@ -196,11 +196,18 @@ class User implements UserInterface, \Serializable
     private $purchase;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $activation;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->purchase = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activation = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -891,5 +898,39 @@ class User implements UserInterface, \Serializable
     public function getPurchase()
     {
         return $this->purchase;
+    }
+
+    /**
+     * Add activation
+     *
+     * @param \BiBundle\Entity\Activation $activation
+     *
+     * @return User
+     */
+    public function addActivation(\BiBundle\Entity\Activation $activation)
+    {
+        $this->activation[] = $activation;
+
+        return $this;
+    }
+
+    /**
+     * Remove activation
+     *
+     * @param \BiBundle\Entity\Activation $activation
+     */
+    public function removeActivation(\BiBundle\Entity\Activation $activation)
+    {
+        $this->activation->removeElement($activation);
+    }
+
+    /**
+     * Get activation
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActivation()
+    {
+        return $this->activation;
     }
 }

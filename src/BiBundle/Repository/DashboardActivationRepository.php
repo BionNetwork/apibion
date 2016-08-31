@@ -7,9 +7,9 @@ use BiBundle\Entity\DashboardCard;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**
- * DashboardCardRepository
+ * DashboardActivationRepository
  */
-class DashboardCardRepository extends \Doctrine\ORM\EntityRepository
+class DashboardActivationRepository extends \Doctrine\ORM\EntityRepository
 {
 
 }

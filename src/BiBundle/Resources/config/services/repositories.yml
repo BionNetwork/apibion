@@ -19,8 +19,8 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\Purchase
-    repository.dashboard_card_repository:
-        class: BiBundle\Repository\DashboardCardRepository
+    repository.dashboard_activation_repository:
+        class: BiBundle\Repository\DashboardActivationRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
-            - BiBundle\Entity\DashboardCard
+            - BiBundle\Entity\DashboardActivation

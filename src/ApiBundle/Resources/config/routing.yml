@@ -29,4 +29,4 @@ api_resource:
     resource: "ApiBundle\\Controller\\ResourceController"
 api_dashboard_card:
     type: rest
-    resource: "ApiBundle\\Controller\\DashboardCardController"
+    resource: "ApiBundle\\Controller\\DashboardActivationController"

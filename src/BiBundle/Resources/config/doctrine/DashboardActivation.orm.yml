@@ -1,8 +1,9 @@
-BiBundle\Entity\DashboardCard:
+BiBundle\Entity\DashboardActivation:
     type: entity
-    table: dashboard_card
+    table: dashboard_activation
+    repositoryClass: BiBundle\Repository\DashboardActivationRepository
     indexes:
-        dashboard_card_create_on_idx:
+        dashboard_activation_create_on_idx:
             columns:
               - created_on
     id:
@@ -29,7 +30,7 @@ BiBundle\Entity\DashboardCard:
             targetEntity: Dashboard
             cascade: {  }
             mappedBy: null
-            inversedBy: dashboard_card
+            inversedBy: dashboard_activation
             joinColumns:
                 dashboard_id:
                     referencedColumnName: id
@@ -40,7 +41,7 @@ BiBundle\Entity\DashboardCard:
             targetEntity: Activation
             cascade: {  }
             mappedBy: null
-            inversedBy: dashboard_card
+            inversedBy: dashboard_activation
             joinColumns:
                 activation_id:
                     referencedColumnName: id
@@ -51,7 +52,7 @@ BiBundle\Entity\DashboardCard:
             targetEntity: User
             cascade: {  }
             mappedBy: null
-            inversedBy: contacts
+            inversedBy: dashboard_activation
             joinColumns:
                 user_id:
                     referencedColumnName: id

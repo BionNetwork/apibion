@@ -1,13 +1,9 @@
 <?php
 /**
- * @package   BiBundle/Service/Platform
- * @author    miholeus <me@miholeus.com> {@link http://miholeus.com}
- * @version    $Id: $
+ * @package   BiBundle/Service/Backend
  */
-/**
- * @namespace
- */
-namespace BiBundle\Service\Platform\Gateway;
+
+namespace BiBundle\Service\Backend\Gateway;
 
 /**
  * Abstract Gateway class

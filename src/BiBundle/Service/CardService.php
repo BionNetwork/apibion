@@ -38,28 +38,57 @@ class CardService extends UserAwareService
         return $resultArray;
     }
 
-
     /**
-     * Покупка карточки
-     * @param \BiBundle\Entity\Card $card
-     * @param \BiBundle\Entity\User $user
+     * Тестовый вызов удаленного API
      */
-    public function purchase($card, $user)
+    public function call()
     {
-        $em = $this->getEntityManager();
-        $userCardRepository = $em->getRepository('BiBundle:UserCard');
+        $adapter = new \Zend\Http\Client\Adapter\Curl();
+        $client = new \Zend\Http\Client(
+            null,
+            [
+                'adapter' => $adapter,
+                'verify' => false
+            ]
+        );
 
-        $userCard = $userCardRepository->findBy(['user_id' => $user->getID(), 'card_id' => $card->getId()]);
-        
-        if(null == $userCard) {
-            $userCard = new \BiBundle\Entity\UserCard();
-            $userCard->setCard($card);
-            $userCard->setUser($user->getId());
+        // Установка данных
+        $data = array(
+            /*'from' => $this->getOriginator(),
+            'to' => ,
+            'text' => $message->getText()*/
+        );
+
+        $request = new \Zend\Http\Request();
+        $request->setUri('http://bidemo.itgkh.ru/api/v1/datasources/');
+        $request->setMethod(\Zend\Http\Request::METHOD_GET);
+        /*$headers = new \Zend\Http\Headers();
+        $headers->addHeaders([
+            'Content-Type' => "application/json",
+            'Authorization' => sprintf("Basic %s", base64_encode(sprintf("%s:%s", $this->getLogin(), $this->getPassword())))
+        ]);
+        $request->setHeaders($headers);*/
+        $request->setContent(json_encode($data));
+
+        $response = $client->send($request);
+        $body = json_decode($response->getBody(), true);
+        dump($body);
+        /*if ($response->isSuccess()) {
+
+            if (!empty($body['messages']) && array_key_exists('status', $body['messages'][0])) {
+                return $body['messages'][0]['messageId'];
+            } else {
+                $error = var_export($message, true);
+                $errorResponse = $this->getError($body);
+                if (null !== $errorResponse) {
+                    $error = $errorResponse;
+                }
+                throw new Exception('Ошибка при отправке Platform: ' . $error);
+            }
         } else {
-            throw new AlreadyPurchasedException('Карточка уже приобретена');
-        }
+            $error = $this->getError($body, 'Ошибка при отправке запроса');
+            throw new Exception($error);
+        }*/
 
-        $em->persist($userCard);
-        $em->flush();
     }
 }

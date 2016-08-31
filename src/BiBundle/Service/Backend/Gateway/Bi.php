@@ -1,29 +1,34 @@
 <?php
 /**
- * @package   BiBundle/Service/Platform
- * @author     miholeus <me@miholeus.com> {@link http://miholeus.com}
- * @version    $Id: $
+ * @package   BiBundle/Service/Backend
  */
 
+namespace BiBundle\Service\Backend\Gateway;
 
-namespace BiBundle\Service\Platform\Gateway;
+use BiBundle\Service\Backend;
 
-use BiBundle\Service\Platform;
-
-class Infobip extends AbstractGateway
+class Bi extends AbstractGateway
 {
     /**
      * Gateway url
      *
      * @var string
      */
-    protected $gatewayUrl = 'https://api.infobip.com/Platform/1/text/single';
+    protected $gatewayUrl = 'http://bidemo.itgkh.ru/api/v1/';
+
+    /**
+     * Gateway param path
+     *
+     * @var string
+     */
+    protected $method = 'datasources';
+
     /**
      * From whom field in Platform message
      *
      * @var string
      */
-    protected $originator = 'Isup';
+    protected $originator = 'Bion';
 
     /**
      * Gateway name
@@ -32,12 +37,11 @@ class Infobip extends AbstractGateway
      */
     public function getName()
     {
-        return 'infobip';
+        return 'bi';
     }
 
-    public function send(Platform\Message $message)
+    public function send(Backend\Message $message)
     {
-        // TODO: validate msg
         $adapter = new \Zend\Http\Client\Adapter\Curl();
 
         $client = new \Zend\Http\Client(

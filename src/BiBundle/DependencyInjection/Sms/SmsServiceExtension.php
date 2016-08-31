@@ -75,7 +75,7 @@ class SmsServiceExtension extends Extension
         $clientDef->addArgument($channelId);
         $clientDef->addMethodCall('setEnabled', [$config['enabled']]);
 
-        $clientId = sprintf('sms_service.%s', $name);
+            $clientId = sprintf('sms_service.%s', $name);
         $container->setDefinition($clientId, $clientDef);
         $container->setAlias(sprintf('sms_service.%s_client', $name), $clientId);
     }

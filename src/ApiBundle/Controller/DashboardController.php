@@ -163,7 +163,7 @@ class DashboardController extends RestController
      * @ApiDoc(
      *  section="6. Рабочие столы",
      *  resource=true,
-     *  description="Рабочий стол",
+     *  description="Получение рабочего стола",
      *  statusCodes={
      *         200="При успешном запросе",
      *         400="Ошибка запроса"
@@ -264,6 +264,44 @@ class DashboardController extends RestController
         $dashboardService = $this->get('bi.dashboard.service');
         $dashboardService->save($dashboard);
         $view = $this->view(null, 204);
+        return $this->handleView($view);
+    }
+
+
+    /**
+     * @ApiDoc(
+     *  section="6. Рабочие столы",
+     *  resource=true,
+     *  description="Получение активаций рабочего стола по фильтру",
+     *  statusCodes={
+     *         200="При успешном получении данных",
+     *         400="Ошибка получения данных"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @QueryParam(name="id", allowBlank=true, requirements="\d+", description="Идентификатор рабочего стола")
+     * @QueryParam(name="limit", default="20", requirements="\d+", description="Количество запрашиваемых проектов" )
+     * @QueryParam(name="offset", nullable=true, requirements="\d+", description="Смещение, с которого нужно начать просмотр" )
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     */
+    public function getDashboardActivationsAction(\BiBundle\Entity\Dashboard $dashboard, ParamFetcher $paramFetcher)
+    {
+        $activationsService = $this->get('bi.activation.service');
+        $params = $this->getParams($paramFetcher, 'Filter\Activation');
+        $filter = new \BiBundle\Entity\Filter\Activation($params);
+        $filter->dashboard_id = $dashboard->getId();
+        $cards = $activationsService->getByFilter($filter);
+        $service = $this->get('api.data.transfer_object.activation_transfer_object');
+        $view = $this->view($service->getListData($cards));
         return $this->handleView($view);
     }
 

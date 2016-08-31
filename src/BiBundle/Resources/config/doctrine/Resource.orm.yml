@@ -29,6 +29,8 @@ BiBundle\Entity\Resource:
             nullable: true
             length: 1024
             fixed: false
+            comment: 'Идентификатор источника данных в платформе BI'
+            column: platform_id
         path:
             type: string
             nullable: false
@@ -41,6 +43,17 @@ BiBundle\Entity\Resource:
             inversedBy: resource
             joinColumns:
                 activation_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: true
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: resource
+            joinColumns:
+                user_id:
                     referencedColumnName: id
                     onDelete: CASCADE
                     nullable: false

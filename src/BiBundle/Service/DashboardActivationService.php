@@ -9,38 +9,38 @@ use BiBundle\Entity\Exception\ValidatorException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class DashboardCardService extends UserAwareService
+class DashboardActivationService extends UserAwareService
 {
 
     /**
-     * Save dashboard card
+     * Save or create activation to dashboard link
      *
-     * @param DashboardCard $dashboardCard
+     * @param DashboardActivation $dashboardActivation
      */
-    public function save(DashboardCard $dashboardCard)
+    public function save(DashboardActivation $dashboardActivation)
     {
         $em = $this->getEntityManager();
 
-        if ($dashboardCard->getId() === null) {
-            $dashboardCard->setUser($this->getUser());
-            $dashboardCard->setCreatedOn(new \DateTime());
+        if ($dashboardActivation->getId() === null) {
+            $dashboardActivation->setUser($this->getUser());
+            $dashboardActivation->setCreatedOn(new \DateTime());
         }
 
-        $em->persist($dashboardCard);
+        $em->persist($dashboardActivation);
         $em->flush();
     }
 
     /**
      * Возвращает список карточек по фильтру
      *
-     * @param \BiBundle\Entity\Filter\DashboardCard $filter
+     * @param \BiBundle\Entity\Filter\DashboardActivation $filter
      *
-     * @return \BiBundle\Entity\DashboardCard[]
+     * @return \BiBundle\Entity\DashboardActivation[]
      */
-    public function getByFilter(\BiBundle\Entity\Filter\DashboardCard $filter)
+    public function getByFilter(\BiBundle\Entity\Filter\DashboardActivation $filter)
     {
         $em = $this->getEntityManager();
-        $items = $em->getRepository('BiBundle:DashboardCard')->findByFilter($filter);
+        $items = $em->getRepository('BiBundle:DashboardActivation')->findByFilter($filter);
 
         // Развернем в структуру
         $resultArray = [];

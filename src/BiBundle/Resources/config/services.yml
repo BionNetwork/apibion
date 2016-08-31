@@ -3,6 +3,7 @@ imports:
    - { resource: "services/upload.yml" }
    - { resource: "services/events.yml" }
    - { resource: "services/repositories.yml" }
+   - { resource: "services/backend.yml" }
 
 services:
     twig.extension.dialog:
@@ -28,8 +29,11 @@ services:
     bi.activation.service:
         class: BiBundle\Service\ActivationService
         parent: bi.user_aware_service
-    bi.dashboard_card.service:
-        class: BiBundle\Service\DashboardCardService
+    bi.resource.service:
+        class: BiBundle\Service\ResourceService
+        parent: bi.user_aware_service
+    bi.dashboard_activation.service:
+        class: BiBundle\Service\DashboardActivationService
         parent: bi.user_aware_service
     user.listener:
         class: BiBundle\Entity\Listener\UserListener

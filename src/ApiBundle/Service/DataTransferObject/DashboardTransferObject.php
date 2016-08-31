@@ -62,9 +62,9 @@ class DashboardTransferObject
 
         foreach ($data as $dashboard) {
             $item = [
-                'id' => $dashboard['id'],
-                'name' => $dashboard['name'],
-                'created_on' => !empty($dashboard['created_on']) ? $dashboard['created_on']->getTimestamp() : null,
+                'id' => $dashboard->getId(),
+                'name' => $dashboard->getName(),
+                'created_on' => !empty($dashboard->getCreatedOn()) ? $dashboard->getCreatedOn()->getTimestamp() : null,
             ];
             $result[] = $item;
         }

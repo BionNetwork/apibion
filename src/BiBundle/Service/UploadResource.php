@@ -1,6 +1,6 @@
 <?php
 
-namespace TaskBundle\Service;
+namespace BiBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

@@ -2,7 +2,7 @@
 
 namespace BiBundle\Entity\Filter;
 
-class UserCard extends AbstractFilter
+class Activation extends AbstractFilter
 {
     /**
      * Идентификатор карточки
@@ -15,5 +15,11 @@ class UserCard extends AbstractFilter
      * @var int
      */
     public $user_id;
+
+    /**
+     * Идентификатор рабочего стола
+     * @var int
+     */
+    public $dashboard_id;
 
 }

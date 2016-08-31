@@ -53,6 +53,89 @@ class ActivationController extends RestController
         return $this->handleView($view);
     }
 
+    /**
+     *
+     * ### Failed Response ###
+     *          {
+     *              "success": false,
+     *              "exception": {
+     *                  "code": 400,
+     *                  "message": "Validation Failed"
+     *              },
+     *              "errors": {
+     *                  "dashboardCard":{
+     *                      "errors":[
+     *                          <errorMessage 1>,
+     *                          <...>,
+     *                          <errorMessage N>
+     *                      ],
+     *                      "children": {
+     *                           <field_name>: {
+     *                              "errors": [
+     *                                  <errorMessage 1>,
+     *                                  <...>,
+     *                                  <errorMessage N>
+     *                              ],
+     *                              "children": null
+     *                          }
+     *                      }
+     *                  }
+     *              }
+     *          }
+     *
+     * ### Success Response ###
+     *      {
+     *          "data":{
+     *              "id":<new dashboard card id>
+     *          },
+     *          "time":<time request>
+     *      }
+     *
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Привязка активации к рабочему столу",
+     *  statusCodes={
+     *         200="При успешном создании экземпляра карточки",
+     *         400="Ошибка создания экземпляра карточки"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     *
+     * @RequestParam(name="name", allowBlank=false, description="Name of dashboard card")
+     *
+     * @param \BiBundle\Entity\Dashboard $dashboard
+     * @param \BiBundle\Entity\Activation $activation
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postDashboardsActivationAction(\BiBundle\Entity\Dashboard $dashboard, \BiBundle\Entity\Activation $activation, Request $request)
+    {
+        $dashboardActivationService = $this->get('bi.dashboard_activation.service');
+        $dashboardActivation = new DashboardActivation();
 
+        $dashboardActivation->setActivation($activation);
+        $dashboardActivation->setDashboard($dashboard);
+
+        $form = $this->createForm(\BiBundle\Form\DashboardActivationType::class, $dashboardActivation);
+        $this->processForm($request, $form);
+        if (!$form->isValid()) {
+            throw $this->createFormValidationException($form);
+        }
+        $dashboardActivationService->save($dashboardActivation);
+        $data = [
+            'id' => $dashboardActivation->getId()
+        ];
+        $view = $this->view($data);
+        return $this->handleView($view);
+    }
 
 }

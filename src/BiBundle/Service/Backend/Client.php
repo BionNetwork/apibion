@@ -1,9 +1,9 @@
 <?php
 /**
- * @package   BiBundle/Service/Platform
+ * @package   BiBundle/Service/Backend
  */
 
-namespace BiBundle\Service\Platform;
+namespace BiBundle\Service\Backend;
 /**
  *
  * Client sends requests through different gateways
@@ -15,13 +15,19 @@ class Client
      * @var Gateway\IGateway
      */
     protected $gateway;
-    /**
-     * @var bool
-     */
-    protected $enabled = true;
 
     /**
-     * @param \BiBundle\Service\Platform\Gateway\IGateway $gateway
+     * @var string
+     */
+    protected $method;
+
+    /**
+     * @var array
+     */
+    protected $method_params;
+
+    /**
+     * @param \BiBundle\Service\Backend\Gateway\IGateway $gateway
      */
     public function setGateway($gateway)
     {
@@ -29,7 +35,7 @@ class Client
     }
 
     /**
-     * @return \BiBundle\Service\Platform\Gateway\IGateway
+     * @return \BiBundle\Service\Backend\Gateway\IGateway
      */
     public function getGateway()
     {
@@ -45,37 +51,19 @@ class Client
             $this->setGateway($gateway);
         }
     }
+
     /**
-     * Send message through gateway
+     * Call API method through gateway
      *
-     * @param Message $message
      * @return mixed
      * @throws Client\Exception
      */
-    public function send(Message $message)
+    public function call()
     {
         if(null === $this->getGateway()) {
             throw new Client\Exception("Message gateway is not set");
         }
-        if (!$this->isEnabled()) {
-            return false;
-        }
-        return $this->getGateway()->send($message);
+        return $this->getGateway()->call();
     }
 
-    /**
-     * @return boolean
-     */
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * @param boolean $enabled
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-    }
 }

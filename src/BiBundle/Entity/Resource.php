@@ -166,4 +166,62 @@ class Resource
     {
         return $this->activation;
     }
+    /**
+     * @var integer
+     */
+    private $platformId;
+
+
+    /**
+     * Set platformId
+     *
+     * @param integer $platformId
+     *
+     * @return Resource
+     */
+    public function setPlatformId($platformId)
+    {
+        $this->platformId = $platformId;
+
+        return $this;
+    }
+
+    /**
+     * Get platformId
+     *
+     * @return integer
+     */
+    public function getPlatformId()
+    {
+        return $this->platformId;
+    }
+    /**
+     * @var \BiBundle\Entity\User
+     */
+    private $user;
+
+
+    /**
+     * Set user
+     *
+     * @param \BiBundle\Entity\User $user
+     *
+     * @return Resource
+     */
+    public function setUser(\BiBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \BiBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

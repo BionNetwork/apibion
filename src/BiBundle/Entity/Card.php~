@@ -168,4 +168,50 @@ class Card
         return $this->updatedOn;
     }
     
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $purchase;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->purchase = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add purchase
+     *
+     * @param \BiBundle\Entity\Purchase $purchase
+     *
+     * @return Card
+     */
+    public function addPurchase(\BiBundle\Entity\Purchase $purchase)
+    {
+        $this->purchase[] = $purchase;
+
+        return $this;
+    }
+
+    /**
+     * Remove purchase
+     *
+     * @param \BiBundle\Entity\Purchase $purchase
+     */
+    public function removePurchase(\BiBundle\Entity\Purchase $purchase)
+    {
+        $this->purchase->removeElement($purchase);
+    }
+
+    /**
+     * Get purchase
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPurchase()
+    {
+        return $this->purchase;
+    }
 }

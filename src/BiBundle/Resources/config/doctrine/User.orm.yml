@@ -170,6 +170,9 @@ BiBundle\Entity\User:
         activation:
             targetEntity: Activation
             mappedBy: user
+        resource:
+            targetEntity: Resource
+            mappedBy: user
     manyToOne:
         status:
             targetEntity: UserStatus

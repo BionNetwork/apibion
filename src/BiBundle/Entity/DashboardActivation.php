@@ -3,9 +3,9 @@
 namespace BiBundle\Entity;
 
 /**
- * DashboardCard
+ * DashboardActivation
  */
-class DashboardCard
+class DashboardActivation
 {
     /**
      * @var integer
@@ -28,14 +28,15 @@ class DashboardCard
     private $dashboard;
 
     /**
+     * @var \BiBundle\Entity\Activation
+     */
+    private $activation;
+
+    /**
      * @var \BiBundle\Entity\User
      */
     private $user;
 
-    /**
-     * @var \BiBundle\Entity\Activation
-     */
-    private $activation;
 
     /**
      * Get id
@@ -52,7 +53,7 @@ class DashboardCard
      *
      * @param \DateTime $createdOn
      *
-     * @return DashboardCard
+     * @return DashboardActivation
      */
     public function setCreatedOn($createdOn)
     {
@@ -76,7 +77,7 @@ class DashboardCard
      *
      * @param \DateTime $updatedOn
      *
-     * @return DashboardCard
+     * @return DashboardActivation
      */
     public function setUpdatedOn($updatedOn)
     {
@@ -100,7 +101,7 @@ class DashboardCard
      *
      * @param \BiBundle\Entity\Dashboard $dashboard
      *
-     * @return DashboardCard
+     * @return DashboardActivation
      */
     public function setDashboard(\BiBundle\Entity\Dashboard $dashboard)
     {
@@ -120,35 +121,11 @@ class DashboardCard
     }
 
     /**
-     * Set user
-     *
-     * @param \BiBundle\Entity\User $user
-     *
-     * @return DashboardCard
-     */
-    public function setUser(\BiBundle\Entity\User $user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \BiBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * Set activation
      *
      * @param \BiBundle\Entity\Activation $activation
      *
-     * @return DashboardCard
+     * @return DashboardActivation
      */
     public function setActivation(\BiBundle\Entity\Activation $activation)
     {
@@ -165,5 +142,29 @@ class DashboardCard
     public function getActivation()
     {
         return $this->activation;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \BiBundle\Entity\User $user
+     *
+     * @return DashboardActivation
+     */
+    public function setUser(\BiBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \BiBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
