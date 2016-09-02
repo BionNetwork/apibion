@@ -130,7 +130,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('datasources/%d', $resource->getPlatformId()));
+        $request->setPath(sprintf('datasources/%d', $resource->getRemoteId()));
 
         $respond = $client->send($request);
 
