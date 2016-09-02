@@ -8,7 +8,7 @@ use BiBundle\Repository\DashboardActivationRepository;
 use BiBundle\Service\UserAwareService;
 use BiBundle\Service\Utils\HostBasedUrl;
 
-class DashboardCardTransferObject
+class DashboardActivationTransferObject
 {
 
     /**
