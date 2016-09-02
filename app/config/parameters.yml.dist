@@ -16,6 +16,9 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    mongodb_host: localhost
+    mongodb_port: 27017
+
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
     uglifyjs_bin:      /usr/local/bin/uglifyjs
