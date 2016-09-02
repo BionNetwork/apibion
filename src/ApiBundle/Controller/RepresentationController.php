@@ -15,14 +15,14 @@ use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Controller\Annotations\Route;
 use BiBundle\Service\Upload\FilePathStrategy;
 
-class CardController extends RestController
+class RepresentationController extends RestController
 {
 
     /**
      * @ApiDoc(
-     *  section="2. Магазин",
+     *  section="7. Представления",
      *  resource=true,
-     *  description="Получение списка карточек по фильтру",
+     *  description="Получение перечня представлений данных",
      *  statusCodes={
      *         200="При успешном получении данных",
      *         400="Ошибка получения данных"
@@ -36,21 +36,20 @@ class CardController extends RestController
      *    }
      * )
      *
-     * @QueryParam(name="id", allowBlank=true, requirements="\d+", description="Идентификатор карточки")
-     * @QueryParam(name="limit", default="20", requirements="\d+", description="Количество запрашиваемых проектов" )
-     * @QueryParam(name="offset", nullable=true, requirements="\d+", description="Смещение, с которого нужно начать просмотр" )
-     *
      * @param ParamFetcher $paramFetcher
      * @return Response
      */
-    public function getCardsAction(ParamFetcher $paramFetcher)
+    public function getRepresentationsAction(ParamFetcher $paramFetcher)
     {
-        $cardService = $this->get('bi.card.service');
-        $params = $this->getParams($paramFetcher, 'card');
-        $filter = new \BiBundle\Entity\Filter\Card($params);
-        $cards = $cardService->getByFilter($filter);
-        $service = $this->get('api.data.transfer_object.card_transfer_object');
-        $view = $this->view($service->getObjectListData($cards));
+
+        $representationService = $this->get('bi.representation.service');
+
+        $params = $this->getParams($paramFetcher, 'Representation/Filter');
+        $filter = new \BiBundle\Entity\Filter\Representation($params);
+        $representationList = $representationService->getByFilter($filter);
+
+        $service = $this->get('api.data.transfer_object.representation_transfer_object');
+        $view = $this->view($service->getObjectListData($representationList));
         return $this->handleView($view);
     }
 

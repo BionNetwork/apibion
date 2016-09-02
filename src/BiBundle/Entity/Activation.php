@@ -138,4 +138,33 @@ class Activation
     {
         return $this->user;
     }
+    /**
+     * @var \BiBundle\Entity\ActivationStatus
+     */
+    private $activation_status;
+
+
+    /**
+     * Set activationStatus
+     *
+     * @param \BiBundle\Entity\ActivationStatus $activationStatus
+     *
+     * @return Activation
+     */
+    public function setActivationStatus(\BiBundle\Entity\ActivationStatus $activationStatus)
+    {
+        $this->activation_status = $activationStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get activationStatus
+     *
+     * @return \BiBundle\Entity\ActivationStatus
+     */
+    public function getActivationStatus()
+    {
+        return $this->activation_status;
+    }
 }

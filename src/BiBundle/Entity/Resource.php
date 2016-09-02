@@ -13,6 +13,11 @@ class Resource
     private $id;
 
     /**
+     * @var \BiBundle\Entity\User
+     */
+    private $user;
+
+    /**
      * @var \DateTime
      */
     private $createdOn;
@@ -28,14 +33,14 @@ class Resource
     private $path;
 
     /**
-     * @var \BiBundle\Entity\DashboardCard
-     */
-    private $dashboard_card;
-
-    /**
      * @var \BiBundle\Entity\Activation
      */
     private $activation;
+
+    /**
+     * @var integer
+     */
+    private $remoteId;
 
     /**
      * Get id
@@ -120,30 +125,6 @@ class Resource
     }
 
     /**
-     * Set dashboardCard
-     *
-     * @param \BiBundle\Entity\DashboardCard $dashboardCard
-     *
-     * @return Resource
-     */
-    public function setDashboardCard(\BiBundle\Entity\DashboardCard $dashboardCard)
-    {
-        $this->dashboard_card = $dashboardCard;
-
-        return $this;
-    }
-
-    /**
-     * Get dashboardCard
-     *
-     * @return \BiBundle\Entity\DashboardCard
-     */
-    public function getDashboardCard()
-    {
-        return $this->dashboard_card;
-    }
-
-    /**
      * Set activation
      *
      * @param \BiBundle\Entity\Activation $activation
@@ -166,40 +147,6 @@ class Resource
     {
         return $this->activation;
     }
-    /**
-     * @var integer
-     */
-    private $platformId;
-
-
-    /**
-     * Set platformId
-     *
-     * @param integer $platformId
-     *
-     * @return Resource
-     */
-    public function setPlatformId($platformId)
-    {
-        $this->platformId = $platformId;
-
-        return $this;
-    }
-
-    /**
-     * Get platformId
-     *
-     * @return integer
-     */
-    public function getPlatformId()
-    {
-        return $this->platformId;
-    }
-    /**
-     * @var \BiBundle\Entity\User
-     */
-    private $user;
-
 
     /**
      * Set user
@@ -223,5 +170,29 @@ class Resource
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set remoteId
+     *
+     * @param integer $remoteId
+     *
+     * @return Resource
+     */
+    public function setRemoteId($remoteId)
+    {
+        $this->remoteId = $remoteId;
+
+        return $this;
+    }
+
+    /**
+     * Get remoteId
+     *
+     * @return integer
+     */
+    public function getRemoteId()
+    {
+        return $this->remoteId;
     }
 }

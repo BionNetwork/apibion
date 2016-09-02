@@ -2,6 +2,9 @@ services:
     api.data_transfer_object.user_transfer_object:
         class: ApiBundle\Service\DataTransferObject\UserTransferObject
         arguments: ['@repository.user_repository', '@bi.user_aware_service', '@utils.host_based_url']
+    api.data.transfer_object.representation_transfer_object:
+        class: ApiBundle\Service\DataTransferObject\RepresentationTransferObject
+        arguments: ['@repository.representation_repository', '@bi.user_aware_service', '@utils.host_based_url']
     api.data_transfer_object.dashboard_transfer_object:
         class: ApiBundle\Service\DataTransferObject\DashboardTransferObject
         arguments: ['@repository.dashboard_repository', '@bi.user_aware_service', '@utils.host_based_url']

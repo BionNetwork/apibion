@@ -933,4 +933,43 @@ class User implements UserInterface, \Serializable
     {
         return $this->activation;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $resource;
+
+
+    /**
+     * Add resource
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     *
+     * @return User
+     */
+    public function addResource(\BiBundle\Entity\Resource $resource)
+    {
+        $this->resource[] = $resource;
+
+        return $this;
+    }
+
+    /**
+     * Remove resource
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     */
+    public function removeResource(\BiBundle\Entity\Resource $resource)
+    {
+        $this->resource->removeElement($resource);
+    }
+
+    /**
+     * Get resource
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
 }

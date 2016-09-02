@@ -52,6 +52,7 @@ class LoadUserData extends AbstractFixture
         $manager->flush();
 
         $this->addReference('user-admin', $user);
+        $this->addReference('user-demo', $demoUser);
     }
 
     protected function createDemoUser()

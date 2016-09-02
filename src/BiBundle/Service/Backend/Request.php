@@ -7,6 +7,31 @@ namespace BiBundle\Service\Backend;
 
 class Request
 {
+
+    /**
+     * Method type
+     * @var string
+     */
+    protected $method = null;
+
+    /**
+     * Function path
+     * @var string
+     */
+    protected $path = null;
+
+    /**
+     * Function path
+     * @var string
+     */
+    protected $uploadable = array();
+
+    /**
+     * Method's parameter list
+     * @var array
+     */
+    protected $params = array();
+
     /**
      * Data
      * @var array
@@ -20,47 +45,98 @@ class Request
     protected $header = array();
 
     /**
-     * Get value by key in storage
-     *
-     * @param string $name key in storage
-     * @return null|mixed
+     * @return string
      */
-    public function __get($name)
+    public function getMethod()
     {
-        if(isset($this->data[$name])) {
-            return $this->data[$name];
-        }
-        return null;
+        return $this->method;
     }
 
     /**
-     * Write value to storage
-     *
-     * @param string $name key in storage
-     * @param string $value in storage
-     * @return Message
+     * @param string $method
      */
-    public function __set($name, $value)
+    public function setMethod($method)
     {
-        $this->data[$name] = $value;
-        return $this;
+        $this->method = $method;
     }
 
     /**
-     * Check if field exists in storage
-     *
-     * @param $name
-     * @return bool
+     * @return array
      */
-    public function __isset($name)
+    public function getParams()
     {
-        return isset($this->data[$name]);
+        return $this->params;
     }
 
-    public function __unset($name)
+    /**
+     * @param array $params
+     */
+    public function setParams($params)
     {
-        if(isset($this->data[$name])) {
-            unset($this->data[$name]);
-        }
+        $this->params = $params;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeader()
+    {
+        return $this->header;
+    }
+
+    /**
+     * @param array $header
+     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function addUploadable(Uploadable $uploadable)
+    {
+        $this->uploadable[] = $uploadable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUploadableList()
+    {
+        return $this->uploadable;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
 }

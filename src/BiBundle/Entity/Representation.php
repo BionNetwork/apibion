@@ -138,5 +138,51 @@ class Representation
     {
         return $this->updatedOn;
     }
-}
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $card;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add card
+     *
+     * @param \BiBundle\Entity\Card $card
+     *
+     * @return Representation
+     */
+    public function addCard(\BiBundle\Entity\Card $card)
+    {
+        $this->card[] = $card;
+
+        return $this;
+    }
+
+    /**
+     * Remove card
+     *
+     * @param \BiBundle\Entity\Card $card
+     */
+    public function removeCard(\BiBundle\Entity\Card $card)
+    {
+        $this->card->removeElement($card);
+    }
+
+    /**
+     * Get card
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+}

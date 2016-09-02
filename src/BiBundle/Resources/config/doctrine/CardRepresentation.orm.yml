@@ -51,7 +51,7 @@ BiBundle\Entity\CardRepresentation:
             mappedBy: null
             inversedBy: card_representation
             joinColumns:
-                card_id:
+                representation_id:
                     referencedColumnName: id
                     nullable: true
             orphanRemoval: false

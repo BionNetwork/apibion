@@ -17,6 +17,7 @@ use BiBundle\Service\Upload\FilePathStrategy;
 
 class ResourceController extends RestController
 {
+
     /**
      *
      *
@@ -50,6 +51,7 @@ class ResourceController extends RestController
         $resource = new \BiBundle\Entity\Resource();
 
         $resourceFile = $request->files->get('resource_file');
+        file_put_contents('/tmp/debug', print_r($resourceFile, 1));
         if (!$resourceFile) {
             throw new HttpException(400, 'Файл не загружен');
         }
@@ -68,4 +70,67 @@ class ResourceController extends RestController
         $view = $this->view(null, 204);
         return $this->handleView($view);
     }
+
+    /**
+     * @ApiDoc(
+     *  section="5. Источники",
+     *  resource=true,
+     *  description="Получение таблиц источника",
+     *  statusCodes={
+     *         200="При успешном получении данных",
+     *         400="Ошибка получения данных"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     */
+    public function getResourceTablesAction(\BiBundle\Entity\Resource $resource, ParamFetcher $paramFetcher)
+    {
+        $backendService = $this->get('bi.backend.service');
+        $tables = $backendService->getResourceTables($resource);
+        $view = $this->view($tables);
+        return $this->handleView($view);
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="5. Источники",
+     *  resource=true,
+     *  description="Получение столбцов источника по имени таблицы",
+     *  statusCodes={
+     *         200="При успешном получении данных",
+     *         400="Ошибка получения данных"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @QueryParam(name="table_name", allowBlank=false, description="Наименование таблицы")
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     */
+    public function getResourceColumnsAction(\BiBundle\Entity\Resource $resource, ParamFetcher $paramFetcher)
+    {
+
+        $params = $this->getParams($paramFetcher, 'table_name');
+        $backendService = $this->get('bi.backend.service');
+        $columns = $backendService->getResourceTableColumns($resource, $params['table_name']);
+        $view = $this->view($columns);
+        return $this->handleView($view);
+    }
+
 }

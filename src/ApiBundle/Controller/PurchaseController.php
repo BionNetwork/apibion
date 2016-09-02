@@ -41,10 +41,13 @@ class PurchaseController extends RestController
      */
     public function getPurchasesAction()
     {
-        $purchaseService = $this->get('bi.purchase.service');
-        $cards = $purchaseService->getUserCards($this->getUser());
-        $service = $this->get('api.data.transfer_object.card_transfer_object');
-        $view = $this->view($service->getObjectListData($cards));
+        $purchases = $this->getUser()->getPurchase();
+        $data = [];
+        foreach ($purchases as $purchase) {
+            $data[] = $purchase;
+        }
+        $service = $this->get('api.data.transfer_object.purchase_transfer_object');
+        $view = $this->view($service->getObjectListData($data));
         return $this->handleView($view);
     }
 

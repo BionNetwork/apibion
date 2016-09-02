@@ -17,16 +17,6 @@ class Client
     protected $gateway;
 
     /**
-     * @var string
-     */
-    protected $method;
-
-    /**
-     * @var array
-     */
-    protected $method_params;
-
-    /**
      * @param \BiBundle\Service\Backend\Gateway\IGateway $gateway
      */
     public function setGateway($gateway)
@@ -43,27 +33,17 @@ class Client
     }
 
     /**
-     * @param Gateway\IGateway $gateway
-     */
-    public function __construct(Gateway\IGateway $gateway = null)
-    {
-        if(null !== $gateway) {
-            $this->setGateway($gateway);
-        }
-    }
-
-    /**
      * Call API method through gateway
      *
      * @return mixed
      * @throws Client\Exception
      */
-    public function call()
+    public function send(Request $request)
     {
         if(null === $this->getGateway()) {
-            throw new Client\Exception("Message gateway is not set");
+            throw new Client\Exception("Gateway is not set");
         }
-        return $this->getGateway()->call();
+        return $this->getGateway()->send($request);
     }
 
 }

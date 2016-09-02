@@ -1,8 +1,8 @@
-BiBundle\Entity\UserStatus:
+BiBundle\Entity\ActivationStatus:
     type: entity
-    table: user_statuses
+    table: activation_status
     indexes:
-        user_statuses_code__idx:
+        activation_status_code_idx:
             columns:
                 - code
     id:

@@ -19,14 +19,15 @@ class ApiCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('platform:api:test')
+            ->setName('api:test')
             ->setDescription('Testing service call for BI Platform API');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $service = $this->getContainer()->get('bi.card.service');
-        $service->call();
+        $service = $this->getContainer()->get('bi.backend.service');
+        $result = $service->putResource($resource);
+        dump($result);
         $output->writeln("<info>Remove API call sent.</info>");
     }
 }

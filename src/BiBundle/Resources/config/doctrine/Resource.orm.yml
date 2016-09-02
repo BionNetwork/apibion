@@ -24,13 +24,12 @@ BiBundle\Entity\Resource:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
-        platformId:
+        remoteId:
             type: integer
             nullable: true
-            length: 1024
             fixed: false
             comment: 'Идентификатор источника данных в платформе BI'
-            column: platform_id
+            column: remote_id
         path:
             type: string
             nullable: false

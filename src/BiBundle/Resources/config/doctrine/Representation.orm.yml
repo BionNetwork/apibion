@@ -1,6 +1,7 @@
 BiBundle\Entity\Representation:
     type: entity
     table: representation
+    repositoryClass: BiBundle\Repository\RepresentationRepository
     indexes:
         representation_create_on_idx:
             columns:
@@ -34,4 +35,11 @@ BiBundle\Entity\Representation:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
+    oneToMany:
+        card:
+            targetEntity: Card
+            mappedBy: representation
+            cascade: ["persist"]
+            inversedBy: null
+            orphanRemoval: false
     lifecycleCallbacks: {  }

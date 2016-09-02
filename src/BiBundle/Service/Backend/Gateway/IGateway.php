@@ -19,10 +19,10 @@ interface IGateway
     public function getName();
 
     /**
-     * Send Platform
+     * Send request
      *
-     * @param Backend\Message $message
+     * @param Backend\Request $request
      * @return mixed
      */
-    public function send(Backend\Message $message);
+    public function send(Backend\Request $request);
 }

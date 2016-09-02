@@ -26,15 +26,25 @@ services:
     bi.purchase.service:
         class: BiBundle\Service\PurchaseService
         parent: bi.user_aware_service
+    bi.representation.service:
+        class: BiBundle\Service\RepresentationService
+        parent: bi.user_aware_service
     bi.activation.service:
         class: BiBundle\Service\ActivationService
         parent: bi.user_aware_service
     bi.resource.service:
         class: BiBundle\Service\ResourceService
         parent: bi.user_aware_service
+        calls:
+          - ['setServiceContainer', ['@service_container']]
     bi.dashboard_activation.service:
         class: BiBundle\Service\DashboardActivationService
         parent: bi.user_aware_service
+    bi.backend.service:
+        class: BiBundle\Service\BackendService
+        parent: bi.user_aware_service
+        calls:
+          - ['setServiceContainer', ['@service_container']]
     user.listener:
         class: BiBundle\Entity\Listener\UserListener
         arguments: ['@service_container']

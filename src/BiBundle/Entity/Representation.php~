@@ -3,9 +3,9 @@
 namespace BiBundle\Entity;
 
 /**
- * Purchase
+ * Representation
  */
-class Purchase
+class Representation
 {
     /**
      * @var integer
@@ -15,7 +15,12 @@ class Purchase
     /**
      * @var string
      */
-    private $price;
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $code;
 
     /**
      * @var \DateTime
@@ -26,16 +31,6 @@ class Purchase
      * @var \DateTime
      */
     private $updatedOn;
-
-    /**
-     * @var \BiBundle\Entity\User
-     */
-    private $user;
-
-    /**
-     * @var \BiBundle\Entity\Card
-     */
-    private $card;
 
 
     /**
@@ -49,27 +44,51 @@ class Purchase
     }
 
     /**
-     * Set price
+     * Set name
      *
-     * @param string $price
+     * @param string $name
      *
-     * @return Purchase
+     * @return Representation
      */
-    public function setPrice($price)
+    public function setName($name)
     {
-        $this->price = $price;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get price
+     * Get name
      *
      * @return string
      */
-    public function getPrice()
+    public function getName()
     {
-        return $this->price;
+        return $this->name;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Representation
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 
     /**
@@ -77,7 +96,7 @@ class Purchase
      *
      * @param \DateTime $createdOn
      *
-     * @return Purchase
+     * @return Representation
      */
     public function setCreatedOn($createdOn)
     {
@@ -101,7 +120,7 @@ class Purchase
      *
      * @param \DateTime $updatedOn
      *
-     * @return Purchase
+     * @return Representation
      */
     public function setUpdatedOn($updatedOn)
     {
@@ -119,49 +138,47 @@ class Purchase
     {
         return $this->updatedOn;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $card;
 
     /**
-     * Set user
-     *
-     * @param \BiBundle\Entity\User $user
-     *
-     * @return Purchase
+     * Constructor
      */
-    public function setUser(\BiBundle\Entity\User $user = null)
+    public function __construct()
     {
-        $this->user = $user;
-
-        return $this;
+        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Get user
-     *
-     * @return \BiBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set card
+     * Add card
      *
      * @param \BiBundle\Entity\Card $card
      *
-     * @return Purchase
+     * @return Representation
      */
-    public function setCard(\BiBundle\Entity\Card $card = null)
+    public function addCard(\BiBundle\Entity\Card $card)
     {
-        $this->card = $card;
+        $this->card[] = $card;
 
         return $this;
+    }
+
+    /**
+     * Remove card
+     *
+     * @param \BiBundle\Entity\Card $card
+     */
+    public function removeCard(\BiBundle\Entity\Card $card)
+    {
+        $this->card->removeElement($card);
     }
 
     /**
      * Get card
      *
-     * @return \BiBundle\Entity\Card
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCard()
     {

@@ -3,30 +3,30 @@
 namespace BiBundle\Repository;
 
 use Doctrine\ORM\AbstractQuery;
-use BiBundle\Entity\Card;
+use BiBundle\Entity\Representation;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**
- * CardRepository
+ * RepresentationRepository
  */
-class CardRepository extends \Doctrine\ORM\EntityRepository
+class RepresentationRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /**
-     * Find cards by filter
+     * Find representations by filter
      *
-     * @param \BiBundle\Entity\Filter\Card $filter
+     * @param \BiBundle\Entity\Filter\Representation $filter
      * @return array
      */
-    public function findByFilter(\BiBundle\Entity\Filter\Card $filter)
+    public function findByFilter(\BiBundle\Entity\Filter\Representation $filter)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->select('c')
-            ->from('BiBundle:Card', 'c')
-            ->orderBy('c.createdOn', 'desc');
+        $qb->select('r')
+            ->from('BiBundle:Representation', 'r')
+            ->orderBy('r.createdOn', 'desc');
         if ($filter->id) {
-            $qb->andWhere('c.id = :id');
+            $qb->andWhere('r.id = :id');
             $qb->setParameter('id', $filter->id);
         }
         $qb->setMaxResults($filter->getLimit());
@@ -34,5 +34,5 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    
+
 }

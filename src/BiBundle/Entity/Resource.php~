@@ -195,4 +195,33 @@ class Resource
     {
         return $this->platformId;
     }
+    /**
+     * @var \BiBundle\Entity\User
+     */
+    private $user;
+
+
+    /**
+     * Set user
+     *
+     * @param \BiBundle\Entity\User $user
+     *
+     * @return Resource
+     */
+    public function setUser(\BiBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \BiBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

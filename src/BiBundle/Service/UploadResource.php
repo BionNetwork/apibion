@@ -43,25 +43,21 @@ class UploadResource implements IUpload
      */
     public function upload(UploadedFile $file, $options = array())
     {
-        if (empty($options['name'])) {
-            // Generate a unique name for the file before saving it
-            $fileNamePrefix = md5(uniqid());
+        $originalExtension = $file->getClientOriginalExtension();
+        if($originalExtension && !in_array($originalExtension, ['bin', 'php', 'sh'])) {
+            $name = $file->getClientOriginalName();
         } else {
-            $fileNamePrefix = $options['name'];
+            $name = md5(uniqid()) . '.tmp';
         }
-        $fileName = $fileNamePrefix . '.' . $file->guessExtension();
-        // Move the file to the directory where files are stored
         $uploadPath = $this->getUploadPath();
-        //$directory = $this->getParameter('kernel.root_dir'). sprintf('/../web/%s/', trim($uploadPath, '/'));
         $directory = $this->getUploadRootPath() . sprintf('/%s/', trim($uploadPath, '/'));
-        $file->move($directory, $fileName);
+        $file->move($directory, $name);
 
-        // path relative to kernel.root_dir
-        $path = $uploadPath . $fileName;
+        $path = $uploadPath . DIRECTORY_SEPARATOR . $name;
 
         return [
             'path' => $path,
-            'full_path' => $directory . $fileName
+            'full_path' => $directory . DIRECTORY_SEPARATOR . $name
         ];
     }
 

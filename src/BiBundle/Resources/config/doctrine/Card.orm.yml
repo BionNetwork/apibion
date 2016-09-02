@@ -24,9 +24,38 @@ BiBundle\Entity\Card:
             length: 255
             fixed: false
             comment: 'Наименование'
+        description:
+            type: string
+            nullable: true
+            length: 2048
+            fixed: false
+            comment: 'Описание короткое'
+        description_long:
+            type: string
+            nullable: true
+            length: 8192
+            fixed: false
+            comment: 'Описание полное'
+        rating:
+            type: decimal
+            nullable: false
+            comment: 'Рейтинг в процентах'
+            default: 0
+        image:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: 'Основное изображение'
+        carousel:
+            type: string
+            nullable: true
+            length: 4096
+            fixed: false
+            comment: 'Ссылки на изображения карусели через ;'
         type:
             type: string
-            nullable: false
+            nullable: true
             length: 255
             fixed: false
         price:
@@ -46,5 +75,8 @@ BiBundle\Entity\Card:
     oneToMany:
         purchase:
             targetEntity: Purchase
+            mappedBy: card
+        cardRepresentation:
+            targetEntity: CardRepresentation
             mappedBy: card
     lifecycleCallbacks: {  }

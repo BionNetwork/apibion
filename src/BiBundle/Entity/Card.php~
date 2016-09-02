@@ -7,6 +7,20 @@ namespace BiBundle\Entity;
  */
 class Card
 {
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->purchase = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->cardRepresentation = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $purchase;
+
     /**
      * @var integer
      */
@@ -37,6 +51,30 @@ class Card
      */
     private $updatedOn;
 
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var string
+     */
+    private $description_long;
+
+    /**
+     * @var string
+     */
+    private $rating;
+
+    /**
+     * @var string
+     */
+    private $image;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $cardRepresentation;
 
     /**
      * Get id
@@ -167,19 +205,6 @@ class Card
     {
         return $this->updatedOn;
     }
-    
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $purchase;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->purchase = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add purchase
@@ -213,5 +238,170 @@ class Card
     public function getPurchase()
     {
         return $this->purchase;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Card
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set descriptionLong
+     *
+     * @param string $descriptionLong
+     *
+     * @return Card
+     */
+    public function setDescriptionLong($descriptionLong)
+    {
+        $this->description_long = $descriptionLong;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionLong
+     *
+     * @return string
+     */
+    public function getDescriptionLong()
+    {
+        return $this->description_long;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param string $rating
+     *
+     * @return Card
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return string
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Card
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Add cardRepresentation
+     *
+     * @param \BiBundle\Entity\CardRepresentation $cardRepresentation
+     *
+     * @return Card
+     */
+    public function addCardRepresentation(\BiBundle\Entity\CardRepresentation $cardRepresentation)
+    {
+        $this->cardRepresentation[] = $cardRepresentation;
+
+        return $this;
+    }
+
+    /**
+     * Remove cardRepresentation
+     *
+     * @param \BiBundle\Entity\CardRepresentation $cardRepresentation
+     */
+    public function removeCardRepresentation(\BiBundle\Entity\CardRepresentation $cardRepresentation)
+    {
+        $this->cardRepresentation->removeElement($cardRepresentation);
+    }
+
+    /**
+     * Get cardRepresentation
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCardRepresentation()
+    {
+        return $this->cardRepresentation;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $card_representation;
+
+
+    /**
+     * @var string
+     */
+    private $carousel;
+
+
+    /**
+     * Set carousel
+     *
+     * @param string $carousel
+     *
+     * @return Card
+     */
+    public function setCarousel($carousel)
+    {
+        $this->carousel = $carousel;
+
+        return $this;
+    }
+
+    /**
+     * Get carousel
+     *
+     * @return string
+     */
+    public function getCarousel()
+    {
+        return $this->carousel;
     }
 }

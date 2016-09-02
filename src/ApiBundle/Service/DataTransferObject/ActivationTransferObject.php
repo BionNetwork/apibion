@@ -41,6 +41,7 @@ class ActivationTransferObject
             $item = [
                 'id' => $activation->getId(),
                 'created_on' => !empty($activation->getCreatedOn()) ? $activation->getCreatedOn()->getTimestamp() : null,
+                'activation_status' => $activation->getActivationStatus()->getCode(),
                 'card' => $this->getCard($activation->getCard()),
             ];
             $result[] = $item;

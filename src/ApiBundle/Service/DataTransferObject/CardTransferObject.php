@@ -64,9 +64,35 @@ class CardTransferObject
             $item = [
                 'id' => $card->getId(),
                 'name' => $card->getName(),
+                'description' => $card->getDescription(),
+                'description_long' => $card->getDescriptionLong(),
+                'rating' => $card->getRating(),
+                'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
                 'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
+                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
+                'representation' => $this->getRepresentations($card),
             ];
             $result[] = $item;
+        }
+        return $result;
+    }
+
+    /**
+     * @param Card|null $card
+     * @return array|null
+     */
+    protected function getRepresentations(\BiBundle\Entity\Card $card = null)
+    {
+        $cardRepresentations = $card->getCardRepresentation();
+
+        $result = [];
+        foreach($cardRepresentations as $cardRepresentation) {
+            $representation = $cardRepresentation->getRepresentation();
+            $result[] = [
+                'id' => $representation->getId(),
+                'code' => $representation->getCode(),
+                'name' => $representation->getName(),
+            ];
         }
         return $result;
     }

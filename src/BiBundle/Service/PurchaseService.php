@@ -65,6 +65,10 @@ class PurchaseService extends UserAwareService
         $activation->setUser($this->getUser());
         $activation->setCreatedOn(new \DateTime());
 
+        $activationStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy(['code' => \BiBundle\Entity\ActivationStatus::STATUS_PENDING]);
+
+        $activation->setActivationStatus($activationStatus);
+
         $em->persist($activation);
         $em->flush();
 

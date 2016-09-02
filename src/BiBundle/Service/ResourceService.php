@@ -19,6 +19,16 @@ class ResourceService extends UserAwareService
 {
 
     /**
+     * @var
+     */
+    protected $container;
+
+    public function setServiceContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Save resource
      *
      * @param \BiBundle\Entity\Resource $resource
@@ -30,6 +40,9 @@ class ResourceService extends UserAwareService
         if ($resource->getId() === null) {
             $resource->setCreatedOn(new \DateTime());
         }
+
+        $backendService = $this->container->get('bi.backend.service');
+        $resource = $backendService->putResource($resource);
 
         $em->persist($resource);
         $em->flush();

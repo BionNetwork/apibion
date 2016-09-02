@@ -54,6 +54,27 @@ class PurchaseTransferObject
     /**
      * Get user's purchased cards list
      *
+     * @param array $data
+     * @return array
+     */
+    public function getObjectListData(array $data)
+    {
+        $result = [];
+
+        foreach ($data as $purchase) {
+            $item = [
+                'id' => $purchase->getId(),
+                'created_on' => $purchase->getCreatedOn(),
+                'card' => $this->getCard($purchase->getCard()),
+            ];
+            $result[] = $item;
+        }
+        return $result;
+    }
+
+    /**
+     * Get user's purchased cards list
+     *
      * @param Purchase[] $data
      * @return array
      */
@@ -80,17 +101,19 @@ class PurchaseTransferObject
         return $this->repository;
     }
 
+
     /**
      * @param Card|null $card
      * @return array|null
      */
-    protected function getProject(\BiBundle\Entity\Card $card = null)
+    protected function getCard(\BiBundle\Entity\Card $card = null)
     {
         $result = null;
         if ($card) {
             $result = [
                 'id' => $card->getId(),
                 'name' => $card->getName(),
+                'type' => $card->getType(),
             ];
         }
         return $result;
