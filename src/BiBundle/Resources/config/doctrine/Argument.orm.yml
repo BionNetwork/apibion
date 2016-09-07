@@ -48,8 +48,12 @@ BiBundle\Entity\Argument:
     manyToOne:
         card:
             targetEntity: Card
-            mappedBy: argument
-            joinColumn:
-                name: card_id
-                referencedColumnName: id
+            cascade: {  }
+            mappedBy: null
+            inversedBy: argument
+            joinColumns:
+                card_id:
+                    referencedColumnName: id
+                    nullable: true
+            orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -204,4 +204,33 @@ class Argument
     {
         return $this->card;
     }
+    /**
+     * @var string
+     */
+    private $dimension;
+
+
+    /**
+     * Set dimension
+     *
+     * @param string $dimension
+     *
+     * @return Argument
+     */
+    public function setDimension($dimension)
+    {
+        $this->dimension = $dimension;
+
+        return $this;
+    }
+
+    /**
+     * Get dimension
+     *
+     * @return string
+     */
+    public function getDimension()
+    {
+        return $this->dimension;
+    }
 }

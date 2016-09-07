@@ -35,7 +35,8 @@
         "ramsey/uuid": "^3.4",
         "nelmio/api-doc-bundle": "dev-master",
         "doctrine/doctrine-migrations-bundle": "^1.1",
-        "doctrine/migrations": "^1.4"
+        "doctrine/migrations": "^1.4",
+        "react/http": "^0.5@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
