@@ -5,6 +5,9 @@ services:
     api.data.transfer_object.representation_transfer_object:
         class: ApiBundle\Service\DataTransferObject\RepresentationTransferObject
         arguments: ['@repository.representation_repository', '@bi.user_aware_service', '@utils.host_based_url']
+    api.data.transfer_object.argument_transfer_object:
+        class: ApiBundle\Service\DataTransferObject\ArgumentTransferObject
+        arguments: ['@repository.argument_repository', '@bi.user_aware_service', '@utils.host_based_url']
     api.data.transfer_object.resource_transfer_object:
         class: ApiBundle\Service\DataTransferObject\ResourceTransferObject
         arguments: ['@repository.resource_repository', '@bi.user_aware_service', '@utils.host_based_url']

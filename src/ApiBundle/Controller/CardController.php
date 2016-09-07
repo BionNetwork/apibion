@@ -54,4 +54,47 @@ class CardController extends RestController
         return $this->handleView($view);
     }
 
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="2. Магазин",
+     *  resource=true,
+     *  description="Аргументы",
+     *  statusCodes={
+     *          200="Успех",
+     *          400="Ошибки валидации"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Route("/card/{card}/arguments", requirements={"card": "\d+"})
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function getCardArgumentsAction(\BiBundle\Entity\Card $card)
+    {
+        $argumentRepository = $this->get('repository.argument_repository');
+        $arguments = $argumentRepository->findBy(['card' => $card]);
+        $argumentListArray = [];
+        foreach ($arguments as $argument) {
+            $argumentListArray[] = $argument;
+        }
+
+        $service = $this->get('api.data.transfer_object.argument_transfer_object');
+        $view = $this->view($service->getObjectListData($arguments));
+        return $this->handleView($view);
+
+        $view = $this->view($result);
+        return $this->handleView($view);
+    }
+
 }
