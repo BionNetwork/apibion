@@ -14,8 +14,8 @@ class Bi extends AbstractGateway
      *
      * @var string
      */
-    //protected $gatewayUrl = 'http://bidemo.itgkh.ru/api/v1/';
-    protected $gatewayUrl = 'http://172.19.110.210:8000/api/v1/';
+    protected $gatewayUrl = 'http://bidemo.itgkh.ru/api/v1/';
+    //protected $gatewayUrl = 'http://172.19.110.210:8000/api/v1/';
 
     /**
      * From whom field in Platform message
