@@ -1,0 +1,55 @@
+BiBundle\Entity\Argument:
+    type: entity
+    table: argument
+    repositoryClass: BiBundle\Repository\ArgumentRepository
+    indexes:
+        argument_create_on_idx:
+            columns:
+              - created_on
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            comment: 'Наименование аргумента'
+            column: name
+        code:
+            type: string
+            nullable: false
+            comment: 'Аббревиатура аргумента'
+            column: code
+        dimension:
+            type: string
+            nullable: true
+            comment: 'Ось аргумента'
+            column: dimension
+        datatype:
+            type: string
+            nullable: true
+            comment: 'Тип данных аргумента'
+            column: datatype
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+            comment: 'Дата создания'
+        updatedOn:
+            type: datetime
+            nullable: true
+            comment: 'Дата модификации'
+            column: updated_on
+    manyToOne:
+        card:
+            targetEntity: Card
+            mappedBy: argument
+            joinColumn:
+                name: card_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

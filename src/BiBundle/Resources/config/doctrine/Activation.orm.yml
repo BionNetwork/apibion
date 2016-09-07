@@ -25,6 +25,13 @@ BiBundle\Entity\Activation:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
+    oneToMany:
+        resource:
+            targetEntity: Resource
+            mappedBy: activation
+            cascade: ["persist"]
+            inversedBy: null
+            orphanRemoval: false
     manyToOne:
         card:
             targetEntity: Card

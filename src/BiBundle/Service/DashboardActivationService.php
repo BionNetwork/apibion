@@ -4,7 +4,7 @@ namespace BiBundle\Service;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
-use BiBundle\Entity\DashboardCard;
+use BiBundle\Entity\DashboardActivation;
 use BiBundle\Entity\Exception\ValidatorException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;

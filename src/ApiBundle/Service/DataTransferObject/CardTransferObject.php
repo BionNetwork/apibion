@@ -71,6 +71,7 @@ class CardTransferObject
                 'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
                 'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
                 'representation' => $this->getRepresentations($card),
+                'argument' => $this->getArguments($card),
             ];
             $result[] = $item;
         }
@@ -92,6 +93,25 @@ class CardTransferObject
                 'id' => $representation->getId(),
                 'code' => $representation->getCode(),
                 'name' => $representation->getName(),
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * @param Card|null $card
+     * @return array|null
+     */
+    protected function getArguments(\BiBundle\Entity\Card $card = null)
+    {
+        $argumentList = $card->getArgument();
+
+        $result = [];
+        foreach($argumentList as $argument) {
+            $result[] = [
+                'name' => $argument->getName(),
+                'code' => $argument->getCode(),
+                'dimension' => $argument->getDimension(),
             ];
         }
         return $result;

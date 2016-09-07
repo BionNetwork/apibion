@@ -26,7 +26,8 @@ class ApiCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $service = $this->getContainer()->get('bi.backend.service');
-        $result = $service->putResource($resource);
+        $repository = $this->getContainer()->get('repository.activation_repository');
+        $result = $service->clearCache($repository->findOneBy(['id' => 1]));
         dump($result);
         $output->writeln("<info>Remove API call sent.</info>");
     }

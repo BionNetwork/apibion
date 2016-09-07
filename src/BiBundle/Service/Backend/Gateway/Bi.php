@@ -14,8 +14,8 @@ class Bi extends AbstractGateway
      *
      * @var string
      */
-    protected $gatewayUrl = 'http://bidemo.itgkh.ru/api/v1/';
-    //protected $gatewayUrl = 'http://172.19.110.210:8000/api/v1/';
+    //protected $gatewayUrl = 'http://bidemo.itgkh.ru/api/v1/';
+    protected $gatewayUrl = 'http://172.19.110.210:8000/api/v1/';
 
     /**
      * From whom field in Platform message
@@ -51,6 +51,12 @@ class Bi extends AbstractGateway
         );
         $client->setMethod($backendRequest->getMethod());
 
+        /*
+        $headers = $client->getRequest()->getHeaders();
+        $headers->addHeaderLine('Content-type','application/json');
+        $client->setHeaders($headers);
+        */
+
         foreach ($backendRequest->getUploadableList() as $uploadable) {
             $client->setFileUpload(
                 $uploadable->getFilename(),
@@ -61,6 +67,7 @@ class Bi extends AbstractGateway
         }
 
         $data = $backendRequest->getData();
+        
         $client->setParameterPost($data);
 
         $uri = $this->processUri($backendRequest->getPath(), $backendRequest->getParams());
@@ -69,11 +76,10 @@ class Bi extends AbstractGateway
         $response = $client->send();
 
         $content = $response->getContent();
-
         if ($response->isSuccess()) {
             return json_decode($content, JSON_UNESCAPED_UNICODE);
         } else {
-            throw new Exception('Ошибка при отправке запроса');
+            throw new Exception('Ошибка связи с платформой BI');
         }
 
     }

@@ -216,6 +216,7 @@ class Card
     public function addPurchase(\BiBundle\Entity\Purchase $purchase)
     {
         $this->purchase[] = $purchase;
+        $purchase->setCard($this);
 
         return $this;
     }
@@ -346,6 +347,7 @@ class Card
     public function addCardRepresentation(\BiBundle\Entity\CardRepresentation $cardRepresentation)
     {
         $this->cardRepresentation[] = $cardRepresentation;
+        $cardRepresentation->setCard($this);
 
         return $this;
     }
@@ -369,11 +371,6 @@ class Card
     {
         return $this->cardRepresentation;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $card_representation;
-
 
     /**
      * @var string
@@ -403,5 +400,44 @@ class Card
     public function getCarousel()
     {
         return $this->carousel;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $argument;
+
+
+    /**
+     * Add argument
+     *
+     * @param \BiBundle\Entity\Argument $argument
+     *
+     * @return Card
+     */
+    public function addArgument(\BiBundle\Entity\Argument $argument)
+    {
+        $this->argument[] = $argument;
+        $argument->setCard($this);
+        return $this;
+    }
+
+    /**
+     * Remove argument
+     *
+     * @param \BiBundle\Entity\Argument $argument
+     */
+    public function removeArgument(\BiBundle\Entity\Argument $argument)
+    {
+        $this->argument->removeElement($argument);
+    }
+
+    /**
+     * Get argument
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArgument()
+    {
+        return $this->argument;
     }
 }

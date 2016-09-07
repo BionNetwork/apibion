@@ -20,40 +20,6 @@ class ActivationController extends RestController
 {
 
     /**
-     * @ApiDoc(
-     *  section="4. Активации",
-     *  resource=true,
-     *  description="Получение активаций по фильтру",
-     *  statusCodes={
-     *         200="При успешном получении данных",
-     *         400="Ошибка получения данных"
-     *     },
-     *  headers={
-     *      {
-     *          "name"="X-AUTHORIZE-TOKEN",
-     *          "description"="access key header",
-     *          "required"=true
-     *      }
-     *    }
-     * )
-     *
-     * @param ParamFetcher $paramFetcher
-     * @return Response
-     */
-    public function getActivationsAction()
-    {
-        $activations = $this->getUser()->getActivation();
-
-        $data = [];
-        foreach ($activations as $activation) {
-            $data[] = $activation;
-        }
-        $service = $this->get('api.data.transfer_object.activation_transfer_object');
-        $view = $this->view($service->getListData($data));
-        return $this->handleView($view);
-    }
-
-    /**
      *
      * ### Failed Response ###
      *          {
@@ -109,32 +75,228 @@ class ActivationController extends RestController
      * )
      *
      *
-     * @RequestParam(name="name", allowBlank=false, description="Name of dashboard card")
-     *
-     * @param \BiBundle\Entity\Dashboard $dashboard
      * @param \BiBundle\Entity\Activation $activation
-     * @param Request $request
+     * @param \BiBundle\Entity\Dashboard $dashboard
+     *
+     * @Route("/activation/{activation}/dashboard/{dashboard}", requirements={"activation": "\d+", "dashboard": "\d+"})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function postDashboardsActivationAction(\BiBundle\Entity\Dashboard $dashboard, \BiBundle\Entity\Activation $activation, Request $request)
+    public function postActivationDashboardAction(\BiBundle\Entity\Activation $activation, \BiBundle\Entity\Dashboard $dashboard)
     {
         $dashboardActivationService = $this->get('bi.dashboard_activation.service');
-        $dashboardActivation = new DashboardActivation();
+        $dashboardActivation = new \BiBundle\Entity\DashboardActivation();
 
         $dashboardActivation->setActivation($activation);
         $dashboardActivation->setDashboard($dashboard);
 
-        $form = $this->createForm(\BiBundle\Form\DashboardActivationType::class, $dashboardActivation);
-        $this->processForm($request, $form);
-        if (!$form->isValid()) {
-            throw $this->createFormValidationException($form);
-        }
         $dashboardActivationService->save($dashboardActivation);
-        $data = [
-            'id' => $dashboardActivation->getId()
-        ];
-        $view = $this->view($data);
+
+        $data = [];
+        $view = $this->view($data, 200);
+        return $this->handleView($view);
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Получение активаций по фильтру",
+     *  statusCodes={
+     *         200="При успешном получении данных",
+     *         400="Ошибка получения данных"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     */
+    public function getActivationsAction()
+    {
+        $activations = $this->getUser()->getActivation();
+
+        $data = [];
+        foreach ($activations as $activation) {
+            $data[] = $activation;
+        }
+        $service = $this->get('api.data.transfer_object.activation_transfer_object');
+        $view = $this->view($service->getListData($data));
+        return $this->handleView($view);
+    }
+
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Построение дерева связей (Этап активации №1)",
+     *  statusCodes={
+     *          200="Успех",
+     *          400="Ошибки валидации"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Route("/activation/{activation}/createtree", requirements={"activation": "\d+"})
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function postActivationTreeAction(\BiBundle\Entity\Activation $activation)
+    {
+        $resourceList = $activation->getResource();
+        $resourceListArray = [];
+        foreach ($resourceList as $resource) {
+            $resourceListArray[] = $resource;
+        }
+
+        $backendService = $this->get('bi.backend.service');
+        $result = $backendService->createTree($activation, $resourceListArray);
+
+        $view = $this->view($result);
+        return $this->handleView($view);
+    }
+
+
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Загрузка данных их источников (Этап активации №2)",
+     *  statusCodes={
+     *          200="Успех",
+     *          400="Ошибки валидации"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Route("/activation/{activation}/loaddata", requirements={"activation": "\d+"})
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function postActivationLoaddataAction(\BiBundle\Entity\Activation $activation)
+    {
+        $resourceList = $activation->getResource();
+        $resourceListArray = [];
+        foreach ($resourceList as $resource) {
+            $resourceListArray[] = $resource;
+        }
+
+        // todo Replace caching filters to database by caching to Redis
+        $backendService = $this->get('bi.backend.service');
+        $result = $backendService->loadData($activation, $resourceListArray);
+
+        $view = $this->view($result);
+        return $this->handleView($view);
+    }
+
+
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Получение фильтров конкретной активации (Этап активации №2.5)",
+     *  statusCodes={
+     *          200="Успех",
+     *          400="Ошибки валидации"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Route("/activation/{activation}/getfilters", requirements={"activation": "\d+"})
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function getFiltersAction(\BiBundle\Entity\Activation $activation)
+    {
+        $resourceList = $activation->getResource();
+        $backendService = $this->get('bi.backend.service');
+
+        $resourceListArray = [];
+        foreach ($resourceList as $resource) {
+            $resourceListArray[] = $resource;
+        }
+
+        $result = $backendService->getFilters($activation, $resourceListArray);
+
+        $view = $this->view($result);
+        return $this->handleView($view);
+    }
+
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Получение данных конкретной активации и сохранение фильтров инициализирующего запроса (Этап активации №3)",
+     *  statusCodes={
+     *          200="Успех",
+     *          400="Ошибки валидации"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Route("/activation/{activation}/getdata", requirements={"activation": "\d+"})
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function getDataAction(\BiBundle\Entity\Activation $activation)
+    {
+        $resourceList = $activation->getResource();
+        $backendService = $this->get('bi.backend.service');
+
+        $resourceListArray = [];
+        foreach ($resourceList as $resource) {
+            $resourceListArray[] = $resource;
+        }
+
+        $result = $backendService->createTree($activation, $resourceListArray);
+
+        $view = $this->view($result);
         return $this->handleView($view);
     }
 

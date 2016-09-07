@@ -167,4 +167,50 @@ class Activation
     {
         return $this->activation_status;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $resource;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->resource = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add resource
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     *
+     * @return Activation
+     */
+    public function addResource(\BiBundle\Entity\Resource $resource)
+    {
+        $this->resource[] = $resource;
+
+        return $this;
+    }
+
+    /**
+     * Remove resource
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     */
+    public function removeResource(\BiBundle\Entity\Resource $resource)
+    {
+        $this->resource->removeElement($resource);
+    }
+
+    /**
+     * Get resource
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
 }

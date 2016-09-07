@@ -29,7 +29,7 @@ class DashboardRepository extends \Doctrine\ORM\EntityRepository
             $qb->setParameter('id', $filter->id);
         }
         if ($filter->user_id) {
-            $qb->andWhere('d.user_id = :user_id');
+            $qb->andWhere('d.user = :user_id');
             $qb->setParameter('user_id', $filter->user_id);
         }
         $qb->setMaxResults($filter->getLimit());

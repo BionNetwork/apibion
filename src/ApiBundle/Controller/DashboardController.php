@@ -103,7 +103,7 @@ class DashboardController extends RestController
      *  resource=true,
      *  description="Создание рабочего стола",
      *  statusCodes={
-     *         200="При успешном рабочего стола",
+     *         201="Создано",
      *         400="Ошибка создания рабочего стола"
      *     },
      *  headers={
@@ -135,7 +135,7 @@ class DashboardController extends RestController
         $data = [
             'id' => $dashboard->getId()
         ];
-        $view = $this->view($data);
+        $view = $this->view($data, 201);
         return $this->handleView($view);
     }
 

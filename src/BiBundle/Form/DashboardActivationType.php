@@ -10,7 +10,7 @@ use BiBundle\Form\Type\Calendar;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class DashboardCardType extends AbstractType
+class DashboardActivationType extends AbstractType
 {
 
     /**
@@ -29,7 +29,7 @@ class DashboardCardType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'BiBundle\Entity\DashboardCard'
+            'data_class' => 'BiBundle\Entity\DashboardActivation'
         ));
     }
 }

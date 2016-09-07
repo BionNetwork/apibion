@@ -22,13 +22,18 @@ class BackendService extends UserAwareService
 
     public function __construct()
     {
-
+        $this->gateway = new \BiBundle\Service\Backend\Gateway\Bi;
     }
 
     /**
      * @var
      */
     protected $container;
+
+    /**
+     * @var
+     */
+    protected $gateway;
 
     public function setServiceContainer($container)
     {
@@ -187,24 +192,117 @@ class BackendService extends UserAwareService
 
 
     /**
-     * Получение таблиц источника
+     * Очистка кеша
      *
-     * @param \BiBundle\Entity\Resource $resource
-     * @param string $tableName
+     * @param \BiBundle\Entity\Activation $activation
      *
      * @return array()
      */
-    public function createTree(\BiBundle\Entity\Activation $activation, $data)
+    public function clearCache(\BiBundle\Entity\Activation $activation)
     {
         $client = $this->container->get('bi.backend.client');
         $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
         $client->setGateway($gateway);
 
         $request = new \BiBundle\Service\Backend\Request;
-        $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('cards/$d/create_tree/', $activation->getId()));
-        $request->setData($data);
+        $request->setMethod(\Zend\Http\Request::METHOD_POST);
+        $request->setPath(sprintf('cards/%d/clear_cache/', $activation->getId()));
+        $respond = $client->send($request);
 
+        return $respond;
+
+    }
+
+    /**
+     * Получение таблиц источника
+     *
+     * @param \BiBundle\Entity\Activation $activation
+     * @param \BiBundle\Entity\Resource[] $resourceList
+     *
+     * @return array()
+     */
+    public function createTree(\BiBundle\Entity\Activation $activation, array $resourceList)
+    {
+
+        // Очистка кеша перед построением нового
+        $isCacheCleared = $this->clearCache($activation);
+
+        // Построение дерева
+        foreach ($resourceList as $resource) {
+            $tables = $this->getResourceTables($resource);
+            $data = [];
+            foreach ($tables as $table) {
+                $data[] = [
+                    'source_id' => $resource->getRemoteId(),
+                    'table_name' => $table['name']
+                ];
+            }
+        }
+        $client = $this->container->get('bi.backend.client');
+        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
+        $client->setGateway($gateway);
+
+        $request = new \BiBundle\Service\Backend\Request;
+
+        $request->setMethod(\Zend\Http\Request::METHOD_POST);
+        $request->setPath(sprintf("cards/%d/create_tree/", $activation->getId()));
+        $request->setData(['data' => json_encode($data)]);
+
+        $respond = $client->send($request);
+
+        return $respond;
+
+    }
+
+    /**
+     * Получение таблиц источника
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     * @param \BiBundle\Entity\Resource[] $resourceList
+     *
+     * @return array()
+     */
+    public function loadData(\BiBundle\Entity\Activation $activation, array $resourceList)
+    {
+
+        $data = [];
+        foreach($resourceList as $resource) {
+            $tables = $this->getResourceTables($resource);
+            $data[$resource->getRemoteId()] = [];
+            foreach ($tables as $table) {
+                $columnsResponce = $this->getResourceTableColumns($resource, $table['name']);
+                $columns = array_shift($columnsResponce);
+                foreach ($columns as $column) {
+                    $data[$resource->getRemoteId()][$table['name']][] = $column['name'];
+                }
+            }
+        }
+
+        /*
+
+        $data =
+            data => [
+                resource_id => [
+                    table_name => [
+                        column_name_1,
+                        column_name_2,
+                        ...
+                        column_name_n
+                    ]
+                ],
+                ...
+            ];
+
+
+        */
+        $client = $this->container->get('bi.backend.client');
+        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
+        $client->setGateway($gateway);
+
+        $request = new \BiBundle\Service\Backend\Request;
+        $request->setMethod(\Zend\Http\Request::METHOD_POST);
+        $request->setPath(sprintf('cards/%d/load_data/', $activation->getId()));
+        $request->setData(['data' => json_encode($data)]);
         $respond = $client->send($request);
 
         return $respond;

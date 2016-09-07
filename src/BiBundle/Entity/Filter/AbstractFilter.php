@@ -15,9 +15,9 @@ abstract class AbstractFilter
     public function __construct($initialArray = [])
     {
         if (!empty($initialArray)) {
-            $normalizer = new CamelKeysNormalizer();
-            $initialArrayNormalized = $normalizer->normalize($initialArray);
-            foreach ($initialArrayNormalized as $key => $value) {
+            //$normalizer = new CamelKeysNormalizer();
+            //$initialArrayNormalized = $normalizer->normalize($initialArray);
+            foreach ($initialArray as $key => $value) {
                 if (array_key_exists($key, get_object_vars($this))) {
                     $this->$key = $value;
                 }

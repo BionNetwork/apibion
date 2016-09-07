@@ -19,17 +19,62 @@ class LoadCardRepresentationData extends AbstractFixture
     {
 
         $cardRepresentation = new CardRepresentation();
-        $cardRepresentation->setCard($this->getReference('card-demo'));
+        $cardRepresentation->setCard($this->getReference('card-efficiency'));
         $cardRepresentation->setRepresentation($this->getReference('representation-diagram'));
         $manager->persist($cardRepresentation);
 
         $cardRepresentation = new CardRepresentation();
-        $cardRepresentation->setCard($this->getReference('card-demo'));
+        $cardRepresentation->setCard($this->getReference('card-efficiency'));
         $cardRepresentation->setRepresentation($this->getReference('representation-line'));
         $manager->persist($cardRepresentation);
 
         $cardRepresentation = new CardRepresentation();
-        $cardRepresentation->setCard($this->getReference('card-demo'));
+        $cardRepresentation->setCard($this->getReference('card-efficiency'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-pie'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-revenue'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-diagram'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-revenue'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-line'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-revenue'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-pie'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-receivables'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-diagram'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-receivables'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-line'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-receivables'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-pie'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-payable'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-diagram'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-payable'));
+        $cardRepresentation->setRepresentation($this->getReference('representation-line'));
+        $manager->persist($cardRepresentation);
+
+        $cardRepresentation = new CardRepresentation();
+        $cardRepresentation->setCard($this->getReference('card-payable'));
         $cardRepresentation->setRepresentation($this->getReference('representation-pie'));
         $manager->persist($cardRepresentation);
 

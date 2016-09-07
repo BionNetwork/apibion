@@ -401,4 +401,72 @@ class Card
     {
         return $this->carousel;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $argument;
+
+
+    /**
+     * Add argument
+     *
+     * @param \BiBundle\Entity\Argument $argument
+     *
+     * @return Card
+     */
+    public function addArgument(\BiBundle\Entity\Argument $argument)
+    {
+        $this->argument[] = $argument;
+        $argument->setCard($this);
+        return $this;
+    }
+
+    /**
+     * Remove argument
+     *
+     * @param \BiBundle\Entity\Argument $argument
+     */
+    public function removeArgument(\BiBundle\Entity\Argument $argument)
+    {
+        $this->argument->removeElement($argument);
+    }
+
+    /**
+     * Get argument
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArgument()
+    {
+        return $this->argument;
+    }
+    /**
+     * @var string
+     */
+    private $author;
+
+
+    /**
+     * Set author
+     *
+     * @param string $author
+     *
+     * @return Card
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 }

@@ -41,6 +41,12 @@ BiBundle\Entity\Card:
             nullable: false
             comment: 'Рейтинг в процентах'
             default: 0
+        author:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: 'Наименование автора'
         image:
             type: string
             nullable: true
@@ -78,5 +84,8 @@ BiBundle\Entity\Card:
             mappedBy: card
         cardRepresentation:
             targetEntity: CardRepresentation
+            mappedBy: card
+        argument:
+            targetEntity: Argument
             mappedBy: card
     lifecycleCallbacks: {  }

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20160902145035 extends AbstractMigration
+class Version20160907122527 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -25,7 +25,10 @@ class Version20160902145035 extends AbstractMigration
         $this->addSql('CREATE INDEX activation_create_on_idx ON activation (created_on)');
         $this->addSql('CREATE TABLE activation_status (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX activation_status_code_idx ON activation_status (code)');
-        $this->addSql('CREATE TABLE card (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(2048) DEFAULT NULL, description_long VARCHAR(8192) DEFAULT NULL, rating NUMERIC(10, 0) NOT NULL, image VARCHAR(255) DEFAULT NULL, carousel VARCHAR(4096) DEFAULT NULL, type VARCHAR(255) DEFAULT NULL, price NUMERIC(10, 0) NOT NULL, created_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE argument (id SERIAL NOT NULL, card_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(255) NOT NULL, dimension VARCHAR(255) DEFAULT NULL, datatype VARCHAR(255) DEFAULT NULL, created_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_D113B0A4ACC9A20 ON argument (card_id)');
+        $this->addSql('CREATE INDEX argument_create_on_idx ON argument (created_on)');
+        $this->addSql('CREATE TABLE card (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(2048) DEFAULT NULL, description_long VARCHAR(8192) DEFAULT NULL, rating NUMERIC(10, 0) NOT NULL, author VARCHAR(255) DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, carousel VARCHAR(4096) DEFAULT NULL, type VARCHAR(255) DEFAULT NULL, price NUMERIC(10, 0) NOT NULL, created_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX card_type_idx ON card (type)');
         $this->addSql('CREATE INDEX card_create_on_idx ON card (created_on)');
         $this->addSql('CREATE TABLE card_category (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, path VARCHAR(255) DEFAULT NULL, created_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
@@ -78,6 +81,7 @@ class Version20160902145035 extends AbstractMigration
         $this->addSql('ALTER TABLE activation ADD CONSTRAINT FK_1C6860774ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE activation ADD CONSTRAINT FK_1C686077A76ED395 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE activation ADD CONSTRAINT FK_1C686077CDEDF351 FOREIGN KEY (activation_status_id) REFERENCES activation_status (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE argument ADD CONSTRAINT FK_D113B0A4ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE card_representation ADD CONSTRAINT FK_65CC2309116B3934 FOREIGN KEY (activation_id) REFERENCES activation (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE card_representation ADD CONSTRAINT FK_65CC23094ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE card_representation ADD CONSTRAINT FK_65CC230946CE82F4 FOREIGN KEY (representation_id) REFERENCES representation (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -110,6 +114,7 @@ class Version20160902145035 extends AbstractMigration
         $this->addSql('ALTER TABLE resource DROP CONSTRAINT FK_BC91F416116B3934');
         $this->addSql('ALTER TABLE activation DROP CONSTRAINT FK_1C686077CDEDF351');
         $this->addSql('ALTER TABLE activation DROP CONSTRAINT FK_1C6860774ACC9A20');
+        $this->addSql('ALTER TABLE argument DROP CONSTRAINT FK_D113B0A4ACC9A20');
         $this->addSql('ALTER TABLE card_representation DROP CONSTRAINT FK_65CC23094ACC9A20');
         $this->addSql('ALTER TABLE purchase DROP CONSTRAINT FK_6117D13B4ACC9A20');
         $this->addSql('ALTER TABLE dashboard_activation DROP CONSTRAINT FK_38943489B9D04D2B');
@@ -126,6 +131,7 @@ class Version20160902145035 extends AbstractMigration
         $this->addSql('ALTER TABLE users DROP CONSTRAINT FK_1483A5E96BF700BD');
         $this->addSql('DROP TABLE activation');
         $this->addSql('DROP TABLE activation_status');
+        $this->addSql('DROP TABLE argument');
         $this->addSql('DROP TABLE card');
         $this->addSql('DROP TABLE card_category');
         $this->addSql('DROP TABLE card_representation');

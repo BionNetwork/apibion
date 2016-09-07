@@ -6,6 +6,7 @@
 
 namespace BiBundle\Service;
 
+use BiBundle\Service\Backend\Gateway\Exception;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
 use BiBundle\Entity\Exception\ValidatorException;
@@ -39,13 +40,31 @@ class ResourceService extends UserAwareService
 
         if ($resource->getId() === null) {
             $resource->setCreatedOn(new \DateTime());
+            try {
+                $backendService = $this->container->get('bi.backend.service');
+                $resource = $backendService->putResource($resource);
+            } catch (Exception $ex) {
+                throw new \Symfony\Component\HttpKernel\Exception\HttpException($ex->getMessage());
+            }
         }
-
-        $backendService = $this->container->get('bi.backend.service');
-        $resource = $backendService->putResource($resource);
 
         $em->persist($resource);
         $em->flush();
         return $resource;
     }
+
+    /**
+     * Возвращает источники данных по фильтру
+     *
+     * @param \BiBundle\Entity\Filter\Resource $filter
+     *
+     * @return \BiBundle\Entity\Resource[]
+     */
+    public function getByFilter(\BiBundle\Entity\Filter\Resource $filter)
+    {
+        $em = $this->getEntityManager();
+        return $em->getRepository('BiBundle:Resource')->findByFilter($filter);
+    }
+
+
 }

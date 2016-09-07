@@ -1,6 +1,7 @@
 BiBundle\Entity\Resource:
     type: entity
     table: resource
+    repositoryClass: BiBundle\Repository\ResourceRepository
     indexes:
         resource_create_on_idx:
             columns:

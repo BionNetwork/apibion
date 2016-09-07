@@ -19,6 +19,11 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\Representation
+    repository.activation_repository:
+        class: BiBundle\Repository\ActivationRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\Activation
     repository.resource_repository:
         class: BiBundle\Repository\ResourceRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]

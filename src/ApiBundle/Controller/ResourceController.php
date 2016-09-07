@@ -14,6 +14,7 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Controller\Annotations\Route;
 use BiBundle\Service\Upload\FilePathStrategy;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ResourceController extends RestController
 {
@@ -26,7 +27,7 @@ class ResourceController extends RestController
      *  resource=true,
      *  description="Добавление источника",
      *  statusCodes={
-     *          204="Успех",
+     *          201="Создано",
      *          400="Ошибки валидации"
      *     },
      *  headers={
@@ -39,19 +40,30 @@ class ResourceController extends RestController
      * )
      *
      * @RequestParam(name="resource_file", description="Файл источника", nullable=false)
-     * @RequestParam(name="activation_id", description="Идентификатор активации карточки", nullable=true)
+     * @RequestParam(name="activation_id", requirements="\d+", description="Идентификатор активации карточки", nullable=true)
      * @Route("/resource/add")
      *
      * @param Request $request
      *
      * @return Response
      */
-    public function postResourceAction(Request $request)
+    public function postResourceAction(Request $request, ParamFetcher $params)
     {
+
+        $params = $this->getParams($params, 'Resource');
+
+        if($params['activation_id']) {
+            $activationId = $params['activation_id'];
+            $activationRepository = $this->get('repository.activation_repository');
+            $activation = $activationRepository->findOneBy(['id' => $activationId, 'user' => $this->getUser()]);
+            if(null === $activation) {
+                throw new NotFoundHttpException('Активация не найдена');
+            }
+        }
+
         $resource = new \BiBundle\Entity\Resource();
 
         $resourceFile = $request->files->get('resource_file');
-        file_put_contents('/tmp/debug', print_r($resourceFile, 1));
         if (!$resourceFile) {
             throw new HttpException(400, 'Файл не загружен');
         }
@@ -65,11 +77,57 @@ class ResourceController extends RestController
 
         $resource->setPath($uploadedResourcePathArray['path']);
         $resource->setUser($this->getUser());
+        if(!empty($activation)) {
+            $resource->setActivation($activation);
+        }
         $resource = $resourceService->save($resource);
 
-        $view = $this->view(null, 204);
+        $service = $this->get('api.data.transfer_object.resource_transfer_object');
+        $view = $this->view($service->getObjectData($resource), 201);
         return $this->handleView($view);
     }
+
+
+    /**
+     * @ApiDoc(
+     *  section="5. Источники",
+     *  resource=true,
+     *  description="Получение перечня источников данных по фильтру",
+     *  statusCodes={
+     *         200="При успешном получении данных",
+     *         400="Ошибка получения данных"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+
+     *
+     * @QueryParam(name="id", requirements="\d+", description="Идентификатор источника", nullable=true)
+     * @QueryParam(name="activation_id", requirements="\d+", description="Идентификатор активации источника", nullable=true)
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     */
+    public function getResourcesAction(ParamFetcher $paramFetcher)
+    {
+        $resourceService = $this->get('bi.resource.service');
+
+        $params = $this->getParams($paramFetcher, 'Resource/Filter');
+        $filter = new \BiBundle\Entity\Filter\Resource($params);
+        $filter->user_id = $this->getUser()->getId();
+        $resourceList = $resourceService->getByFilter($filter);
+
+        $service = $this->get('api.data.transfer_object.resource_transfer_object');
+        $view = $this->view($service->getObjectListData($resourceList));
+        return $this->handleView($view);
+    }
+
 
     /**
      * @ApiDoc(
@@ -125,7 +183,6 @@ class ResourceController extends RestController
      */
     public function getResourceColumnsAction(\BiBundle\Entity\Resource $resource, ParamFetcher $paramFetcher)
     {
-
         $params = $this->getParams($paramFetcher, 'table_name');
         $backendService = $this->get('bi.backend.service');
         $columns = $backendService->getResourceTableColumns($resource, $params['table_name']);

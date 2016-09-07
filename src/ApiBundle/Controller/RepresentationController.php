@@ -41,7 +41,6 @@ class RepresentationController extends RestController
      */
     public function getRepresentationsAction(ParamFetcher $paramFetcher)
     {
-
         $representationService = $this->get('bi.representation.service');
 
         $params = $this->getParams($paramFetcher, 'Representation/Filter');
