@@ -29,7 +29,7 @@ class PurchaseService extends UserAwareService
         $items = $this->getUser()->getPurchase();
         foreach ($items as $purchase) {
             if($card->getId() === $purchase->getCard()->getId()) {
-                return $purchased;
+                return $purchase;
                 $purchased = true;
             }
         }
