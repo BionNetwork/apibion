@@ -68,8 +68,8 @@ class CardTransferObject
                 'description_long' => $card->getDescriptionLong(),
                 'rating' => $card->getRating(),
                 'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
-                'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
-                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
+                'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->format('Y/m/d H:i') : null,
+                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->format('Y/m/d H:i') : null,
                 'representation' => $this->getRepresentations($card),
                 'argument' => $this->getArguments($card),
             ];

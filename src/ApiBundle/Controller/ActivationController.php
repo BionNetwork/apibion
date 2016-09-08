@@ -299,17 +299,4 @@ class ActivationController extends RestController
         return $this->handleView($view);
     }
 
-    public function getCardsAction(ParamFetcher $paramFetcher)
-    {
-        $cardService = $this->get('bi.card.service');
-        $params = $this->getParams($paramFetcher, 'card');
-        $filter = new \BiBundle\Entity\Filter\Card($params);
-        $cards = $cardService->getByFilter($filter);
-        $service = $this->get('api.data.transfer_object.card_transfer_object');
-        $view = $this->view($service->getObjectListData($cards));
-        return $this->handleView($view);
-    }
-
-
-
 }

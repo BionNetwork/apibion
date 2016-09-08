@@ -40,6 +40,11 @@ class BackendService extends UserAwareService
         $this->container = $container;
     }
 
+    public function setEntityManager($em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * Отправка источника данных на сервер BI
      *
@@ -326,6 +331,13 @@ class BackendService extends UserAwareService
         $request->setPath(sprintf('cards/%d/load_data/', $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
         $respond = $client->send($request);
+
+        $em = $this->getEntityManager();
+
+        $activationDoneStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy(['code' => \BiBundle\Entity\ActivationStatus::STATUS_ACTIVE]);
+        $activation->setActivationStatus($activationDoneStatus);
+        $em->persist($activation);
+        $em->flush();
 
         return $respond;
     }

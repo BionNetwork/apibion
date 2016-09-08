@@ -45,6 +45,7 @@ services:
         parent: bi.user_aware_service
         calls:
           - ['setServiceContainer', ['@service_container']]
+          - ['setEntityManager', ['@doctrine.orm.entity_manager']]
     user.listener:
         class: BiBundle\Entity\Listener\UserListener
         arguments: ['@service_container']
