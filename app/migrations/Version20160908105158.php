@@ -16,6 +16,17 @@ class Version20160908105158 extends AbstractMigration
     public function up(Schema $schema)
     {
 $query = <<<EOD
+INSERT INTO "public"."activation_status" VALUES ('4', 'В процессе', 'pending')+
+INSERT INTO "public"."activation_status" VALUES ('5', 'Активен', 'active')+
+INSERT INTO "public"."activation_status" VALUES ('6', 'Удален', 'deleted')+
+INSERT INTO "public"."user_roles" VALUES ('1', 'USER', 'Пользователь')+
+INSERT INTO "public"."user_roles" VALUES ('2', 'ADMIN', 'Администратор')+
+INSERT INTO "public"."user_statuses" VALUES ('1', 'Активен', 'active')+
+INSERT INTO "public"."user_statuses" VALUES ('2', 'Заблокирован', 'blocked')+
+INSERT INTO "public"."user_statuses" VALUES ('3', 'Удален', 'deleted')+
+INSERT INTO "public"."user_statuses" VALUES ('4', 'Зарегистрирован', 'registered')+
+INSERT INTO "public"."users" VALUES ('1', '1', '2', 'Иван', 'Иванов', null, 'administrator', 'administrator@etton.ru', '$2y$13$46n4S7EQcW31da8QwkiyaOOgT5EzuRbSpr6z0AlBPjnsRl188BOhy', '2016-09-08', null, null, null, '79999999999', null, null, null, 't', 'f', null, 't', 'f', 'f', null, 't')+
+INSERT INTO "public"."users" VALUES ('2', '1', '1', 'Петр', 'Петров', null, 'user', 'user@etton.ru', '$2y$13\$wU869dagw9DE22uvXngRU.7ho3CW..VueKTDU81BkiHBJzP/Ehoju', '2016-09-08', null, null, null, '79999999990', null, null, null, 't', 'f', null, 't', 'f', 'f', null, 'f')+
 INSERT INTO "public"."card" VALUES ('21', 'Выручка', 'Выручка от продажи готовых продукции, товаров', 'Выручка – общая сумма денежных средств, полученная в результате реализации товаров и услуг за определенный промежуток времени. Общая выручка состоит из сумм, полученных предприятием в результате основной деятельности (реализации товара или услуги), инвестиционной деятельности (реализации внеоборотных активов и ценных бумаг) и финансовой деятельности предприятия. В данной карточке предусмотрены разные виды представлений выручки, фильтры по контрагентам, номенклатуре, договорам.', '80', 'Эттон', '/images/cards-preview/4-1.png', '/images/cards/4-1.png;/images/cards/4-2.png;/images/cards/4-3.png;/images/cards/4-4.png', null, '200', null, null)+
 INSERT INTO "public"."card" VALUES ('22', 'Дебиторская задолженность', 'Сумма долгов, причитающихся предприятию', 'Дебиторской задолженностью понимается задолженность других организаций, работников и физических лиц данной организации. Дебиторская задолженность возникает в случае, если услуга (или товар) проданы, а денежные средства не получены. Дебиторская задолженность относится к оборотным активам компании вне зависимости от срока её погашения.', '75', 'Эттон', '/images/cards-preview/4-1.png', '/images/cards/4-1.png;/images/cards/4-2.png;/images/cards/4-3.png;/images/cards/4-4.png', null, '300', null, null)+
 INSERT INTO "public"."card" VALUES ('23', 'Кредиторская задолженность', 'Задолженность организации другим организациям и лицам', 'Кредиторская задолженность – собственная финансовая задолженность организации, возникающая в течение отведенного договором срока для оплаты, а также вследствие отсутствия денежных средств для погашения долгов или недобросовестного выполнения договорных обязательств.', '100', 'Эттон', '/images/cards-preview/4-1.png', '/images/cards/4-1.png;/images/cards/4-2.png;/images/cards/4-3.png;/images/cards/4-4.png', null, '300', null, null)+
