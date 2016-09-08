@@ -28,8 +28,8 @@ class CardTransferObject
 
     public function __construct(CardRepository $repository, UserAwareService $userAwareService, HostBasedUrl $url)
     {
-        $this->user = $userAwareService->getUser();
         $this->repository = $repository;
+        $this->user = $userAwareService->getUser();
         $this->url = $url;
     }
 
@@ -68,8 +68,8 @@ class CardTransferObject
                 'description_long' => $card->getDescriptionLong(),
                 'rating' => $card->getRating(),
                 'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
-                'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->format('Y/m/d H:i') : null,
-                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->format('Y/m/d H:i') : null,
+                'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
+                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
                 'representation' => $this->getRepresentations($card),
                 'argument' => $this->getArguments($card),
             ];

@@ -22,7 +22,7 @@ services:
         arguments: ['@repository.purchase_repository', '@bi.user_aware_service', '@utils.host_based_url']
     api.data.transfer_object.activation_transfer_object:
         class: ApiBundle\Service\DataTransferObject\ActivationTransferObject
-        arguments: ['@bi.user_aware_service', '@utils.host_based_url']
+        arguments: ['@repository.activation_repository', '@bi.user_aware_service', '@utils.host_based_url']
     api.data.transfer_object.dashboard_activation_transfer_object:
         class: ApiBundle\Service\DataTransferObject\DashboardActivationTransferObject
         arguments: ['@repository.dashboard_activation_repository', '@bi.user_aware_service', '@utils.host_based_url']

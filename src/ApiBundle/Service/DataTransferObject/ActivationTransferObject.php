@@ -3,13 +3,17 @@
 namespace ApiBundle\Service\DataTransferObject;
 
 use BiBundle\Entity\User;
-use BiBundle\Entity\Purchase;
-use BiBundle\Entity\Activation;
+use BiBundle\Repository\ActivationRepository;
 use BiBundle\Service\UserAwareService;
 use BiBundle\Service\Utils\HostBasedUrl;
 
 class ActivationTransferObject
 {
+
+    /**
+     * @var ActivationRepository
+     */
+    private $repository;
 
     /**
      * @var HostBasedUrl
@@ -21,8 +25,9 @@ class ActivationTransferObject
      */
     private $user;
 
-    public function __construct(UserAwareService $userAwareService, HostBasedUrl $url)
+    public function __construct(ActivationRepository $repository, UserAwareService $userAwareService, HostBasedUrl $url)
     {
+        $this->repository = $repository;
         $this->user = $userAwareService->getUser();
         $this->url = $url;
     }
@@ -42,7 +47,7 @@ class ActivationTransferObject
                 'id' => $activation->getId(),
                 'created_on' => !empty($activation->getCreatedOn()) ? $activation->getCreatedOn()->getTimestamp() : null,
                 'activation_status' => $activation->getActivationStatus()->getCode(),
-                'card' => $this->getCard($activation->getCard()),
+                'card' => $this->getCard($activation->getCard())
             ];
             $result[] = $item;
         }
@@ -61,8 +66,23 @@ class ActivationTransferObject
                 'id' => $card->getId(),
                 'name' => $card->getName(),
                 'type' => $card->getType(),
+                'author' => $card->getAuthor(),
+                'description' => $card->getDescription(),
+                'description_long' => $card->getDescriptionLong(),
+                'rating' => $card->getRating(),
+                'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
+                'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->format('Y/m/d H:i') : null,
+                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->format('Y/m/d H:i') : null,
             ];
         }
         return $result;
+    }
+
+    /**
+     * @return ActivationRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
     }
 }

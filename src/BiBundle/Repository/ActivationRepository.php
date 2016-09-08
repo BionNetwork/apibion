@@ -45,23 +45,27 @@ class ActivationRepository extends \Doctrine\ORM\EntityRepository
     public function getByFilter($filter) {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
-
+        file_put_contents('/tmp/eee.txt', print_r($filter, 1));
         $qb->select('a')
             ->from('BiBundle:Activation', 'a')
             ->innerJoin('BiBundle:Card', 'c', Join::WITH, 'c.id = a.card');
         if($filter->user_id) {
-            $qb->where('a.user = :user_id');
+            $qb->andWhere('a.user = :user_id');
             $qb->setParameter('user_id', $filter->user_id);
         }
         if($filter->card_id) {
-            $qb->where('a.card = :card_id');
+            $qb->andWhere('a.card = :card_id');
             $qb->setParameter('card_id', $filter->card_id);
         }
-
         if($filter->dashboard_id) {
             $qb->innerJoin('BiBundle:DashboardActivation', 'da', Join::WITH, 'da.activation = a.id');
-            $qb->where('da.dashboard = :dashboard_id');
+            $qb->andWhere('da.dashboard = :dashboard_id');
             $qb->setParameter('dashboard_id', $filter->dashboard_id);
+        }
+        if($filter->activation_status) {
+            $qb->innerJoin('BiBundle:ActivationStatus', 'ass', Join::WITH, 'ass.id = a.activation_status');
+            $qb->andWhere('ass.code = :activation_status');
+            $qb->setParameter('activation_status', $filter->activation_status);
         }
         $query = $qb->getQuery();
 

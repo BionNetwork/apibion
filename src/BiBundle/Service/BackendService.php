@@ -379,9 +379,10 @@ class BackendService extends UserAwareService
         $client->setGateway($gateway);
 
         $request = new \BiBundle\Service\Backend\Request;
-        $request->setMethod(\Zend\Http\Request::METHOD_GET);
+        $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setPath(sprintf('cards/%d/query', $activation->getId()));
-        $request->setData(['data' => json_encode($filter)]);
+        file_put_contents('/tmp/filter', $filter);
+        $request->setData(['data' => $filter]);
         $respond = $client->send($request);
 
         return $respond;

@@ -39,6 +39,7 @@ class ActivationService extends UserAwareService
         foreach ($items as $item) {
             $resultArray[] = $item;
         }
+        
         return $resultArray;
     }
 

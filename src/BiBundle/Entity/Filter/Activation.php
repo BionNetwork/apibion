@@ -17,6 +17,12 @@ class Activation extends AbstractFilter
     public $user_id;
 
     /**
+     * Код статуса
+     * @var string
+     */
+    public $activation_status;
+
+    /**
      * Идентификатор рабочего стола
      * @var int
      */

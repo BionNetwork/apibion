@@ -115,19 +115,25 @@ class ActivationController extends RestController
      *    }
      * )
      *
+     * @QueryParam(name="id", allowBlank=true, requirements="\d+", description="Идентификатор карточки")
+     * @QueryParam(name="activation_status", allowBlank=true, requirements=".+", description="Код статуса (pending/active/deleted)")
+     * @QueryParam(name="limit", default="20", requirements="\d+", description="Количество запрашиваемых проектов" )
+     * @QueryParam(name="offset", nullable=true, requirements="\d+", description="Смещение, с которого нужно начать просмотр" )
+     *
      * @param ParamFetcher $paramFetcher
      * @return Response
      */
-    public function getActivationsAction()
+    public function getActivationsAction(ParamFetcher $paramFetcher)
     {
-        $activations = $this->getUser()->getActivation();
 
-        $data = [];
-        foreach ($activations as $activation) {
-            $data[] = $activation;
-        }
+        $activationService = $this->get('bi.activation.service');
+        $params = $this->getParams($paramFetcher, 'activation');
+        $params['user_id'] = $this->getUser()->getId();
+        $filter = new \BiBundle\Entity\Filter\Activation($params);
+        $activations = $activationService->getByFilter($filter);
+
         $service = $this->get('api.data.transfer_object.activation_transfer_object');
-        $view = $this->view($service->getListData($data));
+        $view = $this->view($service->getListData($activations));
         return $this->handleView($view);
     }
 
@@ -280,7 +286,7 @@ class ActivationController extends RestController
      *
      * @Route("/activation/{activation}/getdata", requirements={"activation": "\d+"})
      *
-     * @QueryParam(name="id", allowBlank=true, requirements="\d+", description="Идентификатор карточки")
+     * @QueryParam(name="json", allowBlank=false, requirements=".+", description="Сериализованный в JSON фильтр")
      *
      * @param ParamFetcher $paramFetcher
      *
@@ -288,12 +294,11 @@ class ActivationController extends RestController
      */
     public function getDataAction(\BiBundle\Entity\Activation $activation, ParamFetcher $paramFetcher)
     {
-        $params = $this->getParams($paramFetcher, 'card');
-        $filter = new \BiBundle\Entity\Filter\Card($params);
+        $params = $this->getParams($paramFetcher, 'data');
+        $filter = new \BiBundle\Entity\Filter\Activation\Data($params);
 
         $backendService = $this->get('bi.backend.service');
-
-        $result = $backendService->getData($activation, $filter);
+        $result = $backendService->getData($activation, $filter->json);
 
         $view = $this->view($result);
         return $this->handleView($view);
