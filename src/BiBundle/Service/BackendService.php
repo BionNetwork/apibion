@@ -356,6 +356,7 @@ class BackendService extends UserAwareService
      * Получение фильтров карточки
      *
      * @param \BiBundle\Entity\Activation $activation
+     * @param string $filter
      *
      * @return array()
      */
@@ -367,8 +368,8 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('cards/%d/get_data', $activation->getId()));
-
+        $request->setPath(sprintf('cards/%d/query', $activation->getId()));
+        $request->setData(['data' => json_encode($filter)]);
         $respond = $client->send($request);
 
         return $respond;

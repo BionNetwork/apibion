@@ -280,24 +280,36 @@ class ActivationController extends RestController
      *
      * @Route("/activation/{activation}/getdata", requirements={"activation": "\d+"})
      *
-     * @param Request $request
+     * @QueryParam(name="id", allowBlank=true, requirements="\d+", description="Идентификатор карточки")
+     *
+     * @param ParamFetcher $paramFetcher
      *
      * @return Response
      */
-    public function getDataAction(\BiBundle\Entity\Activation $activation)
+    public function getDataAction(\BiBundle\Entity\Activation $activation, ParamFetcher $paramFetcher)
     {
-        $resourceList = $activation->getResource();
+        $params = $this->getParams($paramFetcher, 'card');
+        $filter = new \BiBundle\Entity\Filter\Card($params);
+
         $backendService = $this->get('bi.backend.service');
 
-        $resourceListArray = [];
-        foreach ($resourceList as $resource) {
-            $resourceListArray[] = $resource;
-        }
-
-        $result = $backendService->createTree($activation, $resourceListArray);
+        $result = $backendService->getData($activation, $filter);
 
         $view = $this->view($result);
         return $this->handleView($view);
     }
+
+    public function getCardsAction(ParamFetcher $paramFetcher)
+    {
+        $cardService = $this->get('bi.card.service');
+        $params = $this->getParams($paramFetcher, 'card');
+        $filter = new \BiBundle\Entity\Filter\Card($params);
+        $cards = $cardService->getByFilter($filter);
+        $service = $this->get('api.data.transfer_object.card_transfer_object');
+        $view = $this->view($service->getObjectListData($cards));
+        return $this->handleView($view);
+    }
+
+
 
 }

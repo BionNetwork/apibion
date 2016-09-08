@@ -14,8 +14,8 @@ class Bi extends AbstractGateway
      *
      * @var string
      */
-    protected $gatewayUrl = 'http://bidemo.itgkh.ru/api/v1/';
-    //protected $gatewayUrl = 'http://172.19.110.210:8000/api/v1/';
+    //protected $gatewayUrl = 'http://bidemo.itgkh.ru/api/v1/';
+    protected $gatewayUrl = 'http://172.19.110.210:8000/api/v1/';
 
     /**
      * From whom field in Platform message
@@ -79,7 +79,6 @@ class Bi extends AbstractGateway
         if ($response->isSuccess()) {
             return json_decode($content, JSON_UNESCAPED_UNICODE);
         } else {
-            file_put_contents('/home/imnareznoi/error.html', $content);
             return [
                 'status' => 'error',
                 'message' => 'Ошибка связи с платформой BI',
