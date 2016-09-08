@@ -35,7 +35,7 @@ BiBundle\Entity\Activation:
     manyToOne:
         card:
             targetEntity: Card
-            cascade: {  }
+            cascade: ["persist"]
             mappedBy: null
             inversedBy: activation
             joinColumns:

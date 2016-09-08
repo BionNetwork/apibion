@@ -17,22 +17,8 @@ class LoadCardData extends AbstractFixture
 
     public function load(ObjectManager $manager)
     {
-        $card = new Card();
-        $card->setName('Коэффициент рентабельности продаж (ROS)');
-        $card->setDescription('Мера операционной эффективности организации');
-        $card->setDescriptionLong(
-            'Коэффициент рентабельности продаж (ROS - Return On Sales) показатель финансовой результативности деятельности организации, показывающий отношение чистой прибыли компании к ее обороту. Коэффициент может быть полезен, как для корректной интерпретации данных об обороте, так и для экономических прогнозов в условиях ограниченного объема рынка, сдерживающего рост продаж. Сравнение показателя ROS в динамике позволяет увидеть тренд развития компании.'
-        );
-        $card->setType('ROS');
-        $card->setRating(44);
-        $card->setPrice(500);
 
-        $manager->persist($card);
-        $manager->flush();
-
-        $this->addReference('card-efficiency', $card);
-
-
+        /*
         $carousel = [
             '/images/cards/4-1.png',
             '/images/cards/4-2.png',
@@ -90,6 +76,6 @@ class LoadCardData extends AbstractFixture
         $manager->flush();
 
         $this->addReference('card-payable', $card);
-
+        */
     }
 }

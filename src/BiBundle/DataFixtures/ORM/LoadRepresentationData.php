@@ -17,7 +17,7 @@ class LoadRepresentationData extends AbstractFixture
 
     public function load(ObjectManager $manager)
     {
-
+        /*
         $representation = new Representation();
         $representation->setCode('diagram');
         $representation->setName('Диаграмма');
@@ -49,6 +49,7 @@ class LoadRepresentationData extends AbstractFixture
         $manager->persist($representation);
 
         $manager->flush();
+        */
 
     }
 }

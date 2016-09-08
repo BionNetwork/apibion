@@ -43,7 +43,8 @@ class Client
         if(null === $this->getGateway()) {
             throw new Client\Exception("Gateway is not set");
         }
-        return $this->getGateway()->send($request);
+        $response = $this->getGateway()->send($request);
+        return $response;
     }
 
 }

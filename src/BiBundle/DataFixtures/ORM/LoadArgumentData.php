@@ -17,21 +17,7 @@ class LoadArgumentData extends AbstractFixture
 
     public function load(ObjectManager $manager)
     {
-
-        $argument = new Argument();
-        $argument->setCode('OP');
-        $argument->setName('Операционная прибыль');
-        $argument->setDimension('X');
-        $argument->setCard($this->getReference('card-efficiency'));
-        $manager->persist($argument);
-
-        $argument = new Argument();
-        $argument->setCode('NS');
-        $argument->setName('Выручка');
-        $argument->setDimension('Y');
-        $argument->setCard($this->getReference('card-efficiency'));
-        $manager->persist($argument);
-
+        /*
         // Выручка
         $argument = new Argument();
         $argument->setCode('');
@@ -148,6 +134,7 @@ class LoadArgumentData extends AbstractFixture
         $manager->persist($argument);
 
         $manager->flush();
+        */
 
     }
 }

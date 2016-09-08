@@ -190,4 +190,37 @@ class ResourceController extends RestController
         return $this->handleView($view);
     }
 
+
+    /**
+     * @ApiDoc(
+     *  section="5. Источники",
+     *  resource=true,
+     *  description="Получение предпросмотра источника по имени таблицы",
+     *  statusCodes={
+     *         200="При успешном получении данных",
+     *         400="Ошибка получения данных"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @QueryParam(name="table_name", allowBlank=false, description="Наименование таблицы")
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     */
+    public function getResourcePreviewAction(\BiBundle\Entity\Resource $resource, ParamFetcher $paramFetcher)
+    {
+        $params = $this->getParams($paramFetcher, 'table_name');
+        $backendService = $this->get('bi.backend.service');
+        $preview = $backendService->getResourceTablePreview($resource, $params['table_name']);
+        $view = $this->view($preview);
+        return $this->handleView($view);
+    }
+
 }

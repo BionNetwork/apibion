@@ -17,22 +17,7 @@ class LoadCardRepresentationData extends AbstractFixture
 
     public function load(ObjectManager $manager)
     {
-
-        $cardRepresentation = new CardRepresentation();
-        $cardRepresentation->setCard($this->getReference('card-efficiency'));
-        $cardRepresentation->setRepresentation($this->getReference('representation-diagram'));
-        $manager->persist($cardRepresentation);
-
-        $cardRepresentation = new CardRepresentation();
-        $cardRepresentation->setCard($this->getReference('card-efficiency'));
-        $cardRepresentation->setRepresentation($this->getReference('representation-line'));
-        $manager->persist($cardRepresentation);
-
-        $cardRepresentation = new CardRepresentation();
-        $cardRepresentation->setCard($this->getReference('card-efficiency'));
-        $cardRepresentation->setRepresentation($this->getReference('representation-pie'));
-        $manager->persist($cardRepresentation);
-
+        /*
         $cardRepresentation = new CardRepresentation();
         $cardRepresentation->setCard($this->getReference('card-revenue'));
         $cardRepresentation->setRepresentation($this->getReference('representation-diagram'));
@@ -79,6 +64,7 @@ class LoadCardRepresentationData extends AbstractFixture
         $manager->persist($cardRepresentation);
 
         $manager->flush();
+        */
 
     }
 }

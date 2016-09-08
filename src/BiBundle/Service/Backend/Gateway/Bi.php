@@ -67,7 +67,7 @@ class Bi extends AbstractGateway
         }
 
         $data = $backendRequest->getData();
-        
+
         $client->setParameterPost($data);
 
         $uri = $this->processUri($backendRequest->getPath(), $backendRequest->getParams());
@@ -79,7 +79,12 @@ class Bi extends AbstractGateway
         if ($response->isSuccess()) {
             return json_decode($content, JSON_UNESCAPED_UNICODE);
         } else {
-            throw new Exception('Ошибка связи с платформой BI');
+            file_put_contents('/home/imnareznoi/error.html', $content);
+            return [
+                'status' => 'error',
+                'message' => 'Ошибка связи с платформой BI',
+                'code' => $response->getStatusCode()
+            ];
         }
 
     }

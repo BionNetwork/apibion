@@ -190,6 +190,28 @@ class BackendService extends UserAwareService
         return $respond;
     }
 
+    /**
+     * Получение предпросмотра источника
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     * @param string $tableName
+     *
+     * @return array()
+     */
+    public function getResourceTablePreview(\BiBundle\Entity\Resource $resource, $tableName)
+    {
+        $client = $this->container->get('bi.backend.client');
+        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
+        $client->setGateway($gateway);
+
+        $request = new \BiBundle\Service\Backend\Request;
+        $request->setMethod(\Zend\Http\Request::METHOD_GET);
+        $request->setPath(sprintf('datasources/%d/%s/preview', $resource->getRemoteId(), $tableName));
+
+        $respond = $client->send($request);
+
+        return $respond;
+    }
 
     /**
      * Очистка кеша
@@ -303,6 +325,50 @@ class BackendService extends UserAwareService
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setPath(sprintf('cards/%d/load_data/', $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
+        $respond = $client->send($request);
+
+        return $respond;
+    }
+
+    /**
+     * Получение фильтров карточки
+     *
+     * @param \BiBundle\Entity\Activation $activation
+     *
+     * @return array()
+     */
+    public function getFilters(\BiBundle\Entity\Activation $activation)
+    {
+        $client = $this->container->get('bi.backend.client');
+        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
+        $client->setGateway($gateway);
+
+        $request = new \BiBundle\Service\Backend\Request;
+        $request->setMethod(\Zend\Http\Request::METHOD_GET);
+        $request->setPath(sprintf('cards/%d/get_filters', $activation->getId()));
+
+        $respond = $client->send($request);
+
+        return $respond;
+    }
+
+    /**
+     * Получение фильтров карточки
+     *
+     * @param \BiBundle\Entity\Activation $activation
+     *
+     * @return array()
+     */
+    public function getData(\BiBundle\Entity\Activation $activation, $filter)
+    {
+        $client = $this->container->get('bi.backend.client');
+        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
+        $client->setGateway($gateway);
+
+        $request = new \BiBundle\Service\Backend\Request;
+        $request->setMethod(\Zend\Http\Request::METHOD_GET);
+        $request->setPath(sprintf('cards/%d/get_data', $activation->getId()));
+
         $respond = $client->send($request);
 
         return $respond;
