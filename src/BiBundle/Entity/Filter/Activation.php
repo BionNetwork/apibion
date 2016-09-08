@@ -5,13 +5,19 @@ namespace BiBundle\Entity\Filter;
 class Activation extends AbstractFilter
 {
     /**
+     * Идентификатор активации
+     * @var int
+     */
+    public $id;
+
+    /**
      * Идентификатор карточки
      * @var int
      */
     public $card_id;
 
     /**
-     * Идентификатор карточки
+     * Идентификатор пользователя
      * @var int
      */
     public $user_id;

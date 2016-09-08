@@ -49,6 +49,10 @@ class ActivationRepository extends \Doctrine\ORM\EntityRepository
         $qb->select('a')
             ->from('BiBundle:Activation', 'a')
             ->innerJoin('BiBundle:Card', 'c', Join::WITH, 'c.id = a.card');
+        if($filter->id) {
+            $qb->andWhere('a.id = :id');
+            $qb->setParameter('id', $filter->id);
+        }
         if($filter->user_id) {
             $qb->andWhere('a.user = :user_id');
             $qb->setParameter('user_id', $filter->user_id);
