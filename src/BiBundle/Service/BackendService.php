@@ -292,7 +292,9 @@ class BackendService extends UserAwareService
     public function loadData(\BiBundle\Entity\Activation $activation, array $resourceList)
     {
 
+        // Автоматическое построение дерева по всем источникам (Для первого этапа)
         $this->createTree($activation, $resourceList);
+
         $data = [];
         foreach($resourceList as $resource) {
             $tables = $this->getResourceTables($resource);
@@ -337,6 +339,9 @@ class BackendService extends UserAwareService
 
         $activationDoneStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy(['code' => \BiBundle\Entity\ActivationStatus::STATUS_ACTIVE]);
         $activation->setActivationStatus($activationDoneStatus);
+
+        $activation->setLoadDataRespond(json_encode($respond));
+
         $em->persist($activation);
         $em->flush();
 
@@ -381,10 +386,14 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cards/%d/query', $activation->getId()));
-        file_put_contents('/tmp/filter', $filter);
+        $request->setPath(sprintf('cards/%d/query_new', $activation->getId()));
         $request->setData(['data' => $filter]);
         $respond = $client->send($request);
+
+        $em = $this->getEntityManager();
+        $activation->setLastFilter($filter);
+        $em->persist($activation);
+        $em->flush();
 
         return $respond;
     }

@@ -25,6 +25,16 @@ BiBundle\Entity\Activation:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
+        loadDataRespond:
+            type: text
+            nullable: true
+            comment: 'META загруженных данных'
+            column: load_data_respond
+        lastFilter:
+            type: text
+            nullable: true
+            comment: 'Последний актуальный фильтр'
+            column: last_filter
     oneToMany:
         resource:
             targetEntity: Resource
