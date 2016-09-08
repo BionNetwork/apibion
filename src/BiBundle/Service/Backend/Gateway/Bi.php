@@ -79,6 +79,7 @@ class Bi extends AbstractGateway
         if ($response->isSuccess()) {
             return json_decode($content, JSON_UNESCAPED_UNICODE);
         } else {
+            //file_put_contents('/home/imnareznoi/Desktop/error.html', print_r($content));
             return [
                 'status' => 'error',
                 'message' => 'Ошибка связи с платформой BI',

@@ -143,48 +143,6 @@ class ActivationController extends RestController
      * @ApiDoc(
      *  section="4. Активации",
      *  resource=true,
-     *  description="Построение дерева связей (Этап активации №1)",
-     *  statusCodes={
-     *          200="Успех",
-     *          400="Ошибки валидации"
-     *     },
-     *  headers={
-     *      {
-     *          "name"="X-AUTHORIZE-TOKEN",
-     *          "description"="access key header",
-     *          "required"=true
-     *      }
-     *    }
-     * )
-     *
-     * @Route("/activation/{activation}/createtree", requirements={"activation": "\d+"})
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function postActivationTreeAction(\BiBundle\Entity\Activation $activation)
-    {
-        $resourceList = $activation->getResource();
-        $resourceListArray = [];
-        foreach ($resourceList as $resource) {
-            $resourceListArray[] = $resource;
-        }
-
-        $backendService = $this->get('bi.backend.service');
-        $result = $backendService->createTree($activation, $resourceListArray);
-
-        $view = $this->view($result);
-        return $this->handleView($view);
-    }
-
-
-    /**
-     *
-     *
-     * @ApiDoc(
-     *  section="4. Активации",
-     *  resource=true,
      *  description="Загрузка данных их источников (Этап активации №2)",
      *  statusCodes={
      *          200="Успех",
@@ -296,7 +254,6 @@ class ActivationController extends RestController
     {
         $params = $this->getParams($paramFetcher, 'data');
         $filter = new \BiBundle\Entity\Filter\Activation\Data($params);
-
         $backendService = $this->get('bi.backend.service');
         $result = $backendService->getData($activation, $filter->json);
 

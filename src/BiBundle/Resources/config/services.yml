@@ -40,6 +40,9 @@ services:
     bi.dashboard_activation.service:
         class: BiBundle\Service\DashboardActivationService
         parent: bi.user_aware_service
+    bi.argument_bond.service:
+        class: BiBundle\Service\ArgumentBondService
+        parent: bi.user_aware_service
     bi.backend.service:
         class: BiBundle\Service\BackendService
         parent: bi.user_aware_service

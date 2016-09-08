@@ -1,0 +1,54 @@
+BiBundle\Entity\ArgumentBond:
+    type: entity
+    table: argument_bond
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        tableName:
+            type: string
+            nullable: false
+            comment: 'Наименование таблицы'
+            column: table_name
+        columnName:
+            type: string
+            nullable: false
+            comment: 'Уникальное наименование столбца'
+            column: column_name
+    manyToOne:
+        argument:
+            targetEntity: Argument
+            cascade: {  }
+            mappedBy: null
+            inversedBy: argument_bond
+            joinColumns:
+                argument_id:
+                    referencedColumnName: id
+                    nullable: true
+            orphanRemoval: false
+        resource:
+            targetEntity: Resource
+            cascade: {  }
+            mappedBy: null
+            inversedBy: argument_bond
+            joinColumns:
+                resource_id:
+                    referencedColumnName: id
+                    nullable: true
+            orphanRemoval: false
+        activation:
+            targetEntity: Activation
+            cascade: {  }
+            mappedBy: null
+            inversedBy: argument_bond
+            joinColumns:
+                activation_id:
+                    referencedColumnName: id
+                    nullable: true
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

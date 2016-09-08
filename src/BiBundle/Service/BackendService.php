@@ -292,6 +292,7 @@ class BackendService extends UserAwareService
     public function loadData(\BiBundle\Entity\Activation $activation, array $resourceList)
     {
 
+        $this->createTree($activation, $resourceList);
         $data = [];
         foreach($resourceList as $resource) {
             $tables = $this->getResourceTables($resource);

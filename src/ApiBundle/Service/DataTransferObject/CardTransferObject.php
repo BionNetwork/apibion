@@ -109,6 +109,7 @@ class CardTransferObject
         $result = [];
         foreach($argumentList as $argument) {
             $result[] = [
+                'id' => $argument->getId(),
                 'name' => $argument->getName(),
                 'code' => $argument->getCode(),
                 'dimension' => $argument->getDimension(),

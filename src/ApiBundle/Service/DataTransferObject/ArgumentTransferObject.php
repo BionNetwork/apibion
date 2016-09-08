@@ -42,6 +42,7 @@ class ArgumentTransferObject
     public function getObjectData(Argument $argument)
     {
         $data = [
+            'id' => $argument->getId(),
             'name' => $argument->getName(),
             'code' => $argument->getCode(),
             'dimension' => $argument->getDimension()
