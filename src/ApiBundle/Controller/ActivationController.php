@@ -2,6 +2,7 @@
 
 namespace ApiBundle\Controller;
 
+use BiBundle\Entity\ActivationStatus;
 use BiBundle\Entity\Purchase;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Form\FormError;
@@ -245,7 +246,7 @@ class ActivationController extends RestController
      *
      * @Route("/activation/{activation}/getdata", requirements={"activation": "\d+"})
      *
-     * @QueryParam(name="json", allowBlank=false, requirements=".+", description="Сериализованный в JSON фильтр")
+     * @QueryParam(name="json", allowBlank=true, requirements=".+", description="Сериализованный в JSON фильтр")
      *
      * @param ParamFetcher $paramFetcher
      *
@@ -253,10 +254,22 @@ class ActivationController extends RestController
      */
     public function getDataAction(\BiBundle\Entity\Activation $activation, ParamFetcher $paramFetcher)
     {
+        $activationStatusCode = $activation->getActivationStatus()->getCode();
+        if(ActivationStatus::STATUS_PENDING === $activationStatusCode) {
+            throw new HttpException('Нет загруженных данных');
+        }
+
+        $activationService = $this->get('bi.activation.service');
+        // MOCK фильтр - временное решение
+        $mockFilter = $activationService->mockQueryBuilder($activation);
+
+
         $params = $this->getParams($paramFetcher, 'data');
         $filter = new \BiBundle\Entity\Filter\Activation\Data($params);
         $backendService = $this->get('bi.backend.service');
-        $result = $backendService->getData($activation, $filter->json);
+        file_put_contents('/tmp/fiter', $mockFilter);
+        $paramFilter = $filter->json ?: $mockFilter;
+        $result = $backendService->getData($activation, $paramFilter);
 
         $view = $this->view($result);
         return $this->handleView($view);
