@@ -385,6 +385,7 @@ class BackendService extends UserAwareService
      */
     public function getData(\BiBundle\Entity\Activation $activation, $filter)
     {
+        $filter = $filter ?: $activation->getLastFilter();
         $client = $this->container->get('bi.backend.client');
         $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
         $client->setGateway($gateway);
