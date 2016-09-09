@@ -213,7 +213,12 @@ class BackendService extends UserAwareService
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setPath(sprintf('datasources/%d/%s/preview', $resource->getRemoteId(), $tableName));
 
+
         $respond = $client->send($request);
+
+        foreach($respond as $index => $row) {
+            $respond[$index]['id'] = $index+1;
+        }
 
         return $respond;
     }
