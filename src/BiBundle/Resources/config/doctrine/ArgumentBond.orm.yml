@@ -30,6 +30,7 @@ BiBundle\Entity\ArgumentBond:
                 argument_id:
                     referencedColumnName: id
                     nullable: true
+                    onDelete: CASCADE
             orphanRemoval: false
         resource:
             targetEntity: Resource
@@ -40,6 +41,7 @@ BiBundle\Entity\ArgumentBond:
                 resource_id:
                     referencedColumnName: id
                     nullable: true
+                    onDelete: CASCADE
             orphanRemoval: false
         activation:
             targetEntity: Activation
@@ -50,5 +52,6 @@ BiBundle\Entity\ArgumentBond:
                 activation_id:
                     referencedColumnName: id
                     nullable: true
+                    onDelete: CASCADE
             orphanRemoval: false
     lifecycleCallbacks: {  }

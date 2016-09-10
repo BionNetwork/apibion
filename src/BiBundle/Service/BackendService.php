@@ -345,7 +345,7 @@ class BackendService extends UserAwareService
         $activationDoneStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy(['code' => \BiBundle\Entity\ActivationStatus::STATUS_ACTIVE]);
         $activation->setActivationStatus($activationDoneStatus);
 
-        $activation->setLoadDataRespond(json_encode($respond));
+        $activation->setLoadDataRespond(json_encode($respond, JSON_UNESCAPED_UNICODE));
 
         $em->persist($activation);
         $em->flush();

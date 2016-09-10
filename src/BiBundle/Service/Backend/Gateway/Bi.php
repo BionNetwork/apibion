@@ -82,7 +82,7 @@ class Bi extends AbstractGateway
             //file_put_contents('/tmp/error.html', print_r($content, 1));
             return [
                 'status' => 'error',
-                'message' => 'Ошибка связи с платформой BI',
+                'message' => 'BI ERROR',
                 'code' => $response->getStatusCode()
             ];
         }

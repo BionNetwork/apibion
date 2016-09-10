@@ -167,5 +167,62 @@ class ArgumentBond
     {
         return $this->activation;
     }
-}
+    /**
+     * @var string
+     */
+    private $tableName;
 
+    /**
+     * @var string
+     */
+    private $columnName;
+
+
+    /**
+     * Set tableName
+     *
+     * @param string $tableName
+     *
+     * @return ArgumentBond
+     */
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
+
+        return $this;
+    }
+
+    /**
+     * Get tableName
+     *
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * Set columnName
+     *
+     * @param string $columnName
+     *
+     * @return ArgumentBond
+     */
+    public function setColumnName($columnName)
+    {
+        $this->columnName = $columnName;
+
+        return $this;
+    }
+
+    /**
+     * Get columnName
+     *
+     * @return string
+     */
+    public function getColumnName()
+    {
+        return $this->columnName;
+    }
+}

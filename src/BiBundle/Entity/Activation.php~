@@ -213,4 +213,62 @@ class Activation
     {
         return $this->resource;
     }
+    /**
+     * @var string
+     */
+    private $loadDataRespond;
+
+    /**
+     * @var string
+     */
+    private $lastFilter;
+
+
+    /**
+     * Set loadDataRespond
+     *
+     * @param string $loadDataRespond
+     *
+     * @return Activation
+     */
+    public function setLoadDataRespond($loadDataRespond)
+    {
+        $this->loadDataRespond = $loadDataRespond;
+
+        return $this;
+    }
+
+    /**
+     * Get loadDataRespond
+     *
+     * @return string
+     */
+    public function getLoadDataRespond()
+    {
+        return $this->loadDataRespond;
+    }
+
+    /**
+     * Set lastFilter
+     *
+     * @param string $lastFilter
+     *
+     * @return Activation
+     */
+    public function setLastFilter($lastFilter)
+    {
+        $this->lastFilter = $lastFilter;
+
+        return $this;
+    }
+
+    /**
+     * Get lastFilter
+     *
+     * @return string
+     */
+    public function getLastFilter()
+    {
+        return $this->lastFilter;
+    }
 }
