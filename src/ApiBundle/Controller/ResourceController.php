@@ -56,9 +56,12 @@ class ResourceController extends RestController
             $activationId = $params['activation_id'];
             $activationRepository = $this->get('repository.activation_repository');
             $activation = $activationRepository->findOneBy(['id' => $activationId, 'user' => $this->getUser()]);
+            $activationPathExt = sprintf('/%d', $activation->getId());
             if(null === $activation) {
                 throw new NotFoundHttpException('Активация не найдена');
             }
+        } else {
+            $activationPathExt = '';
         }
 
         $resource = new \BiBundle\Entity\Resource();
@@ -71,7 +74,7 @@ class ResourceController extends RestController
         $resourceService = $this->get('bi.resource.service');
 
         $uploadResourceService = $this->get('file.upload_resource');
-        $uploadResourceService->setUploadPath('uploads/resource');
+        $uploadResourceService->setUploadPath('uploads/resource' . $activationPathExt);
 
         $uploadedResourcePathArray = $uploadResourceService->upload($resourceFile);
 

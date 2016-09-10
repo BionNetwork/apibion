@@ -255,19 +255,18 @@ class ActivationController extends RestController
     public function getDataAction(\BiBundle\Entity\Activation $activation, ParamFetcher $paramFetcher)
     {
         $activationStatusCode = $activation->getActivationStatus()->getCode();
-        if(ActivationStatus::STATUS_PENDING === $activationStatusCode) {
+        if(ActivationStatus::STATUS_ACTIVE !== $activationStatusCode) {
             throw new HttpException('Нет загруженных данных');
         }
 
         $activationService = $this->get('bi.activation.service');
+
         // MOCK фильтр - временное решение
         $mockFilter = $activationService->mockQueryBuilder($activation);
-
 
         $params = $this->getParams($paramFetcher, 'data');
         $filter = new \BiBundle\Entity\Filter\Activation\Data($params);
         $backendService = $this->get('bi.backend.service');
-        file_put_contents('/tmp/fiter', $mockFilter);
         $paramFilter = $filter->json ?: $mockFilter;
         $result = $backendService->getData($activation, $paramFilter);
 

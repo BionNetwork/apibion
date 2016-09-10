@@ -84,7 +84,7 @@ class ActivationService extends UserAwareService
 
             $argumentList = $activation->getCard()->getArgument();
             if (!json_decode($activation->getLoadDataRespond(), JSON_UNESCAPED_UNICODE)) {
-                return null;
+                throw new Exception('Метадата загруженных данных отсутствует или невалидна');
             }
             $loadDataRespond = json_decode($activation->getLoadDataRespond(), JSON_UNESCAPED_UNICODE);
 
@@ -116,7 +116,7 @@ class ActivationService extends UserAwareService
             }
 
             if ($neededKeys['X'] === null || $neededKeys['Y'] === null) {
-                return null;
+                throw new Exception('Комплект обязательных аргументов неполный');
             }
 
             $hashDictionary = [];
@@ -156,7 +156,7 @@ class ActivationService extends UserAwareService
             if ($organizationField) {
                 $query['Organizations']['field_name'] = $organizationField;
             } else {
-                return null;
+                throw new Exception('Не удалось определить колонку с организациями');
             }
 
             return json_encode($query, JSON_UNESCAPED_UNICODE);

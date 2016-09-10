@@ -256,8 +256,8 @@ class BackendService extends UserAwareService
     public function createTree(\BiBundle\Entity\Activation $activation, array $resourceList)
     {
 
-        // Очистка кеша перед построением нового
-        $isCacheCleared = $this->clearCache($activation);
+        // Очистка кеша перед построением нового (при необходимости)
+        // $isCacheCleared = $this->clearCache($activation);
 
         // Построение дерева
         foreach ($resourceList as $resource) {
@@ -296,6 +296,14 @@ class BackendService extends UserAwareService
      */
     public function loadData(\BiBundle\Entity\Activation $activation, array $resourceList)
     {
+
+        // Если данные уже грузились и если данные о хешах верные, то возвращаем эти данные
+        if(\BiBundle\Entity\ActivationStatus::STATUS_ACTIVE === $activation->getActivationStatus()->getCode()) {
+            $loadDataRespond = json_decode($activation->getLoadDataRespond(), JSON_UNESCAPED_UNICODE);
+            if(is_array($loadDataRespond) && array_key_exists('sources', $loadDataRespond)) {
+                return $loadDataRespond;
+            }
+        }
 
         // Автоматическое построение дерева по всем источникам (Для первого этапа)
         $this->createTree($activation, $resourceList);
@@ -385,6 +393,7 @@ class BackendService extends UserAwareService
      */
     public function getData(\BiBundle\Entity\Activation $activation, $filter)
     {
+
         $filter = $filter ?: $activation->getLastFilter();
         $client = $this->container->get('bi.backend.client');
         $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
