@@ -274,4 +274,46 @@ class ActivationController extends RestController
         return $this->handleView($view);
     }
 
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Получение данных конкретной активации и сохранение фильтров инициализирующего запроса (Этап активации №3)",
+     *  statusCodes={
+     *          200="Успех",
+     *          400="Ошибки валидации"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Route("/activation/{activation}/getemptyfilter", requirements={"activation": "\d+"})
+     *
+     * @param ParamFetcher $paramFetcher
+     *
+     * @return Response
+     */
+    public function getEmptyFilterAction(\BiBundle\Entity\Activation $activation)
+    {
+        $activationStatusCode = $activation->getActivationStatus()->getCode();
+        if(ActivationStatus::STATUS_ACTIVE !== $activationStatusCode) {
+            throw new HttpException('Нет загруженных данных');
+        }
+
+        $activationService = $this->get('bi.activation.service');
+
+        // MOCK фильтр - временное решение
+        $mockFilter = $activationService->mockQueryBuilder($activation);
+
+        $view = $this->view($mockFilter);
+        return $this->handleView($view);
+    }
+
 }
