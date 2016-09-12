@@ -312,7 +312,7 @@ class ActivationController extends RestController
         // MOCK фильтр - временное решение
         $mockFilter = $activationService->mockQueryBuilder($activation);
 
-        $view = $this->view($mockFilter);
+        $view = $this->view(json_decode($mockFilter, JSON_UNESCAPED_UNICODE));
         return $this->handleView($view);
     }
 
