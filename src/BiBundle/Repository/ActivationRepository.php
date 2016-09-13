@@ -45,9 +45,9 @@ class ActivationRepository extends \Doctrine\ORM\EntityRepository
     public function getByFilter($filter) {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
-        file_put_contents('/tmp/eee.txt', print_r($filter, 1));
         $qb->select('a')
             ->from('BiBundle:Activation', 'a')
+            ->orderBy('a.id', 'desc')
             ->innerJoin('BiBundle:Card', 'c', Join::WITH, 'c.id = a.card');
         if($filter->id) {
             $qb->andWhere('a.id = :id');
