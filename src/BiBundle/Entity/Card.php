@@ -2,22 +2,18 @@
 
 namespace BiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
+
 /**
  * Card
  */
-class Card
+class Card implements Translatable
 {
-
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->purchase = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cardRepresentation = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
     private $purchase;
 
@@ -72,9 +68,33 @@ class Card
     private $image;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
     private $cardRepresentation;
+
+    /**
+     * @var string
+     */
+    private $carousel;
+
+    /**
+     * @var Collection
+     */
+    private $argument;
+
+    /**
+     * @var string
+     */
+    private $author;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->purchase = new ArrayCollection();
+        $this->cardRepresentation = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -234,7 +254,7 @@ class Card
     /**
      * Get purchase
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getPurchase()
     {
@@ -365,18 +385,12 @@ class Card
     /**
      * Get cardRepresentation
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCardRepresentation()
     {
         return $this->cardRepresentation;
     }
-
-    /**
-     * @var string
-     */
-    private $carousel;
-
 
     /**
      * Set carousel
@@ -401,11 +415,6 @@ class Card
     {
         return $this->carousel;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $argument;
-
 
     /**
      * Add argument
@@ -434,17 +443,12 @@ class Card
     /**
      * Get argument
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getArgument()
     {
         return $this->argument;
     }
-    /**
-     * @var string
-     */
-    private $author;
-
 
     /**
      * Set author

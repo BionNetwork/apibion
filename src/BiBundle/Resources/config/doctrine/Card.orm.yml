@@ -24,18 +24,24 @@ BiBundle\Entity\Card:
             length: 255
             fixed: false
             comment: 'Наименование'
+            gedmo:
+              - translatable
         description:
             type: string
             nullable: true
             length: 2048
             fixed: false
             comment: 'Описание короткое'
+            gedmo:
+              - translatable
         description_long:
             type: string
             nullable: true
             length: 8192
             fixed: false
             comment: 'Описание полное'
+            gedmo:
+              - translatable
         rating:
             type: decimal
             nullable: false
@@ -47,6 +53,8 @@ BiBundle\Entity\Card:
             length: 255
             fixed: false
             comment: 'Наименование автора'
+            gedmo:
+              - translatable
         image:
             type: string
             nullable: true

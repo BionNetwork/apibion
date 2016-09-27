@@ -20,6 +20,8 @@ BiBundle\Entity\Argument:
             nullable: false
             comment: 'Наименование аргумента'
             column: name
+            gedmo:
+              - translatable
         code:
             type: string
             nullable: false

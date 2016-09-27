@@ -2,6 +2,8 @@
 
 namespace BiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Argument
  */
@@ -47,7 +49,7 @@ class Argument
      */
     public function __construct()
     {
-        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->card = new ArrayCollection();
     }
 
     /**

@@ -76,3 +76,16 @@ services:
     utils.host_based_url:
         class: BiBundle\Service\Utils\HostBasedUrl
         arguments: ['@request_stack']
+    gedmo.listener.translatable:
+        class: Gedmo\Translatable\TranslatableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]
+            - [ setDefaultLocale, [ ru ] ]
+            - [ setTranslationFallback, [ true ] ]
+    translatable_locale.listener:
+        class: ApiBundle\EventListener\TranslatableLocaleListener
+        tags:
+            - { name: kernel.event_subscriber }
+        arguments: ['@gedmo.listener.translatable']
