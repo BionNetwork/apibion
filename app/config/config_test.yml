@@ -18,9 +18,9 @@ swiftmailer:
 doctrine:
     dbal:
         host: localhost
-        dbname: isup_test
-        user: isup_test
-        password: GfzDn9pS
+        dbname: bi_test
+        user: bi_test
+        password: W3eWMjo1n8
 
 security:
     firewalls:
@@ -38,6 +38,3 @@ snc_redis:
             dsn: "redis://%redis_server%/8"
         session:
             dsn: "redis://%redis_server%/8"
-
-sms_service:
-    enabled: false

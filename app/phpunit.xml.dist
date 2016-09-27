@@ -21,6 +21,12 @@
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
             <directory>../src/*Bundle/Tests</directory>
         </testsuite>
+        <testsuite name="Core">
+            <directory>../src/BiBundle/Tests</directory>
+        </testsuite>
+        <testsuite name="Api">
+            <directory>../src/ApiBundle/Tests</directory>
+        </testsuite>
     </testsuites>
 
     <filter>

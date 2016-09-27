@@ -10,19 +10,17 @@ class SecurityControllerTest extends ControllerTestCase
     {
         $client = $this->getClient();
 
-        $client->request('POST', '/api/v1/auth/logins', ['phone' => '71111111111', 'password' => 'test']);
-
+        $client->request('POST', '/api/v1/auth/logins', ['login' => 'user', 'password' => 'user1']);
         $response = $client->getResponse();
-        $this->assert404($response);
-        $this->assertException($response, 404);
+        $this->assert401($response);
+        $this->assertException($response, 401);
     }
 
     public function testAuthenticationWithValidCredentials()
     {
         $client = $this->getClient();
 
-        $client->request('POST', '/api/v1/auth/logins', ['phone' => '79999999999', 'password' => 'demo']);
-
+        $client->request('POST', '/api/v1/auth/logins', ['login' => 'user', 'password' => 'user']);
         $response = $client->getResponse();
         $this->assertTrue($response->isSuccessful());
         $content = $this->getResponseContent($response);
