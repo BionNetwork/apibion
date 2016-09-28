@@ -31,3 +31,5 @@ services:
     api.key_provider:
         class: ApiBundle\Service\ApiKeyProvider
         arguments: ['@bi.service.token.storage', '@api.auth_options']
+    api.config.service:
+        class: ApiBundle\Service\ConfigService
