@@ -36,3 +36,6 @@ api_resource:
 api_dashboard_card:
     type: rest
     resource: "ApiBundle\\Controller\\DashboardActivationController"
+api_config:
+    type: rest
+    resource: ApiBundle\Controller\ConfigController

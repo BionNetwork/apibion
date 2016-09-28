@@ -1,6 +1,9 @@
 BiBundle\Entity\Argument:
     type: entity
     table: argument
+    gedmo:
+        translation:
+            locale: locale
     repositoryClass: BiBundle\Repository\ArgumentRepository
     indexes:
         argument_create_on_idx:
@@ -20,6 +23,15 @@ BiBundle\Entity\Argument:
             nullable: false
             comment: 'Наименование аргумента'
             column: name
+            gedmo:
+              - translatable
+        description:
+            type: string
+            nullable: true
+            comment: 'Описание аргумента'
+            column: description
+            gedmo:
+              - translatable
         code:
             type: string
             nullable: false
