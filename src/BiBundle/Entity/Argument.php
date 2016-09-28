@@ -2,8 +2,6 @@
 
 namespace BiBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Argument
  */
@@ -40,7 +38,7 @@ class Argument
     private $updatedOn;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Card
      */
     private $card;
 
@@ -50,11 +48,15 @@ class Argument
     private $locale;
 
     /**
+     * @var string
+     */
+    private $description;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->card = new ArrayCollection();
     }
 
     /**
@@ -191,11 +193,11 @@ class Argument
     /**
      * Set card
      *
-     * @param \BiBundle\Entity\Card $card
+     * @param Card $card
      *
      * @return Argument
      */
-    public function setCard(\BiBundle\Entity\Card $card = null)
+    public function setCard(Card $card = null)
     {
         $this->card = $card;
 
@@ -205,7 +207,7 @@ class Argument
     /**
      * Get card
      *
-     * @return \BiBundle\Entity\Card
+     * @return Card
      */
     public function getCard()
     {
@@ -239,6 +241,22 @@ class Argument
     public function getDimension()
     {
         return $this->dimension;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     /**

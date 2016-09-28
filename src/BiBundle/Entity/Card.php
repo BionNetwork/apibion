@@ -5,12 +5,11 @@ namespace BiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Translatable\Translatable;
 
 /**
  * Card
  */
-class Card implements Translatable
+class Card
 {
     /**
      * @var Collection

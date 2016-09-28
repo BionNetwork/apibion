@@ -53,9 +53,11 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                 $argument->setCard($card);
                 $argument->setCode($argumentData['code']);
                 $argument->setName($argumentData['name']);
+                $argument->setDescription($argumentData['description']);
                 $entityManager->flush($argument);
                 $argument->setLocale('en');
                 $argument->setName($argumentData['name_en']);
+                $argument->setDescription($argumentData['description_en']);
                 $entityManager->flush($argument);
             }
         }
@@ -77,11 +79,15 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'code' => 'NI',
                     'name' => 'Прибыль',
                     'name_en' => 'Net Income',
+                    'description' => 'Величина прибыли до уплаты процентов и налогообложения',
+                    'description_en' => 'Net Income before interest and tax',
                 ],
                 [
                     'code' => 'S',
                     'name' => 'Объем продаж',
                     'name_en' => 'Sales',
+                    'description' => 'Выручка от реализации',
+                    'description_en' => 'Revenues from sales',
                 ]
             ]
         ]

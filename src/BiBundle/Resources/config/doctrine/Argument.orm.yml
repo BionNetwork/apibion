@@ -25,6 +25,13 @@ BiBundle\Entity\Argument:
             column: name
             gedmo:
               - translatable
+        description:
+            type: string
+            nullable: true
+            comment: 'Описание аргумента'
+            column: description
+            gedmo:
+              - translatable
         code:
             type: string
             nullable: false
