@@ -71,7 +71,7 @@ abstract class AbstractDialog extends Twig_Extension implements IDialog
 	{
 		parent::getFunctions();
 		return [
-			//$this->getWidgetName() => new \Twig_Function_Method($this, 'makeDialog', ['is_safe' => ['html']]),
+            $this->getWidgetName() => new \Twig_Function_Method($this, 'makeDialog', ['is_safe' => ['html']]),
 		];
 	}
 
