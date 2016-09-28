@@ -2,18 +2,13 @@
 
 namespace ApiBundle\Controller;
 
+use BiBundle\Entity\Card;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Controller\Annotations\Route;
+use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Request\ParamFetcher;
-use FOS\RestBundle\Controller\Annotations\Route;
-use BiBundle\Service\Upload\FilePathStrategy;
 
 class CardController extends RestController
 {
@@ -32,6 +27,11 @@ class CardController extends RestController
      *          "name"="X-AUTHORIZE-TOKEN",
      *          "description"="access key header",
      *          "required"=true
+     *      },
+     *      {
+     *          "name"="Accept-Language",
+     *          "description"="translation language",
+     *          "required"=false
      *      }
      *    }
      * )
@@ -70,6 +70,11 @@ class CardController extends RestController
      *          "name"="X-AUTHORIZE-TOKEN",
      *          "description"="access key header",
      *          "required"=true
+     *      },
+     *      {
+     *          "name"="Accept-Language",
+     *          "description"="translation language",
+     *          "required"=false
      *      }
      *    }
      * )
@@ -80,21 +85,11 @@ class CardController extends RestController
      *
      * @return Response
      */
-    public function getCardArgumentsAction(\BiBundle\Entity\Card $card)
+    public function getCardArgumentsAction(Card $card)
     {
-        $argumentRepository = $this->get('repository.argument_repository');
-        $arguments = $argumentRepository->findBy(['card' => $card]);
-        $argumentListArray = [];
-        foreach ($arguments as $argument) {
-            $argumentListArray[] = $argument;
-        }
-
-        $service = $this->get('api.data.transfer_object.argument_transfer_object');
-        $view = $this->view($service->getObjectListData($arguments));
-        return $this->handleView($view);
-
-        $view = $this->view($result);
-        return $this->handleView($view);
+        $data = $this->get('api.data.transfer_object.argument_transfer_object')
+            ->getObjectListData($card->getArgument()->toArray());
+        return $this->handleView($this->view($data));
     }
 
 }
