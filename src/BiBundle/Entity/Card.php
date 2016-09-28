@@ -88,12 +88,18 @@ class Card implements Translatable
     private $author;
 
     /**
+     * @var string
+     */
+    private $locale;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->purchase = new ArrayCollection();
         $this->cardRepresentation = new ArrayCollection();
+        $this->argument = new ArrayCollection();
     }
 
     /**
@@ -472,5 +478,13 @@ class Card implements Translatable
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

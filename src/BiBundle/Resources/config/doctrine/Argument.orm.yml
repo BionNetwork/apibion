@@ -1,6 +1,9 @@
 BiBundle\Entity\Argument:
     type: entity
     table: argument
+    gedmo:
+        translation:
+            locale: locale
     repositoryClass: BiBundle\Repository\ArgumentRepository
     indexes:
         argument_create_on_idx:

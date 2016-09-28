@@ -45,6 +45,11 @@ class Argument
     private $card;
 
     /**
+     * @var string
+     */
+    private $locale;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -234,5 +239,13 @@ class Argument
     public function getDimension()
     {
         return $this->dimension;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

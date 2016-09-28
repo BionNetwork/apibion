@@ -83,6 +83,7 @@ services:
         calls:
             - [ setAnnotationReader, [ @annotation_reader ] ]
             - [ setDefaultLocale, [ ru ] ]
+            - [ setTranslatableLocale, [ ru ] ]
             - [ setTranslationFallback, [ true ] ]
     translatable_locale.listener:
         class: ApiBundle\EventListener\TranslatableLocaleListener

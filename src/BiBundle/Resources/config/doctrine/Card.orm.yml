@@ -1,6 +1,9 @@
 BiBundle\Entity\Card:
     type: entity
     table: card
+    gedmo:
+        translation:
+            locale: locale
     repositoryClass: BiBundle\Repository\CardRepository
     indexes:
         card_type_idx:
