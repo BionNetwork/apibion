@@ -2,8 +2,37 @@
 
 namespace ApiBundle\Service;
 
+use BiBundle\Entity\UiElement;
+use BiBundle\Repository\UiElementRepository;
+
 class ConfigService
 {
+    /**
+     * @var UiElementRepository
+     */
+    private $uiElementRepository;
+
+    /**
+     * ConfigService constructor.
+     *
+     * @param UiElementRepository $repository
+     */
+    public function __construct(UiElementRepository $repository)
+    {
+        $this->uiElementRepository = $repository;
+    }
+
+    /**
+     * Get UI elements from repository
+     *
+     * @return UiElement[]
+     * @throws \ErrorException
+     */
+    public function getUiElements()
+    {
+        return $this->uiElementRepository->findElementsTree();
+    }
+
     /**
      * Get localized strings for UI
      *

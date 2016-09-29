@@ -33,3 +33,4 @@ services:
         arguments: ['@bi.service.token.storage', '@api.auth_options']
     api.config.service:
         class: ApiBundle\Service\ConfigService
+        arguments: ['@repository.ui_element_repository']

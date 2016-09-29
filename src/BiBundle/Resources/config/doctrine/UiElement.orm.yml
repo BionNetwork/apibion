@@ -1,0 +1,32 @@
+BiBundle\Entity\UiElement:
+    type: entity
+    table: ui_element
+    repositoryClass: BiBundle\Repository\UiElementRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            comment: 'Наименование'
+        value:
+            type: string
+            nullable: true
+            length: 255
+            comment: 'Значение'
+    oneToMany:
+        children:
+            targetEntity: UiElement
+            mappedBy: parent
+    manyToOne:
+        parent:
+            targetEntity: UiElement
+            inversedBy: children
+    lifecycleCallbacks: {  }

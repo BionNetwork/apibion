@@ -44,3 +44,8 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\DashboardActivation
+    repository.ui_element_repository:
+        class: BiBundle\Repository\UiElementRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\UiElement

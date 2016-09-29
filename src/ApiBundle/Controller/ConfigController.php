@@ -35,10 +35,10 @@ class ConfigController extends RestController
      */
     public function getConfigStringsAction(Request $request)
     {
-        return $this->handleView(
-            $this->view(
-                $this->get('api.config.service')->getUiStrings($request->getPreferredLanguage())
-            )
-        );
+        $uiElements = $this->get('api.config.service')->getUiElements();
+
+        $service = $this->get('api.data.transfer_object.ui_element_transfer_object');
+        $view = $this->view($service->getObjectListData($uiElements));
+        return $this->handleView($view);
     }
 }
