@@ -7,11 +7,6 @@
 namespace BiBundle\Service;
 
 use BiBundle\Service\Backend\Exception;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\EntityManager;
-use BiBundle\Entity\Exception\ValidatorException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Backend service
@@ -238,7 +233,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cards/%d/clear_cache/', $activation->getId()));
+        $request->setPath(sprintf('cubes/%d/clear_cache/', $activation->getId()));
         $respond = $client->send($request);
 
         return $respond;
@@ -344,7 +339,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cards/%d/load_data/', $activation->getId()));
+        $request->setPath(sprintf('cubes/%d/load_data/', $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
         $respond = $client->send($request);
 
@@ -376,7 +371,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('cards/%d/get_filters', $activation->getId()));
+        $request->setPath(sprintf('cubes/%d/get_filters', $activation->getId()));
 
         $respond = $client->send($request);
 
@@ -401,7 +396,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cards/%d/query_new', $activation->getId()));
+        $request->setPath(sprintf('cubes/%d/query_new', $activation->getId()));
         $request->setData(['data' => $filter]);
         $respond = $client->send($request);
 
