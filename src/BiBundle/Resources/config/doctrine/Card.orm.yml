@@ -79,6 +79,8 @@ BiBundle\Entity\Card:
             type: decimal
             nullable: false
             comment: 'Стоимость'
+            gedmo:
+              - translatable
         createdOn:
             type: datetime
             nullable: true

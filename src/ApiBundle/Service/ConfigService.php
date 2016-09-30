@@ -28,6 +28,7 @@ class ConfigService
             [
                 'all' => 'See all',
                 'back' => 'Back',
+                'currency' => 'usd'
             ],
         'header' =>
             [
@@ -98,6 +99,7 @@ class ConfigService
             [
                 'all' => 'Все',
                 'back' => 'Назад',
+                'currency' => 'руб'
             ],
         'header' =>
             [
