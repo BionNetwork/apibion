@@ -67,6 +67,7 @@ class CardTransferObject
                 'description' => $card->getDescription(),
                 'description_long' => $card->getDescriptionLong(),
                 'rating' => $card->getRating(),
+                'price' => $card->getPrice(),
                 'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
                 'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
                 'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
