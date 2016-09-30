@@ -2,20 +2,16 @@
 
 namespace ApiBundle\Controller;
 
+use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationStatus;
-use BiBundle\Entity\Purchase;
+use BiBundle\Entity\Dashboard;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Controller\Annotations\Route;
+use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Request\ParamFetcher;
-use FOS\RestBundle\Controller\Annotations\Route;
-use BiBundle\Service\Upload\FilePathStrategy;
 
 class ActivationController extends RestController
 {
@@ -76,26 +72,51 @@ class ActivationController extends RestController
      * )
      *
      *
-     * @param \BiBundle\Entity\Activation $activation
-     * @param \BiBundle\Entity\Dashboard $dashboard
+     * @param Activation $activation
+     * @param Dashboard $dashboard
      *
      * @Route("/activation/{activation}/dashboard/{dashboard}", requirements={"activation": "\d+", "dashboard": "\d+"})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function postActivationDashboardAction(\BiBundle\Entity\Activation $activation, \BiBundle\Entity\Dashboard $dashboard)
+    public function postActivationDashboardAction(Activation $activation, Dashboard $dashboard)
     {
-        $dashboardActivationService = $this->get('bi.dashboard_activation.service');
-        $dashboardActivation = new \BiBundle\Entity\DashboardActivation();
+        $this->get('bi.dashboard_activation.service')->addActivationToDashboard($activation, $dashboard);
 
-        $dashboardActivation->setActivation($activation);
-        $dashboardActivation->setDashboard($dashboard);
+        return $this->handleView($this->view([], 200));
+    }
 
-        $dashboardActivationService->save($dashboardActivation);
+    /**
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  resource=true,
+     *  description="Привязка активации к рабочему столу",
+     *  statusCodes={
+     *         200="При успешном создании экземпляра карточки",
+     *         400="Ошибка создания экземпляра карточки"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     *
+     * @param Activation $activation
+     * @param Dashboard $dashboard
+     *
+     * @Route("/activation/{activation}/dashboard/{dashboard}", requirements={"activation": "\d+", "dashboard": "\d+"})
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteActivationDashboardAction(Activation $activation, Dashboard $dashboard)
+    {
+        $this->get('bi.dashboard_activation.service')->removeActivationFromDashboard($activation, $dashboard);
 
-        $data = [];
-        $view = $this->view($data, 200);
-        return $this->handleView($view);
+        return $this->handleView($this->view([], 200));
     }
 
     /**
@@ -165,7 +186,7 @@ class ActivationController extends RestController
      *
      * @return Response
      */
-    public function postActivationLoaddataAction(\BiBundle\Entity\Activation $activation)
+    public function postActivationLoaddataAction(Activation $activation)
     {
         $resourceList = $activation->getResource();
         $resourceListArray = [];
@@ -208,7 +229,7 @@ class ActivationController extends RestController
      *
      * @return Response
      */
-    public function getFiltersAction(\BiBundle\Entity\Activation $activation)
+    public function getFiltersAction(Activation $activation)
     {
         $resourceList = $activation->getResource();
         $backendService = $this->get('bi.backend.service');
@@ -252,7 +273,7 @@ class ActivationController extends RestController
      *
      * @return Response
      */
-    public function getDataAction(\BiBundle\Entity\Activation $activation, ParamFetcher $paramFetcher)
+    public function getDataAction(Activation $activation, ParamFetcher $paramFetcher)
     {
         $activationStatusCode = $activation->getActivationStatus()->getCode();
         if(ActivationStatus::STATUS_ACTIVE !== $activationStatusCode) {
@@ -300,7 +321,7 @@ class ActivationController extends RestController
      *
      * @return Response
      */
-    public function getEmptyFilterAction(\BiBundle\Entity\Activation $activation)
+    public function getEmptyFilterAction(Activation $activation)
     {
         $activationStatusCode = $activation->getActivationStatus()->getCode();
         if(ActivationStatus::STATUS_ACTIVE !== $activationStatusCode) {

@@ -39,7 +39,7 @@ services:
           - ['setServiceContainer', ['@service_container']]
     bi.dashboard_activation.service:
         class: BiBundle\Service\DashboardActivationService
-        parent: bi.user_aware_service
+        arguments: ['@repository.dashboard_activation_repository', '@security.token_storage']
     bi.argument_bond.service:
         class: BiBundle\Service\ArgumentBondService
         parent: bi.user_aware_service
