@@ -233,7 +233,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cubes/%d/clear_cache/', $activation->getId()));
+        $request->setPath(sprintf('cards/%d/clear_cache/', $activation->getId()));
         $respond = $client->send($request);
 
         return $respond;
@@ -261,7 +261,7 @@ class BackendService extends UserAwareService
             foreach ($tables as $table) {
                 $data[] = [
                     'source_id' => $resource->getRemoteId(),
-                    'table_name' => $table
+                    'table_name' => $table['name']
                 ];
             }
         }
@@ -272,7 +272,7 @@ class BackendService extends UserAwareService
         $request = new \BiBundle\Service\Backend\Request;
 
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf("cubes/%d/create_tree/", $activation->getId()));
+        $request->setPath(sprintf("cards/%d/create_tree/", $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
 
         $respond = $client->send($request);
@@ -308,10 +308,10 @@ class BackendService extends UserAwareService
             $tables = $this->getResourceTables($resource);
             $data[$resource->getRemoteId()] = [];
             foreach ($tables as $table) {
-                $columnsResponce = $this->getResourceTableColumns($resource, $table);
+                $columnsResponce = $this->getResourceTableColumns($resource, $table['name']);
                 $columns = array_shift($columnsResponce);
                 foreach ($columns as $column) {
-                    $data[$resource->getRemoteId()][$table][] = $column['name'];
+                    $data[$resource->getRemoteId()][$table['name']][] = $column['name'];
                 }
             }
         }
@@ -339,7 +339,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cubes/%d/load_data/', $activation->getId()));
+        $request->setPath(sprintf('cards/%d/load_data/', $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
         $respond = $client->send($request);
 
@@ -371,7 +371,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('cubes/%d/get_filters', $activation->getId()));
+        $request->setPath(sprintf('cards/%d/get_filters', $activation->getId()));
 
         $respond = $client->send($request);
 
@@ -396,7 +396,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cubes/%d/query_new', $activation->getId()));
+        $request->setPath(sprintf('cards/%d/query_new', $activation->getId()));
         $request->setData(['data' => $filter]);
         $respond = $client->send($request);
 
