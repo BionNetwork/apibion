@@ -261,7 +261,7 @@ class BackendService extends UserAwareService
             foreach ($tables as $table) {
                 $data[] = [
                     'source_id' => $resource->getRemoteId(),
-                    'table_name' => $table['name']
+                    'table_name' => $table
                 ];
             }
         }
@@ -272,7 +272,7 @@ class BackendService extends UserAwareService
         $request = new \BiBundle\Service\Backend\Request;
 
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf("cards/%d/create_tree/", $activation->getId()));
+        $request->setPath(sprintf("cubes/%d/create_tree/", $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
 
         $respond = $client->send($request);
@@ -308,10 +308,10 @@ class BackendService extends UserAwareService
             $tables = $this->getResourceTables($resource);
             $data[$resource->getRemoteId()] = [];
             foreach ($tables as $table) {
-                $columnsResponce = $this->getResourceTableColumns($resource, $table['name']);
+                $columnsResponce = $this->getResourceTableColumns($resource, $table);
                 $columns = array_shift($columnsResponce);
                 foreach ($columns as $column) {
-                    $data[$resource->getRemoteId()][$table['name']][] = $column['name'];
+                    $data[$resource->getRemoteId()][$table][] = $column['name'];
                 }
             }
         }
