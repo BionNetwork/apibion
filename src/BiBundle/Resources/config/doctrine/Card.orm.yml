@@ -81,12 +81,6 @@ BiBundle\Entity\Card:
             comment: 'Стоимость'
             gedmo:
               - translatable
-        price:
-            type: string
-            nullable: false
-            comment: 'Валюта'
-            gedmo:
-              - translatable
         createdOn:
             type: datetime
             nullable: true
