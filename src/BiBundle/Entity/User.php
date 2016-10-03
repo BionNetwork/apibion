@@ -9,57 +9,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
-
-    /**
-     * User roles
-     *
-     * @var array
-     */
-    private $roles = ['ROLE_USER'];
-
-    /**
-     * Add user role
-     *
-     * @param $role
-     */
-    public function addRole($role)
-    {
-        $this->roles[] = $role;
-    }
-
-    /**
-     * Возвращает контакты, не являющиеся дефолтными
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getNonDefaultContacts()
-    {
-        return $this->contacts->filter(
-            function ($entry) {
-                /** @var \BiBundle\Entity\UserContact $entry */
-                return false === $entry->getIsDefault();
-            }
-        );
-    }
-
-    /**
-     * @param UserContact $contact
-     * @return $this
-     */
-    public function addNonDefaultContact(\BiBundle\Entity\UserContact $contact)
-    {
-        $this->addContact($contact);
-        return $this;
-    }
-
-    /**
-     * @param UserContact $contact
-     */
-    public function removeNonDefaultContact(\BiBundle\Entity\UserContact $contact)
-    {
-        $this->removeContact($contact);
-    }
-
     /**
      * @var integer
      */
@@ -208,6 +157,8 @@ class User implements UserInterface, \Serializable
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->purchase = new \Doctrine\Common\Collections\ArrayCollection();
         $this->activation = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdOn = new \DateTime();
+        $this->updatedOn = new \DateTime();
     }
 
     /**
@@ -971,5 +922,55 @@ class User implements UserInterface, \Serializable
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * User roles
+     *
+     * @var array
+     */
+    private $roles = ['ROLE_USER'];
+
+    /**
+     * Add user role
+     *
+     * @param $role
+     */
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+    }
+
+    /**
+     * Возвращает контакты, не являющиеся дефолтными
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNonDefaultContacts()
+    {
+        return $this->contacts->filter(
+            function ($entry) {
+                /** @var \BiBundle\Entity\UserContact $entry */
+                return false === $entry->getIsDefault();
+            }
+        );
+    }
+
+    /**
+     * @param UserContact $contact
+     * @return $this
+     */
+    public function addNonDefaultContact(\BiBundle\Entity\UserContact $contact)
+    {
+        $this->addContact($contact);
+        return $this;
+    }
+
+    /**
+     * @param UserContact $contact
+     */
+    public function removeNonDefaultContact(\BiBundle\Entity\UserContact $contact)
+    {
+        $this->removeContact($contact);
     }
 }

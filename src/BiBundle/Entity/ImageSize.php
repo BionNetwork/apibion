@@ -42,7 +42,10 @@ class ImageSize
      */
     private $image;
 
-
+    public function __construct()
+    {
+        $this->createdOn = new \DateTime();
+    }
     /**
      * Get id
      *

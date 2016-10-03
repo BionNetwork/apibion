@@ -32,6 +32,11 @@ class Dashboard
      */
     private $user;
 
+    public function __construct()
+    {
+        $this->createdOn = new \DateTime();
+        $this->updatedOn = new \DateTime();
+    }
     /**
      * Get id
      *

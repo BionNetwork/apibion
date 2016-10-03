@@ -32,7 +32,30 @@ class Activation
      */
     private $user;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $resource;
 
+    /**
+     * @var string
+     */
+    private $loadDataRespond;
+
+    /**
+     * @var string
+     */
+    private $lastFilter;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdOn = new \DateTime();
+        $this->updatedOn = new \DateTime();
+        $this->resource = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -167,18 +190,6 @@ class Activation
     {
         return $this->activation_status;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $resource;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->resource = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add resource
@@ -213,16 +224,6 @@ class Activation
     {
         return $this->resource;
     }
-    /**
-     * @var string
-     */
-    private $loadDataRespond;
-
-    /**
-     * @var string
-     */
-    private $lastFilter;
-
 
     /**
      * Set loadDataRespond

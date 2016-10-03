@@ -32,7 +32,20 @@ class Representation
      */
     private $updatedOn;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $card;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdOn = new \DateTime();
+        $this->updatedOn = new \DateTime();
+    }
     /**
      * Get id
      *
@@ -137,19 +150,6 @@ class Representation
     public function getUpdatedOn()
     {
         return $this->updatedOn;
-    }
-    
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $card;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

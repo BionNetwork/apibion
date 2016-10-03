@@ -7,15 +7,6 @@ namespace BiBundle\Entity;
  */
 class CardCategory
 {
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
     /**
      * @var integer
      */
@@ -31,6 +22,24 @@ class CardCategory
      */
     private $createdOn;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $card;
+
+    /**
+     * @var string
+     */
+    private $path;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdOn = new \DateTime();
+    }
     /**
      * Get id
      *
@@ -112,10 +121,6 @@ class CardCategory
     {
         return $this->path;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $card;
 
     /**
      * Add card
@@ -150,10 +155,4 @@ class CardCategory
     {
         return $this->card;
     }
-    /**
-     * @var string
-     */
-    private $path;
-
-
 }

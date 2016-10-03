@@ -73,6 +73,8 @@ class Image
     public function __construct()
     {
         $this->sizes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdOn = new \DateTime();
+        $this->updatedOn = new \DateTime();
     }
 
     /**

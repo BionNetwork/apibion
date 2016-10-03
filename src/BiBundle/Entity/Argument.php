@@ -57,6 +57,8 @@ class Argument
      */
     public function __construct()
     {
+        $this->createdOn = new \DateTime();
+        $this->updatedOn = new \DateTime();
     }
 
     /**

@@ -99,6 +99,8 @@ class Card
         $this->purchase = new ArrayCollection();
         $this->cardRepresentation = new ArrayCollection();
         $this->argument = new ArrayCollection();
+        $this->createdOn = new \DateTime();
+        $this->updatedOn = new \DateTime();
     }
 
     /**
