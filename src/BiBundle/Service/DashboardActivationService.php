@@ -15,11 +15,23 @@ class DashboardActivationService
      */
     private $dashboardActivationRepository;
 
+    /**
+     * Constructor
+     *
+     * DashboardActivationService constructor.
+     * @param DashboardActivationRepository $dashboardActivationRepository
+     */
     public function __construct(DashboardActivationRepository $dashboardActivationRepository)
     {
         $this->dashboardActivationRepository = $dashboardActivationRepository;
     }
 
+    /**
+     * @param Activation $activation
+     * @param Dashboard $dashboard
+     * @return DashboardActivation
+     * @throws \ErrorException
+     */
     public function addActivationToDashboard(Activation $activation, Dashboard $dashboard)
     {
         if ($activation->getUser() !== $dashboard->getUser()) {
@@ -34,6 +46,11 @@ class DashboardActivationService
         return $dashboardActivation;
     }
 
+    /**
+     * @param Activation $activation
+     * @param Dashboard $dashboard
+     * @throws \ErrorException
+     */
     public function removeActivationFromDashboard(Activation $activation, Dashboard $dashboard)
     {
         if ($activation->getUser() !== $dashboard->getUser()) {
