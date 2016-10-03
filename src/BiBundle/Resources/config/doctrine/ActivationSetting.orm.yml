@@ -1,0 +1,20 @@
+BiBundle\Entity\ActivationSetting:
+    type: entity
+    table: null
+    repositoryClass: BiBundle\Repository\ActivationSettingRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        key:
+            type: string
+            length: 255
+        value:
+            type: text
+        deletedOn:
+            type: datetime
+            nullable: true
+    lifecycleCallbacks: {  }
