@@ -1,6 +1,6 @@
 BiBundle\Entity\ActivationSetting:
     type: entity
-    table: null
+    table: activation_setting
     repositoryClass: BiBundle\Repository\ActivationSettingRepository
     id:
         id:
@@ -14,7 +14,22 @@ BiBundle\Entity\ActivationSetting:
             length: 255
         value:
             type: text
+        createdOn:
+            type: datetime
+            nullable: true
         deletedOn:
             type: datetime
             nullable: true
+    manyToOne:
+        activation:
+            targetEntity: Activation
+            cascade: ["persist"]
+            mappedBy: null
+            inversedBy: activation_setting
+            joinColumns:
+                activation_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+                    nullable: false
+            orphanRemoval: false
     lifecycleCallbacks: {  }

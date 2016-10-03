@@ -42,6 +42,12 @@ BiBundle\Entity\Activation:
             cascade: ["persist"]
             inversedBy: null
             orphanRemoval: false
+        activation_setting:
+            targetEntity: ActivationSetting
+            mappedBy: activation
+            cascade: ["persist"]
+            inversedBy: null
+            orphanRemoval: false
     manyToOne:
         card:
             targetEntity: Card

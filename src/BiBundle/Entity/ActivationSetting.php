@@ -129,5 +129,34 @@ class ActivationSetting
     {
         return $this->deletedOn;
     }
-}
 
+    /**
+     * @var \DateTime
+     */
+    private $createdOn;
+
+
+    /**
+     * Set createdOn
+     *
+     * @param \DateTime $createdOn
+     *
+     * @return ActivationSetting
+     */
+    public function setCreatedOn($createdOn)
+    {
+        $this->createdOn = $createdOn;
+
+        return $this;
+    }
+
+    /**
+     * Get createdOn
+     *
+     * @return \DateTime
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+}

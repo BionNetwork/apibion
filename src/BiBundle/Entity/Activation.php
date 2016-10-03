@@ -272,4 +272,44 @@ class Activation
     {
         return $this->lastFilter;
     }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $activation_setting;
+
+
+    /**
+     * Add activationSetting
+     *
+     * @param \BiBundle\Entity\ActivationSetting $activationSetting
+     *
+     * @return Activation
+     */
+    public function addActivationSetting(\BiBundle\Entity\ActivationSetting $activationSetting)
+    {
+        $this->activation_setting[] = $activationSetting;
+
+        return $this;
+    }
+
+    /**
+     * Remove activationSetting
+     *
+     * @param \BiBundle\Entity\ActivationSetting $activationSetting
+     */
+    public function removeActivationSetting(\BiBundle\Entity\ActivationSetting $activationSetting)
+    {
+        $this->activation_setting->removeElement($activationSetting);
+    }
+
+    /**
+     * Get activationSetting
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActivationSetting()
+    {
+        return $this->activation_setting;
+    }
 }
