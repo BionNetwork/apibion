@@ -32,6 +32,11 @@ class ActivationSetting
      */
     private $activation;
 
+    public function __construct()
+    {
+        $this->createdOn = new \DateTime();
+    }
+
     /**
      * @return Activation
      */

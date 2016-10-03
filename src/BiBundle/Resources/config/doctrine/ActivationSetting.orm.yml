@@ -25,7 +25,7 @@ BiBundle\Entity\ActivationSetting:
             targetEntity: Activation
             cascade: ["persist"]
             mappedBy: null
-            inversedBy: activation_setting
+            inversedBy: activationSetting
             joinColumns:
                 activation_id:
                     referencedColumnName: id

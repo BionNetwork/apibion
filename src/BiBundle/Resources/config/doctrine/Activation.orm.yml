@@ -42,7 +42,7 @@ BiBundle\Entity\Activation:
             cascade: ["persist"]
             inversedBy: null
             orphanRemoval: false
-        activation_setting:
+        activationSetting:
             targetEntity: ActivationSetting
             mappedBy: activation
             cascade: ["persist"]

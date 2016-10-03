@@ -276,7 +276,7 @@ class Activation
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $activation_setting;
+    private $activationSetting;
 
 
     /**
@@ -288,7 +288,7 @@ class Activation
      */
     public function addActivationSetting(\BiBundle\Entity\ActivationSetting $activationSetting)
     {
-        $this->activation_setting[] = $activationSetting;
+        $this->activationSetting[] = $activationSetting;
 
         return $this;
     }
@@ -300,7 +300,7 @@ class Activation
      */
     public function removeActivationSetting(\BiBundle\Entity\ActivationSetting $activationSetting)
     {
-        $this->activation_setting->removeElement($activationSetting);
+        $this->activationSetting->removeElement($activationSetting);
     }
 
     /**
@@ -310,6 +310,6 @@ class Activation
      */
     public function getActivationSetting()
     {
-        return $this->activation_setting;
+        return $this->activationSetting;
     }
 }
