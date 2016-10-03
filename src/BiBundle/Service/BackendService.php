@@ -7,6 +7,7 @@
 namespace BiBundle\Service;
 
 use BiBundle\Service\Backend\Exception;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Backend service
@@ -21,7 +22,7 @@ class BackendService extends UserAwareService
     }
 
     /**
-     * @var
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -44,8 +45,9 @@ class BackendService extends UserAwareService
      * Отправка источника данных на сервер BI
      *
      * @param \BiBundle\Entity\Resource $resource
-     *
      * @return int
+     * @throws Backend\Client\Exception
+     * @throws Exception
      */
     public function putResource(\BiBundle\Entity\Resource $resource)
     {
@@ -98,8 +100,6 @@ class BackendService extends UserAwareService
 
     /**
      * Получение источника с сервера BI
-     *
-     * @param \BiBundle\Entity\Resource $resource
      *
      * @return int
      */
@@ -208,7 +208,6 @@ class BackendService extends UserAwareService
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setPath(sprintf('datasources/%d/%s/preview', $resource->getRemoteId(), $tableName));
 
-
         $respond = $client->send($request);
 
         foreach($respond as $index => $row) {
@@ -237,7 +236,6 @@ class BackendService extends UserAwareService
         $respond = $client->send($request);
 
         return $respond;
-
     }
 
     /**
@@ -250,7 +248,6 @@ class BackendService extends UserAwareService
      */
     public function createTree(\BiBundle\Entity\Activation $activation, array $resourceList)
     {
-
         // Очистка кеша перед построением нового (при необходимости)
         // $isCacheCleared = $this->clearCache($activation);
 
@@ -284,14 +281,13 @@ class BackendService extends UserAwareService
     /**
      * Получение таблиц источника
      *
-     * @param \BiBundle\Entity\Resource $resource
+     * @param \BiBundle\Entity\Activation $activation
      * @param \BiBundle\Entity\Resource[] $resourceList
-     *
-     * @return array()
+     * @return array
+     * @throws Backend\Client\Exception
      */
     public function loadData(\BiBundle\Entity\Activation $activation, array $resourceList)
     {
-
         // Если данные уже грузились и если данные о хешах верные, то возвращаем эти данные
         if(\BiBundle\Entity\ActivationStatus::STATUS_ACTIVE === $activation->getActivationStatus()->getCode()) {
             $loadDataRespond = json_decode($activation->getLoadDataRespond(), JSON_UNESCAPED_UNICODE);
@@ -388,7 +384,6 @@ class BackendService extends UserAwareService
      */
     public function getData(\BiBundle\Entity\Activation $activation, $filter)
     {
-
         $filter = $filter ?: $activation->getLastFilter();
         $client = $this->container->get('bi.backend.client');
         $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
