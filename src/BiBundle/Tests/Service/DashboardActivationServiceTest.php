@@ -12,12 +12,17 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
+/**
+ * Class DashboardActivationServiceTest
+ * @package BiBundle\Tests\Service
+ */
 class DashboardActivationServiceTest extends KernelTestCase
 {
     /**
      * @var Container
      */
     private $container;
+
     /**
      * @var EntityManager
      */
@@ -34,12 +39,13 @@ class DashboardActivationServiceTest extends KernelTestCase
         $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
     }
 
-
+    /**
+     * @return DashboardActivation
+     */
     public function testAddActivationDashboardAction()
     {
         /**
          * @var User $user
-         * @var Activation $activation
          * @var Card $card
          */
         $user = $this->container->get('repository.user_repository')->findOneBy([]);
