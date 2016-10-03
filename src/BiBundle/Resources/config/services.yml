@@ -90,3 +90,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
         arguments: ['@gedmo.listener.translatable']
+    bi.activation_setting.service:
+        class: BiBundle\Service\ActivationSettingService
+        arguments: ['@repository.activation_repository']
