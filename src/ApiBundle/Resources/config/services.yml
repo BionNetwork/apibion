@@ -33,3 +33,6 @@ services:
         arguments: ['@bi.service.token.storage', '@api.auth_options']
     api.config.service:
         class: ApiBundle\Service\ConfigService
+    api.activation_setting.controller:
+        class: ApiBundle\Controller\ActivationSettingController
+        arguments: ['@bi.activation_setting.service']

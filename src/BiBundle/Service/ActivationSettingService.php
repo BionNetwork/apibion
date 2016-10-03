@@ -39,11 +39,26 @@ class ActivationSettingService
         return $this->repository->getLatestActualForAll($activation);
     }
 
+    /**
+     * @param Activation $activation
+     * @param $key
+     * @param $value
+     * @throws ActivationSettingException
+     */
     public function create(Activation $activation, $key, $value)
     {
+        if ($this->repository->keyExists($activation, $key)) {
+            throw new ActivationSettingException("Key '$key' already exists for activation {$activation->getId()}");
+        }
         $this->repository->save($this->createActivationSetting($activation, $key, $value));
     }
 
+    /**
+     * @param Activation $activation
+     * @param $key
+     * @param $value
+     * @throws ActivationSettingException
+     */
     public function update(Activation $activation, $key, $value)
     {
         if (!$this->repository->keyExists($activation, $key)) {
@@ -53,9 +68,14 @@ class ActivationSettingService
         $this->repository->save($this->createActivationSetting($activation, $key, $value));
     }
 
+    /**
+     * @param Activation $activation
+     * @param $key
+     * @throws ActivationSettingException
+     */
     public function delete(Activation $activation, $key)
     {
-        if ($this->repository->keyExists($activation, $key)) {
+        if (!$this->repository->keyExists($activation, $key)) {
             throw new ActivationSettingException("Setting '$key' for activation {$activation->getId()} doesn't exist");
         }
         $this->repository->deleteByKey($activation, $key);
@@ -66,7 +86,7 @@ class ActivationSettingService
      *
      * @param Activation $activation
      * @param $key
-     * @return ActivationSetting|null|object
+     * @return ActivationSetting|null
      * @throws ActivationSettingException
      */
     public function undo(Activation $activation, $key)
@@ -80,6 +100,12 @@ class ActivationSettingService
         return $this->repository->getLatestActualByKey($activation, $key);
     }
 
+    /**
+     * @param Activation $activation
+     * @param $key
+     * @return ActivationSetting|null
+     * @throws ActivationSettingException
+     */
     public function redo(Activation $activation, $key)
     {
         $redoElement = $this->repository->getRedoElementByKey($activation, $key);
@@ -92,6 +118,12 @@ class ActivationSettingService
         return $this->repository->getLatestActualByKey($activation, $key);
     }
 
+    /**
+     * @param Activation $activation
+     * @param $key
+     * @param $value
+     * @return ActivationSetting
+     */
     private function createActivationSetting(Activation $activation, $key, $value)
     {
         $activationSetting = new ActivationSetting();
