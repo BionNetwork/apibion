@@ -2,6 +2,7 @@
 
 namespace ApiBundle\Controller;
 
+use ApiBundle\Service\DataTransferObject\ActivationSettingTransferObject;
 use BiBundle\Entity\Activation;
 use BiBundle\Service\ActivationSettingService;
 use BiBundle\Service\Exception\ActivationSettingException;
@@ -10,6 +11,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +50,33 @@ class ActivationSettingController extends RestController
     {
         $settings = $this->service->getAll($activation);
 
-        return $this->handleView($this->view($settings, 200));
+        return $this->handleView($this->view(ActivationSettingTransferObject::getObjectListData($settings), 200));
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="4.1 Активации: настройки",
+     *  description="Получение определенной настройки",
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Get("/activation/{activation}/setting/{key}");
+     */
+    public function getSettingAction(Activation $activation, $key)
+    {
+        try {
+            $setting = $this->service->get($activation, $key);
+        } catch (ActivationSettingException $e) {
+            throw new HttpException(404, $e->getMessage());
+        }
+
+        return $this->handleView($this->view(ActivationSettingTransferObject::getObjectData($setting), 200));
     }
 
     /**
@@ -66,13 +94,10 @@ class ActivationSettingController extends RestController
      * @RequestParam(name="value", nullable=false)
      * @Post("/activation/{activation}/setting/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
      */
-    public function postSettingAction(Request $request, Activation $activation, $key)
+    public function postSettingAction(ParamFetcher $paramFetcher, Activation $activation, $key)
     {
-        if (!$value = $request->get('value')) {
-            throw new HttpException(400);
-        }
         try {
-            $this->service->create($activation, $key, $value);
+            $this->service->create($activation, $key, $paramFetcher->get('value'));
         } catch (ActivationSettingException $e) {
             throw new HttpException(409, $e->getMessage());
         }
@@ -92,14 +117,12 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
+     * @RequestParam(name="value", nullable=false)
      * @Put("/activation/{activation}/setting/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
      */
-    public function putSettingAction(Request $request, Activation $activation, $key)
+    public function putSettingAction(ParamFetcher $paramFetcher, Request $request, Activation $activation, $key)
     {
-        if (!$value = $request->get('value')) {
-            throw new HttpException(400);
-        }
-        $this->service->update($activation, $key, $value);
+        $this->service->update($activation, $key, $paramFetcher->get('value'));
 
         return $this->handleView($this->view(null, 204));
     }
@@ -127,7 +150,7 @@ class ActivationSettingController extends RestController
             throw new HttpException(400, $e->getMessage());
         }
 
-        return $this->handleView($this->view($setting, 204));
+        return $this->handleView($this->view(ActivationSettingTransferObject::getObjectData($setting), 200));
     }
 
     /**
@@ -153,7 +176,7 @@ class ActivationSettingController extends RestController
             throw new HttpException(400, $e->getMessage());
         }
 
-        return $this->handleView($this->view($setting, 204));
+        return $this->handleView($this->view(ActivationSettingTransferObject::getObjectData($setting), 200));
     }
 
     /**

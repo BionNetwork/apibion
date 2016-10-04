@@ -12,7 +12,7 @@ class ActivationSettingTransferObject
      * @param ActivationSetting $activationSetting
      * @return array
      */
-    public function getObjectData(ActivationSetting $activationSetting)
+    public static function getObjectData(ActivationSetting $activationSetting)
     {
         return [$activationSetting->getKey() => $activationSetting->getValue()];
     }
@@ -23,7 +23,7 @@ class ActivationSettingTransferObject
      * @param \BiBundle\Entity\ActivationSetting[] $data
      * @return array
      */
-    public function getObjectListData(array $data)
+    public static function getObjectListData(array $data)
     {
         $result = [];
 
