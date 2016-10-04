@@ -37,8 +37,6 @@ class ConfigController extends RestController
      */
     public function getConfigStringsAction(Request $request)
     {
-//        $trans = $this->get('translator');
-//        $messages = $trans->getCatalogue()->all('messages');
         $data = $this->get('api.config.service')->getUiStrings($request->getPreferredLanguage() ?: 'en');
         return $this->handleView($this->view($data));
     }
