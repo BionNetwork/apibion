@@ -3,9 +3,9 @@
 namespace BiBundle\Tests\Service;
 
 
-use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationSetting;
 use BiBundle\Service\ActivationSettingService;
+use BiBundle\Service\Exception\ActivationSettingException;
 use BiBundle\Service\TestEntityFactory;
 use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\Uuid;
@@ -32,7 +32,7 @@ class ActivationSettingServiceTest extends KernelTestCase
 
     public function testCreate()
     {
-        list($key, $value) = $this->getStrings(3);
+        list($key, $value) = $this->getStrings(2);
         $activation = $this->factory->createActivation();
         $this->service->create($activation, $key, $value);
 
@@ -97,18 +97,49 @@ class ActivationSettingServiceTest extends KernelTestCase
         $this->assertSame($expectedKeyValue['value'], $setting->getValue());
     }
 
+    public function testGetAll()
+    {
+        $activation = $this->factory->createActivation();
+        $as1 = $this->service->create($activation, 'key1', 'value1');
+        $as2 = $this->service->create($activation, 'key2', 'value2');
+        $as3 = $this->service->create($activation, 'key3', 'value3');
+        $this->service->delete($activation, 'key3');
+
+        $settings = $this->service->getAll($activation);
+
+        $this->assertContains($as1, $settings);
+        $this->assertContains($as2, $settings);
+        $this->assertNotContains($as3, $settings);
+    }
+
+    public function testDelete()
+    {
+        $activation = $this->factory->createActivation();
+        $as1 = $this->service->create($activation, 'key1', 'value1');
+        $this->service->delete($activation, 'key1');
+
+        $this->expectException(ActivationSettingException::class);
+        $activationSetting = $this->service->get($activation, 'key1');
+    }
+
+    public function testDeleteNotExisting()
+    {
+        $activation = $this->factory->createActivation();
+        $this->expectException(ActivationSettingException::class);
+        $this->service->delete($activation, 'key1');
+    }
+
+    public function testGetNotExisting()
+    {
+        $activation = $this->factory->createActivation();
+        $this->expectException(ActivationSettingException::class);
+        $this->service->get($activation, 'key1');
+    }
+
     private function getStrings($count)
     {
         return array_map(function () {
             return Uuid::uuid4()->toString();
         }, range(1, $count));
-    }
-
-    public function testGetAll()
-    {
-        $activation = $this->entityManager->getRepository(Activation::class)->find(7);
-
-        $setting = $this->service->getAll($activation);
-        $this->assertNotNull($setting);
     }
 }

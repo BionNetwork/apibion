@@ -37,7 +37,7 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
                 'key' => $key,
                 'deletedOn' => null,
             ],
-            ['createdOn' => 'desc']
+            ['id' => 'desc']
         );
     }
 
@@ -54,7 +54,7 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
                 'key' => $key,
                 'deletedOn' => null,
             ],
-            ['createdOn' => 'desc']
+            ['id' => 'desc']
         );
     }
 
@@ -69,7 +69,7 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
             ->where('a.key = :key')
             ->andWhere('a.activation = :activation')
             ->andWhere('a.deletedOn IS NOT NULL')
-            ->orderBy('a.deletedOn', 'desc')
+            ->orderBy('a.id', 'desc')
             ->setParameter('activation', $activation)
             ->setParameter('key', $key)
             ->setMaxResults(1)
@@ -104,7 +104,7 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
     public function deleteByKey(Activation $activation, $key)
     {
         $this->createQueryBuilder('a')
-            ->delete('a')
+            ->delete('BiBundle:ActivationSetting', 'a')
             ->where('a.key = :key')
             ->andWhere('a.activation = :activation')
             ->setParameter('activation', $activation)
@@ -147,8 +147,8 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
     public function getLatestActualForAll(Activation $activation)
     {
         $subQuery1 = 'SELECT as1.id FROM activation_setting as1 WHERE as1.activation_id = as2.activation_id AND as1.key = as2.key AND as1.deleted_on IS NULL ORDER BY as1.created_on DESC LIMIT 1';
-        $subQuery2 = "SELECT as2.*, ($subQuery1) as max_id FROM activation_setting as2 WHERE as2.activation_id = 7  AND as2.deleted_on IS NULL";
-        $query = "SELECT * FROM ($subQuery2) as3 WHERE as3.id = as3.max_id";
+        $subQuery2 = "SELECT as2.*, ($subQuery1) as max_id FROM activation_setting as2 WHERE as2.activation_id = :activation_id  AND as2.deleted_on IS NULL";
+        $sql = "SELECT * FROM ($subQuery2) as3 WHERE as3.id = as3.max_id";
 
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult('BiBundle:ActivationSetting', 't');
@@ -157,6 +157,9 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
         $rsm->addFieldResult('t', 'value', 'value');
         $rsm->addFieldResult('t', 'created_on', 'createdOn');
 
-        return $this->_em->createNativeQuery($query, $rsm)->getResult();
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameter('activation_id', $activation->getId());
+
+        return $query->getResult();
     }
 }

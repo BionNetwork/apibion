@@ -27,7 +27,12 @@ class ActivationSettingService
      */
     public function get(Activation $activation, $key)
     {
-        return $this->repository->getLatestActualByKey($activation, $key);
+        $activationSetting = $this->repository->getLatestActualByKey($activation, $key);
+        if (!$activationSetting) {
+            throw new ActivationSettingException("Key '$key' for activation {$activation->getId()} doesn't exist");
+        }
+
+        return $activationSetting;
     }
 
     /**
@@ -43,6 +48,7 @@ class ActivationSettingService
      * @param Activation $activation
      * @param $key
      * @param $value
+     * @return ActivationSetting
      * @throws ActivationSettingException
      */
     public function create(Activation $activation, $key, $value)
@@ -50,7 +56,10 @@ class ActivationSettingService
         if ($this->repository->keyExists($activation, $key)) {
             throw new ActivationSettingException("Key '$key' already exists for activation {$activation->getId()}");
         }
-        $this->repository->save($this->createActivationSetting($activation, $key, $value));
+        $activationSetting = $this->createActivationSetting($activation, $key, $value);
+        $this->repository->save($activationSetting);
+
+        return $activationSetting;
     }
 
     /**
