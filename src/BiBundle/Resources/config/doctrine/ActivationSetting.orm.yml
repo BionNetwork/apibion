@@ -23,13 +23,9 @@ BiBundle\Entity\ActivationSetting:
     manyToOne:
         activation:
             targetEntity: Activation
-            cascade: ["persist"]
-            mappedBy: null
             inversedBy: activationSetting
             joinColumns:
                 activation_id:
-                    referencedColumnName: id
                     onDelete: CASCADE
                     nullable: false
-            orphanRemoval: false
     lifecycleCallbacks: {  }
