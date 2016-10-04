@@ -10,6 +10,7 @@ use BiBundle\Service\Backend\Gateway\Exception;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
 use BiBundle\Entity\Exception\ValidatorException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -20,7 +21,7 @@ class ResourceService extends UserAwareService
 {
 
     /**
-     * @var
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -33,6 +34,7 @@ class ResourceService extends UserAwareService
      * Save resource
      *
      * @param \BiBundle\Entity\Resource $resource
+     * @return \BiBundle\Entity\Resource|int
      */
     public function save(\BiBundle\Entity\Resource $resource)
     {
@@ -65,6 +67,4 @@ class ResourceService extends UserAwareService
         $em = $this->getEntityManager();
         return $em->getRepository('BiBundle:Resource')->findByFilter($filter);
     }
-
-
 }

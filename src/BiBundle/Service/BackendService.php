@@ -6,6 +6,7 @@
 
 namespace BiBundle\Service;
 
+use BiBundle\Service\Backend\Client;
 use BiBundle\Service\Backend\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -14,7 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class BackendService extends UserAwareService
 {
-
+    /**
+     * @var Client
+     */
+    protected $client;
 
     public function __construct()
     {
@@ -51,13 +55,8 @@ class BackendService extends UserAwareService
      */
     public function putResource(\BiBundle\Entity\Resource $resource)
     {
-
         // todo Сделать создание источников не только для XLS файлов
-
-        $client = $this->container->get('bi.backend.client');
-
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
@@ -105,10 +104,7 @@ class BackendService extends UserAwareService
      */
     public function getAllResources()
     {
-        $client = $this->container->get('bi.backend.client');
-
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
@@ -129,9 +125,7 @@ class BackendService extends UserAwareService
      */
     public function getResource(\BiBundle\Entity\Resource $resource)
     {
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
@@ -153,14 +147,25 @@ class BackendService extends UserAwareService
      */
     public function getResourceTables(\BiBundle\Entity\Resource $resource)
     {
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setPath(sprintf('datasources/%d/tables', $resource->getRemoteId()));
         $request->setParams([$resource->getRemoteId()]);
+
+        $respond = $client->send($request);
+
+        return $respond;
+    }
+
+    public function getTables()
+    {
+        $client = $this->getClient();
+
+        $request = new \BiBundle\Service\Backend\Request;
+        $request->setMethod(\Zend\Http\Request::METHOD_GET);
+        $request->setPath(sprintf('datasources/%d/TDSheet', 263));
 
         $respond = $client->send($request);
 
@@ -177,9 +182,7 @@ class BackendService extends UserAwareService
      */
     public function getResourceTableColumns(\BiBundle\Entity\Resource $resource, $tableName)
     {
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
@@ -200,9 +203,7 @@ class BackendService extends UserAwareService
      */
     public function getResourceTablePreview(\BiBundle\Entity\Resource $resource, $tableName)
     {
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
@@ -226,9 +227,7 @@ class BackendService extends UserAwareService
      */
     public function clearCache(\BiBundle\Entity\Activation $activation)
     {
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
@@ -262,9 +261,7 @@ class BackendService extends UserAwareService
                 ];
             }
         }
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
 
@@ -329,9 +326,7 @@ class BackendService extends UserAwareService
 
 
         */
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
@@ -361,9 +356,7 @@ class BackendService extends UserAwareService
      */
     public function getFilters(\BiBundle\Entity\Activation $activation)
     {
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
@@ -385,9 +378,7 @@ class BackendService extends UserAwareService
     public function getData(\BiBundle\Entity\Activation $activation, $filter)
     {
         $filter = $filter ?: $activation->getLastFilter();
-        $client = $this->container->get('bi.backend.client');
-        $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-        $client->setGateway($gateway);
+        $client = $this->getClient();
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
@@ -401,6 +392,20 @@ class BackendService extends UserAwareService
         $em->flush();
 
         return $respond;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient()
+    {
+        if (null === $this->client) {
+            $client = $this->container->get('bi.backend.client');
+            $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
+            $client->setGateway($gateway);
+            $this->client = $client;
+        }
+        return $this->client;
     }
 
 }

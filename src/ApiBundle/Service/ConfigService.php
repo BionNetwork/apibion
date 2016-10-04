@@ -84,7 +84,7 @@ class ConfigService
                 'selectPaymentMethod' => 'Select payment method',
                 'change' => 'Сhange',
             ],
-        'listBindgings' =>
+        'listBindings' =>
             [
                 'argumentsLB' => 'Arguments',
                 'dataSource' => 'Data source',
@@ -155,7 +155,7 @@ class ConfigService
                 'selectPaymentMethod' => 'Выберите способ оплаты',
                 'change' => 'Изменить',
             ],
-        'listBindgings' =>
+        'listBindings' =>
             [
                 'argumentsLB' => 'Аргументы',
                 'dataSource' => 'Подключить данные',
