@@ -3,6 +3,7 @@
 namespace BiBundle\Tests\Service;
 
 
+use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationSetting;
 use BiBundle\Service\ActivationSettingService;
 use BiBundle\Service\TestEntityFactory;
@@ -55,5 +56,13 @@ class ActivationSettingServiceTest extends KernelTestCase
         $setting = $this->service->get($activation, $expected['key']);
         $this->assertNotNull($setting);
         $this->assertSame($expected['value'], $setting->getValue());
+    }
+
+    public function testGetAll()
+    {
+        $activation = $this->entityManager->getRepository(Activation::class)->find(7);
+
+        $setting = $this->service->getAll($activation);
+        $this->assertNotNull($setting);
     }
 }

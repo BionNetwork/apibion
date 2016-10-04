@@ -5,8 +5,8 @@ namespace BiBundle\Repository;
 use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationSetting;
 use BiBundle\Service\Exception\ActivationSettingException;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\UnitOfWork;
-use Symfony\Component\Intl\Exception\NotImplementedException;
 
 /**
  * ActivationSettingRepository
@@ -147,6 +147,17 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
 
     public function getLatestActualForAll(Activation $activation)
     {
-        throw new NotImplementedException('');
+        $subQuery1 = 'SELECT as1.id FROM activation_setting as1 WHERE as1.activation_id = as2.activation_id AND as1.key = as2.key AND as1.deleted_on IS NULL ORDER BY as1.created_on DESC LIMIT 1';
+        $subQuery2 = "SELECT as2.*, ($subQuery1) as max_id FROM activation_setting as2 WHERE as2.activation_id = 7  AND as2.deleted_on IS NULL";
+        $query = "SELECT * FROM ($subQuery2) as3 WHERE as3.id = as3.max_id";
+
+        $rsm = new ResultSetMapping();
+        $rsm->addEntityResult('BiBundle:ActivationSetting', 't');
+        $rsm->addFieldResult('t', 'id', 'id');
+        $rsm->addFieldResult('t', 'key', 'key');
+        $rsm->addFieldResult('t', 'value', 'value');
+        $rsm->addFieldResult('t', 'created_on', 'createdOn');
+
+        return $this->_em->createNativeQuery($query, $rsm)->getResult();
     }
 }
