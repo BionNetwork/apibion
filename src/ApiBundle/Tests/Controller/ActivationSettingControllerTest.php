@@ -156,4 +156,31 @@ class ActivationSettingControllerTest extends ControllerTestCase
         $this->client->request('GET', "/api/v1/activation/{$activation->getId()}/settings");
         $this->assert403($this->client->getResponse());
     }
+
+    public function testInvalidUndo()
+    {
+        $activation = $this->factory->createActivation($this->user);
+        $activationSetting = $this->service->create($activation, 'key1', 'value1');
+        $this->client->request(
+            'POST',
+            "/api/v1/activation/{$activation->getId()}/setting/{$activationSetting->getKey()}/undo"
+        );
+
+        $this->assert400($this->client->getResponse());
+    }
+
+    public function testInvalidRedo()
+    {
+        $activation = $this->factory->createActivation($this->user);
+        $activationSetting = $this->service->create($activation, 'key1', 'value1');
+        $this->service->update($activation, $activationSetting->getKey(), 'value2');
+        $this->service->undo($activation, $activationSetting->getKey());
+        $this->service->update($activation, $activationSetting->getKey(), 'value3');
+        $this->client->request(
+            'POST',
+            "/api/v1/activation/{$activation->getId()}/setting/{$activationSetting->getKey()}/redo"
+        );
+
+        $this->assert400($this->client->getResponse());
+    }
 }

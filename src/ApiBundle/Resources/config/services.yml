@@ -40,3 +40,4 @@ services:
         class: ApiBundle\Security\ActivationVoter
         tags:
             - { name: security.voter }
+        public: false

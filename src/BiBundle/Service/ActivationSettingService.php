@@ -6,6 +6,7 @@ use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationSetting;
 use BiBundle\Repository\ActivationSettingRepository;
 use BiBundle\Service\Exception\ActivationSettingException;
+use Doctrine\ORM\NoResultException;
 
 class ActivationSettingService
 {
@@ -117,10 +118,10 @@ class ActivationSettingService
      */
     public function redo(Activation $activation, $key)
     {
-        $redoElement = $this->repository->getRedoElementByKey($activation, $key);
-        if ($redoElement) {
+        try {
+            $redoElement = $this->repository->getRedoElementByKey($activation, $key);
             $this->repository->clearSoftDelete($redoElement);
-        } else {
+        } catch (NoResultException $e) {
             throw new ActivationSettingException("Key '$key' has no elements to redo");
         }
 

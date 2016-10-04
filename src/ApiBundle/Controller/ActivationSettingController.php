@@ -35,6 +35,7 @@ class ActivationSettingController extends RestController
      * @ApiDoc(
      *  section="4.1 Активации: настройки",
      *  description="Получение настроек активации",
+     *  resource=true,
      *  headers={
      *      {
      *          "name"="X-AUTHORIZE-TOKEN",
@@ -58,6 +59,7 @@ class ActivationSettingController extends RestController
      * @ApiDoc(
      *  section="4.1 Активации: настройки",
      *  description="Получение определенной настройки",
+     *  resource=true,
      *  headers={
      *      {
      *          "name"="X-AUTHORIZE-TOKEN",
@@ -93,7 +95,7 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
-     * @RequestParam(name="value", nullable=false)
+     * @RequestParam(name="value", nullable=false, description="Значение настройки")
      * @Post("/activation/{activation}/setting/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
      */
     public function postSettingAction(ParamFetcher $paramFetcher, Activation $activation, $key)
@@ -120,7 +122,7 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
-     * @RequestParam(name="value", nullable=false)
+     * @RequestParam(name="value", nullable=false, description="Новой значение настройки")
      * @Put("/activation/{activation}/setting/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
      */
     public function putSettingAction(ParamFetcher $paramFetcher, Request $request, Activation $activation, $key)
