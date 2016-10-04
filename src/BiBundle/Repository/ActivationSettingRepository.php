@@ -65,12 +65,11 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getRedoElementByKey(Activation $activation, $key)
     {
-        return $this->createQueryBuilder('as')
-            ->delete('as')
-            ->where('as.key = :key')
-            ->andWhere('as.activation = :activation')
-            ->andWhere('as.deletedOn IS NOT NULL')
-            ->orderBy('ad.deletedOn', 'desc')
+        return $this->createQueryBuilder('a')
+            ->where('a.key = :key')
+            ->andWhere('a.activation = :activation')
+            ->andWhere('a.deletedOn IS NOT NULL')
+            ->orderBy('a.deletedOn', 'desc')
             ->setParameter('activation', $activation)
             ->setParameter('key', $key)
             ->setMaxResults(1)
@@ -85,13 +84,13 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
      */
     public function keyExists(Activation $activation, $key)
     {
-        return $this->createQueryBuilder('as')
-            ->delete('as')
-            ->where('as.key = :key')
-            ->andWhere('as.activation = :activation')
-            ->setParameter('activation', $activation)
+        $queryBuilder = $this->createQueryBuilder('a');
+        return $queryBuilder
+            ->where('a.key = :key')
+            ->andWhere('a.activation = :activation')
+            ->setParameter('activation', $activation->getId())
             ->setParameter('key', $key)
-            ->select('COUNT as')
+            ->select($queryBuilder->expr()->count('a.id'))
             ->getQuery()
             ->getSingleScalarResult() > 0;
     }
@@ -104,10 +103,10 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
      */
     public function deleteByKey(Activation $activation, $key)
     {
-        $this->createQueryBuilder('as')
-            ->delete('as')
-            ->where('as.key = :key')
-            ->andWhere('as.activation = :activation')
+        $this->createQueryBuilder('a')
+            ->delete('a')
+            ->where('a.key = :key')
+            ->andWhere('a.activation = :activation')
             ->setParameter('activation', $activation)
             ->setParameter('key', $key)
             ->getQuery()
@@ -132,14 +131,14 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
         $this->_em->flush($activationSetting);
     }
 
-    public function purgeSoftDeletes($activation, $key)
+    public function purgeSoftDeletes(Activation $activation, $key)
     {
-        $this->createQueryBuilder('as')
-            ->delete('as')
-            ->where('as.key = :key')
-            ->andWhere('as.activation = :activation')
-            ->andWhere('ad.deletedOn IS NOT NULL')
-            ->setParameter('activation', $activation)
+        $this->createQueryBuilder('a')
+            ->delete('BiBundle:ActivationSetting', 'a')
+            ->where('a.key = :key')
+            ->andWhere('a.activation = :activation')
+            ->andWhere('a.deletedOn IS NOT NULL')
+            ->setParameter('activation', $activation->getId())
             ->setParameter('key', $key)
             ->getQuery()
             ->execute();

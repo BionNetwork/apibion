@@ -7,6 +7,7 @@ use BiBundle\Entity\ActivationSetting;
 use BiBundle\Service\ActivationSettingService;
 use BiBundle\Service\TestEntityFactory;
 use Doctrine\ORM\EntityManager;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ActivationSettingServiceTest extends KernelTestCase
@@ -30,8 +31,7 @@ class ActivationSettingServiceTest extends KernelTestCase
 
     public function testCreate()
     {
-        $key = 'key1';
-        $value = 'value1';
+        list($key, $value) = $this->getStrings(3);
         $activation = $this->factory->createActivation();
         $this->service->create($activation, $key, $value);
 
@@ -55,5 +55,51 @@ class ActivationSettingServiceTest extends KernelTestCase
         $setting = $this->service->get($activation, $expected['key']);
         $this->assertNotNull($setting);
         $this->assertSame($expected['value'], $setting->getValue());
+
+        return [$activation, $expected];
+    }
+
+    public function testUpdate()
+    {
+        $activation = $this->factory->createActivation();
+        list($key, $value, $newValue) = $this->getStrings(3);
+        $this->service->create($activation, $key, $value);
+        $this->service->update($activation, $key, $newValue);
+
+        $setting = $this->service->get($activation, $key);
+        $this->assertSame($newValue, $setting->getValue());
+
+        return [$activation, ['key' => $key, 'value' => $value, 'currentValue' => $setting->getValue()]];
+    }
+
+    /**
+     * @depends testUpdate
+     */
+    public function testUndo(array $data)
+    {
+        list($activation, $expectedKeyValue) = $data;
+        $setting = $this->service->undo($activation, $expectedKeyValue['key']);
+
+        $this->assertSame($expectedKeyValue['value'], $setting->getValue());
+
+        return [$activation, ['key' => $expectedKeyValue['key'], 'value' => $expectedKeyValue['currentValue']]];
+    }
+
+    /**
+     * @depends testUndo
+     */
+    public function testRedo(array $data)
+    {
+        list($activation, $expectedKeyValue) = $data;
+        $setting = $this->service->redo($activation, $expectedKeyValue['key']);
+
+        $this->assertSame($expectedKeyValue['value'], $setting->getValue());
+    }
+
+    private function getStrings($count)
+    {
+        return array_map(function () {
+            return Uuid::uuid4()->toString();
+        }, range(1, $count));
     }
 }

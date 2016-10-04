@@ -110,9 +110,9 @@ class ActivationSettingService
     {
         $redoElement = $this->repository->getRedoElementByKey($activation, $key);
         if ($redoElement) {
-            throw new ActivationSettingException("Key '$key' has no elements to redo");
-        } else {
             $this->repository->clearSoftDelete($redoElement);
+        } else {
+            throw new ActivationSettingException("Key '$key' has no elements to redo");
         }
 
         return $this->repository->getLatestActualByKey($activation, $key);
