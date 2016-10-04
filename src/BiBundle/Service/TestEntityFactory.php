@@ -21,11 +21,13 @@ class TestEntityFactory
         $this->entityManager = $entityManager;
     }
 
-    public function createActivation()
+    public function createActivation(UserEntity $user = null)
     {
         $activation = new Activation();
         $activation->setCard($this->entityManager->getRepository(Card::class)->findOneBy([]));
-        $activation->setUser($this->entityManager->getRepository(UserEntity::class)->findOneBy([]));
+        $activation->setUser(
+            is_null($user) ? $this->entityManager->getRepository(UserEntity::class)->findOneBy([]) : $user
+        );
         $activation->setActivationStatus($this->entityManager->getRepository(ActivationStatus::class)
             ->findOneBy(['code' => ActivationStatus::STATUS_ACTIVE]));
         $this->entityManager->persist($activation);

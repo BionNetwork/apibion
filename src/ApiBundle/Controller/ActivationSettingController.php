@@ -48,6 +48,7 @@ class ActivationSettingController extends RestController
      */
     public function getSettingsAction(Activation $activation)
     {
+        $this->denyAccessUnlessGranted('view', $activation);
         $settings = $this->service->getAll($activation);
 
         return $this->handleView($this->view(ActivationSettingTransferObject::getObjectListData($settings), 200));
@@ -70,6 +71,7 @@ class ActivationSettingController extends RestController
      */
     public function getSettingAction(Activation $activation, $key)
     {
+        $this->denyAccessUnlessGranted('view', $activation);
         try {
             $setting = $this->service->get($activation, $key);
         } catch (ActivationSettingException $e) {
@@ -96,6 +98,7 @@ class ActivationSettingController extends RestController
      */
     public function postSettingAction(ParamFetcher $paramFetcher, Activation $activation, $key)
     {
+        $this->denyAccessUnlessGranted('edit', $activation);
         try {
             $this->service->create($activation, $key, $paramFetcher->get('value'));
         } catch (ActivationSettingException $e) {
@@ -122,6 +125,7 @@ class ActivationSettingController extends RestController
      */
     public function putSettingAction(ParamFetcher $paramFetcher, Request $request, Activation $activation, $key)
     {
+        $this->denyAccessUnlessGranted('edit', $activation);
         $this->service->update($activation, $key, $paramFetcher->get('value'));
 
         return $this->handleView($this->view(null, 204));
@@ -143,6 +147,7 @@ class ActivationSettingController extends RestController
      */
     public function postSettingUndoAction(Activation $activation, $key)
     {
+        $this->denyAccessUnlessGranted('edit', $activation);
         $setting = null;
         try {
             $setting = $this->service->undo($activation, $key);
@@ -169,6 +174,7 @@ class ActivationSettingController extends RestController
      */
     public function postSettingsRedoAction(Activation $activation, $key)
     {
+        $this->denyAccessUnlessGranted('edit', $activation);
         $setting = null;
         try {
             $setting = $this->service->redo($activation, $key);
@@ -195,6 +201,7 @@ class ActivationSettingController extends RestController
      */
     public function deleteSettingAction(Activation $activation, $key)
     {
+        $this->denyAccessUnlessGranted('edit', $activation);
         try {
             $this->service->delete($activation, $key);
         } catch (ActivationSettingException $e) {

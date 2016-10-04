@@ -6,6 +6,7 @@ namespace ApiBundle\Tests\Controller;
 
 use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationSetting;
+use BiBundle\Entity\User;
 use BiBundle\Service\ActivationSettingService;
 use BiBundle\Service\Exception\ActivationSettingException;
 use BiBundle\Service\TestEntityFactory;
@@ -21,16 +22,20 @@ class ActivationSettingControllerTest extends ControllerTestCase
     /** @var  ActivationSettingService */
     private $service;
 
+    /** @var  User */
+    private $user;
+
     public function setUp()
     {
         parent::setUp();
         $this->factory = self::$kernel->getContainer()->get('bi.test_entity.factory');
         $this->service = self::$kernel->getContainer()->get('bi.activation_setting.service');
+        $this->user = $this->getUser();
     }
 
     public function testGetSettings()
     {
-        $activation = $this->factory->createActivation();
+        $activation = $this->factory->createActivation($this->user);
         $as1 = $this->service->create($activation, 'key1', 'value1');
         $as2 = $this->service->create($activation, 'key2', 'value2');
         $as3 = $this->service->create($activation, 'key3', 'value3');
@@ -48,7 +53,7 @@ class ActivationSettingControllerTest extends ControllerTestCase
 
     public function testCreateSetting()
     {
-        $activation = $this->factory->createActivation();
+        $activation = $this->factory->createActivation($this->user);
         $value = Uuid::uuid4()->toString();
         $key = 'key1';
         $this->client->request(
@@ -133,7 +138,7 @@ class ActivationSettingControllerTest extends ControllerTestCase
 
     public function testDeleteSetting()
     {
-        $activation = $this->factory->createActivation();
+        $activation = $this->factory->createActivation($this->user);
         $activationSetting = $this->service->create($activation, 'key1', 'value1');
         $this->client->request(
             'DELETE',
@@ -143,5 +148,12 @@ class ActivationSettingControllerTest extends ControllerTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->expectException(ActivationSettingException::class);
         $this->service->get($activation, $activationSetting->getKey());
+    }
+
+    public function testUnauthorizedGet()
+    {
+        $activation = $this->factory->createActivation($this->getUser('administrator'));
+        $this->client->request('GET', "/api/v1/activation/{$activation->getId()}/settings");
+        $this->assert403($this->client->getResponse());
     }
 }

@@ -36,3 +36,7 @@ services:
     api.activation_setting.controller:
         class: ApiBundle\Controller\ActivationSettingController
         arguments: ['@service_container', '@bi.activation_setting.service']
+    api.activation.voter:
+        class: ApiBundle\Security\ActivationVoter
+        tags:
+            - { name: security.voter }
