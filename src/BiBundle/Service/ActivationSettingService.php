@@ -75,7 +75,10 @@ class ActivationSettingService
             throw new ActivationSettingException("Setting '$key' for activation {$activation->getId()} doesn't exist");
         }
         $this->repository->purgeSoftDeletes($activation, $key);
-        $this->repository->save($this->createActivationSetting($activation, $key, $value));
+        $activationSetting = $this->createActivationSetting($activation, $key, $value);
+        $this->repository->save($activationSetting);
+
+        return $activationSetting;
     }
 
     /**

@@ -69,7 +69,7 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
             ->where('a.key = :key')
             ->andWhere('a.activation = :activation')
             ->andWhere('a.deletedOn IS NOT NULL')
-            ->orderBy('a.id', 'desc')
+            ->orderBy('a.id', 'asc')
             ->setParameter('activation', $activation)
             ->setParameter('key', $key)
             ->setMaxResults(1)
@@ -146,7 +146,7 @@ class ActivationSettingRepository extends \Doctrine\ORM\EntityRepository
 
     public function getLatestActualForAll(Activation $activation)
     {
-        $subQuery1 = 'SELECT as1.id FROM activation_setting as1 WHERE as1.activation_id = as2.activation_id AND as1.key = as2.key AND as1.deleted_on IS NULL ORDER BY as1.created_on DESC LIMIT 1';
+        $subQuery1 = 'SELECT as1.id FROM activation_setting as1 WHERE as1.activation_id = as2.activation_id AND as1.key = as2.key AND as1.deleted_on IS NULL ORDER BY as1.id DESC LIMIT 1';
         $subQuery2 = "SELECT as2.*, ($subQuery1) as max_id FROM activation_setting as2 WHERE as2.activation_id = :activation_id  AND as2.deleted_on IS NULL";
         $sql = "SELECT * FROM ($subQuery2) as3 WHERE as3.id = as3.max_id";
 

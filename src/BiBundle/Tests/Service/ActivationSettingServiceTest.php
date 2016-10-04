@@ -73,28 +73,56 @@ class ActivationSettingServiceTest extends KernelTestCase
         return [$activation, ['key' => $key, 'value' => $value, 'currentValue' => $setting->getValue()]];
     }
 
-    /**
-     * @depends testUpdate
-     */
-    public function testUndo(array $data)
+    public function testUndo()
     {
-        list($activation, $expectedKeyValue) = $data;
-        $setting = $this->service->undo($activation, $expectedKeyValue['key']);
+        $activation = $this->factory->createActivation();
+        $key = 'key1';
+        $this->service->create($activation, $key, 'value1');
+        $this->service->update($activation, $key, 'value2');
+        $this->service->update($activation, $key, 'value3');
+        $this->service->undo($activation, $key);
 
-        $this->assertSame($expectedKeyValue['value'], $setting->getValue());
-
-        return [$activation, ['key' => $expectedKeyValue['key'], 'value' => $expectedKeyValue['currentValue']]];
+        $this->assertSame('value2', $this->service->get($activation, $key)->getValue());
+        $this->service->undo($activation, $key);
+        $this->assertSame('value1', $this->service->get($activation, $key)->getValue());
+        $this->expectException(ActivationSettingException::class);
+        $this->service->undo($activation, $key);
     }
 
-    /**
-     * @depends testUndo
-     */
-    public function testRedo(array $data)
+    public function testRedo()
     {
-        list($activation, $expectedKeyValue) = $data;
-        $setting = $this->service->redo($activation, $expectedKeyValue['key']);
+        $activation = $this->factory->createActivation();
+        $key = 'key1';
+        $this->service->create($activation, $key, 'value1');
+        $this->service->update($activation, $key, 'value2');
+        $this->service->update($activation, $key, 'value3');
+        $this->service->undo($activation, $key);
+        $this->service->undo($activation, $key);
+        $this->service->redo($activation, $key);
 
-        $this->assertSame($expectedKeyValue['value'], $setting->getValue());
+        $setting = $this->service->get($activation, $key);
+        $this->assertSame('value2', $setting->getValue());
+
+        $this->service->redo($activation, $key);
+
+        $setting = $this->service->get($activation, $key);
+        $this->assertSame('value3', $setting->getValue());
+
+        $this->expectException(ActivationSettingException::class);
+        $this->service->redo($activation, $key);
+    }
+
+    public function testRedoAfterUpdate()
+    {
+        $activation = $this->factory->createActivation();
+        $key = 'key1';
+        $this->service->create($activation, $key, 'value1');
+        $this->service->update($activation, $key, 'value2');
+        $this->service->undo($activation, $key);
+        $this->service->update($activation, $key, 'value3');
+
+        $this->expectException(ActivationSettingException::class);
+        $this->service->redo($activation, $key);
     }
 
     public function testGetAll()
@@ -102,14 +130,16 @@ class ActivationSettingServiceTest extends KernelTestCase
         $activation = $this->factory->createActivation();
         $as1 = $this->service->create($activation, 'key1', 'value1');
         $as2 = $this->service->create($activation, 'key2', 'value2');
+        $as21 = $this->service->update($activation, $as2->getKey(), 'value21');
         $as3 = $this->service->create($activation, 'key3', 'value3');
         $this->service->delete($activation, 'key3');
 
         $settings = $this->service->getAll($activation);
 
         $this->assertContains($as1, $settings);
-        $this->assertContains($as2, $settings);
+        $this->assertContains($as21, $settings);
         $this->assertNotContains($as3, $settings);
+        $this->assertNotContains($as2, $settings);
     }
 
     public function testDelete()
