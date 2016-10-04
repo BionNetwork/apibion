@@ -7,14 +7,14 @@
 
 namespace ApiBundle\Tests\Controller;
 
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\HttpFoundation\Response;
 use BiBundle\Entity\UserRole;
 use BiBundle\Entity\UserStatus;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class ControllerTestCase extends WebTestCase
 {
@@ -63,7 +63,7 @@ class ControllerTestCase extends WebTestCase
      * @param string $login
      * @return null|\BiBundle\Entity\User
      */
-    protected function getUser($login = 'demo')
+    protected function getUser($login = 'user')
     {
         $container = $this->client->getContainer();
         $repository = $container->get('repository.user_repository');
@@ -100,7 +100,7 @@ class ControllerTestCase extends WebTestCase
     {
         $firewall = 'api_auth';
         // default user to log in
-        $login = 'demo';
+        $login = 'user';
         $this->authenticate($firewall, $login);
     }
 
@@ -111,7 +111,7 @@ class ControllerTestCase extends WebTestCase
     {
         $firewall = 'api';
         // default user to log in
-        $login = 'demo';
+        $login = 'user';
         $this->authenticate($firewall, $login);
     }
 

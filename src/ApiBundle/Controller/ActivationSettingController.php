@@ -9,7 +9,9 @@ use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -21,8 +23,9 @@ class ActivationSettingController extends RestController
     /**
      * @param ActivationSettingService $service
      */
-    public function __construct(ActivationSettingService $service)
+    public function __construct(Container $container, ActivationSettingService $service)
     {
+        $this->container = $container;
         $this->service = $service;
     }
 
@@ -60,7 +63,8 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
-     * @Post("/activation/{activation}/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
+     * @RequestParam(name="value", nullable=false)
+     * @Post("/activation/{activation}/setting/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
      */
     public function postSettingAction(Request $request, Activation $activation, $key)
     {
@@ -88,7 +92,7 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
-     * @Put("/activation/{activation}/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
+     * @Put("/activation/{activation}/setting/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
      */
     public function putSettingAction(Request $request, Activation $activation, $key)
     {
@@ -112,7 +116,7 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
-     * @Post("/activation/{activation}/{key}/undo", requirements={"key" = "\w+", "activation" = "\d+"})
+     * @Post("/activation/{activation}/setting/{key}/undo", requirements={"key" = "\w+", "activation" = "\d+"})
      */
     public function postSettingUndoAction(Activation $activation, $key)
     {
@@ -138,7 +142,7 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
-     * @Post("/activation/{activation}/{key}/redo", requirements={"key" = "\w+", "activation" = "\d+"})
+     * @Post("/activation/{activation}/setting/{key}/redo", requirements={"key" = "\w+", "activation" = "\d+"})
      */
     public function postSettingsRedoAction(Activation $activation, $key)
     {
@@ -164,7 +168,7 @@ class ActivationSettingController extends RestController
      *      }
      *    }
      * )
-     * @Delete("/activation/{activation}/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
+     * @Delete("/activation/{activation}/setting/{key}", requirements={"key" = "\w+", "activation" = "\d+"})
      */
     public function deleteSettingAction(Activation $activation, $key)
     {

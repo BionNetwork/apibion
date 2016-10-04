@@ -35,4 +35,4 @@ services:
         class: ApiBundle\Service\ConfigService
     api.activation_setting.controller:
         class: ApiBundle\Controller\ActivationSettingController
-        arguments: ['@bi.activation_setting.service']
+        arguments: ['@service_container', '@bi.activation_setting.service']
