@@ -5,6 +5,7 @@ namespace BiBundle\Service;
 
 
 use BiBundle\Entity\Activation;
+use BiBundle\Entity\ActivationSetting;
 use BiBundle\Entity\ActivationStatus;
 use BiBundle\Entity\Card;
 use BiBundle\Entity\User as UserEntity;
@@ -15,6 +16,11 @@ class TestEntityFactory
 {
     /** @var  EntityManager */
     private $entityManager;
+
+    private $purgeAllowedClasses = [
+        ActivationSetting::class,
+        Activation::class,
+    ];
 
     public function __construct(EntityManager $entityManager)
     {
@@ -56,6 +62,39 @@ class TestEntityFactory
     {
         foreach ($entities as $entity) {
             $this->refreshEntity($entity);
+        }
+    }
+
+    /**
+     * Remove all records from given entity table
+     *
+     * @param $class
+     * @throws \Exception
+     */
+    public function purgeTestEntitiesClass($class)
+    {
+        if (in_array($class, $this->purgeAllowedClasses)) {
+            $this->entityManager->createQuery("DELETE FROM $class")->execute();
+        } else {
+            throw new \Exception("Purging $class is not allowed");
+        }
+    }
+
+    /**
+     * Remove all records from given entities tables
+     *
+     * @param $class
+     * @throws \Exception
+     */
+    public function purgeTestEntities(array $classes)
+    {
+        if ($notAllowedClasses = array_diff($classes, $this->purgeAllowedClasses)) {
+            throw new \Exception('Purging not allowed for classes: ' . implode(', ', $notAllowedClasses));
+        }
+        foreach ($this->purgeAllowedClasses as $class) {
+            if (in_array($class, $classes)) {
+                $this->purgeTestEntitiesClass($class);
+            }
         }
     }
 }

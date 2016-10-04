@@ -25,6 +25,18 @@ class ActivationSettingControllerTest extends ControllerTestCase
     /** @var  User */
     private $user;
 
+    public static function tearDownAfterClass()
+    {
+        self::bootKernel();
+        $factory = self::$kernel->getContainer()->get('bi.test_entity.factory');
+        $factory->purgeTestEntities(
+            [
+                ActivationSetting::class,
+                Activation::class,
+            ]
+        );
+    }
+
     public function setUp()
     {
         parent::setUp();

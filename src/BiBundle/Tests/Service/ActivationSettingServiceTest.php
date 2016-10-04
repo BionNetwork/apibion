@@ -3,6 +3,7 @@
 namespace BiBundle\Tests\Service;
 
 
+use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationSetting;
 use BiBundle\Service\ActivationSettingService;
 use BiBundle\Service\Exception\ActivationSettingException;
@@ -21,6 +22,18 @@ class ActivationSettingServiceTest extends KernelTestCase
 
     /** @var  EntityManager */
     private $entityManager;
+
+    public static function tearDownAfterClass()
+    {
+        self::bootKernel();
+        $factory = self::$kernel->getContainer()->get('bi.test_entity.factory');
+        $factory->purgeTestEntities(
+            [
+                ActivationSetting::class,
+                Activation::class,
+            ]
+        );
+    }
 
     protected function setUp()
     {
@@ -145,11 +158,11 @@ class ActivationSettingServiceTest extends KernelTestCase
     public function testDelete()
     {
         $activation = $this->factory->createActivation();
-        $as1 = $this->service->create($activation, 'key1', 'value1');
+        $this->service->create($activation, 'key1', 'value1');
         $this->service->delete($activation, 'key1');
 
         $this->expectException(ActivationSettingException::class);
-        $activationSetting = $this->service->get($activation, 'key1');
+        $this->service->get($activation, 'key1');
     }
 
     public function testDeleteNotExisting()
