@@ -4,6 +4,7 @@ namespace ApiBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Yaml;
 
 class ConfigController extends RestController
 {
@@ -31,14 +32,14 @@ class ConfigController extends RestController
      *   }
      * )
      *
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getConfigStringsAction(Request $request)
     {
-        return $this->handleView(
-            $this->view(
-                $this->get('api.config.service')->getUiStrings($request->getPreferredLanguage())
-            )
-        );
+//        $trans = $this->get('translator');
+//        $messages = $trans->getCatalogue()->all('messages');
+        $data = $this->get('api.config.service')->getUiStrings($request->getPreferredLanguage() ?: 'en');
+        return $this->handleView($this->view($data));
     }
 }

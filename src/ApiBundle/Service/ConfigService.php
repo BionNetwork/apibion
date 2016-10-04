@@ -2,6 +2,8 @@
 
 namespace ApiBundle\Service;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 class ConfigService
 {
     /**
@@ -19,7 +21,7 @@ class ConfigService
             case 'ru':
                 return $this->ruStrings;
             default:
-                throw new \ErrorException("No strings for locale '$locale'");
+                throw new HttpException(400, "No strings for locale '$locale'");
         }
     }
 
