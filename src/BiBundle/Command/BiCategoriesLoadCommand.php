@@ -80,7 +80,7 @@ class BiCategoriesLoadCommand extends ContainerAwareCommand
 
     private $data = [
         [
-            'name' => "Финансы / Коммерческие операции",
+            'name' => self::COMMERCIAL_OPERATIONS_CATEGORY_NAME,
             'name_en' => "Finance / Commercial operations"
         ],
         [

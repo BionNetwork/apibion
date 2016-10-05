@@ -107,6 +107,5 @@ BiBundle\Entity\Card:
             inversedBy: card
             joinColumns:
                 category_id:
-                    onDelete: CASCADE
                     nullable: true
     lifecycleCallbacks: {  }
