@@ -17,11 +17,11 @@ $debug = getenv('SYMFONY_DEBUG') === '1' && $env != 'prod';
 // in order to prevent cache key conflicts with other applications
 // also using APC.
 
-/*if ('prod' == $env) {
+if ('prod' == $env) {
     $apcLoader = new Symfony\Component\ClassLoader\ApcClassLoader(sha1(__FILE__), $loader);
     $loader->unregister();
     $apcLoader->register(true);
-}*/
+}
 
 if ($debug) {
     Debug::enable();
@@ -29,9 +29,9 @@ if ($debug) {
 
 $kernel = new AppKernel($env, $debug);
 $kernel->loadClassCache();
-/*if ('prod' == $env) {
+if ('prod' == $env) {
     $kernel = new AppCache($kernel);
-}*/
+}
 
 // When using the HttpCache, you need to call the method in your front controller instead of relying on the configuration parameter
 //Request::enableHttpMethodParameterOverride();
