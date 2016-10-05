@@ -101,4 +101,12 @@ BiBundle\Entity\Card:
         argument:
             targetEntity: Argument
             mappedBy: card
+    manyToOne:
+        cardCategory:
+            targetEntity: CardCategory
+            inversedBy: card
+            joinColumns:
+                category_id:
+                    onDelete: CASCADE
+                    nullable: true
     lifecycleCallbacks: {  }
