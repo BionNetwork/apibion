@@ -43,6 +43,9 @@ services:
     bi.argument_bond.service:
         class: BiBundle\Service\ArgumentBondService
         parent: bi.user_aware_service
+    bi.card_category.service:
+        class: BiBundle\Service\CardCategoryService
+        arguments: ['@repository.card_category_repository']
     bi.backend.service:
         class: BiBundle\Service\BackendService
         parent: bi.user_aware_service

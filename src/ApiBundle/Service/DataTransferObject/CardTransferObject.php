@@ -69,6 +69,7 @@ class CardTransferObject
                 'rating' => $card->getRating(),
                 'price' => $card->getPrice(),
                 'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
+                'category' => $card->getCardCategory()->getId(),
                 'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
                 'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
                 'representation' => $this->getRepresentations($card),

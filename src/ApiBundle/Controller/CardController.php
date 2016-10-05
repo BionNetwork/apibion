@@ -3,6 +3,7 @@
 namespace ApiBundle\Controller;
 
 use BiBundle\Entity\Card;
+use BiBundle\Entity\CardCategory;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -92,4 +93,49 @@ class CardController extends RestController
         return $this->handleView($this->view($data));
     }
 
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="2. Магазин",
+     *  resource=true,
+     *  description="Аргументы",
+     *  statusCodes={
+     *          200="Успех",
+     *          400="Ошибки валидации"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      },
+     *      {
+     *          "name"="Accept-Language",
+     *          "description"="translation language",
+     *          "required"=false
+     *      }
+     *    }
+     * )
+     *
+     * @QueryParam(name="id", allowBlank=true, requirements="\d+", description="Идентификатор категории")
+     * @QueryParam(name="limit", default="20", requirements="\d+", description="Количество запрашиваемых категорий" )
+     * @QueryParam(name="offset", nullable=true, requirements="\d+", description="Смещение, с которого нужно начать просмотр" )
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     */
+    public function getCardCategoriesAction(ParamFetcher $paramFetcher)
+    {
+        $cardCategoryService = $this->get('bi.card_category.service');
+        $params = $this->getParams($paramFetcher, 'card');
+        $filter = new \BiBundle\Entity\Filter\CardCategory($params);
+
+        /** @var CardCategory[] $categories */
+        $categories = $cardCategoryService->getByFilter($filter);
+
+        $service = $this->get('api.data.transfer_object.card_category_transfer_object');
+        $view = $this->view($service->getObjectListData($categories));
+        return $this->handleView($view);
+    }
 }
