@@ -100,7 +100,7 @@ class CardController extends RestController
      * @ApiDoc(
      *  section="2. Магазин",
      *  resource=true,
-     *  description="Аргументы",
+     *  description="Получение списка категорий по фильтру",
      *  statusCodes={
      *          200="Успех",
      *          400="Ошибки валидации"
@@ -137,6 +137,39 @@ class CardController extends RestController
 
         $service = $this->get('api.data.transfer_object.card_category_transfer_object');
         $view = $this->view($service->getObjectListData($categories));
+        return $this->handleView($view);
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="2. Магазин",
+     *  resource=true,
+     *  description="Получение списка карточек сгруппированных по категориям",
+     *  statusCodes={
+     *         200="При успешном получении данных",
+     *         400="Ошибка получения данных"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      },
+     *      {
+     *          "name"="Accept-Language",
+     *          "description"="translation language",
+     *          "required"=false
+     *      }
+     *    }
+     * )
+     *
+     * @return Response
+     */
+    public function getCardsCategorizedAction()
+    {
+        $cards = $this->get('bi.card.service')->getAllCards();
+        $service = $this->get('api.data.transfer_object.card_transfer_object');
+        $view = $this->view($service->getObjectListDataCategorized($cards));
         return $this->handleView($view);
     }
 }

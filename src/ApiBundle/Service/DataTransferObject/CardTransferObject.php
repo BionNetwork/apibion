@@ -51,6 +51,31 @@ class CardTransferObject
     }
 
     /**
+     * Get full card's data normalized
+     *
+     * @param Card $card
+     * @return array
+     */
+    public function getFullObjectData(Card $card)
+    {
+        $data = [
+            'id' => $card->getId(),
+            'name' => $card->getName(),
+            'description' => $card->getDescription(),
+            'description_long' => $card->getDescriptionLong(),
+            'rating' => $card->getRating(),
+            'price' => $card->getPrice(),
+            'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
+            'category' => $card->getCardCategory()->getId(),
+            'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
+            'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
+            'representation' => $this->getRepresentations($card),
+            'argument' => $this->getArguments($card),
+        ];
+        return $data;
+    }
+
+    /**
      * Get cards list
      *
      * @param \BiBundle\Entity\Card[] $data
@@ -61,21 +86,23 @@ class CardTransferObject
         $result = [];
 
         foreach ($data as $card) {
-            $item = [
-                'id' => $card->getId(),
-                'name' => $card->getName(),
-                'description' => $card->getDescription(),
-                'description_long' => $card->getDescriptionLong(),
-                'rating' => $card->getRating(),
-                'price' => $card->getPrice(),
-                'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
-                'category' => $card->getCardCategory()->getId(),
-                'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
-                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
-                'representation' => $this->getRepresentations($card),
-                'argument' => $this->getArguments($card),
-            ];
-            $result[] = $item;
+            $result[] = $this->getFullObjectData($card);
+        }
+        return $result;
+    }
+
+    /**
+     * Get categorized cards list
+     *
+     * @param \BiBundle\Entity\Card[] $data
+     * @return array
+     */
+    public function getObjectListDataCategorized(array $data)
+    {
+        $result = [];
+
+        foreach ($data as $card) {
+            $result[$card->getCardCategory()->getId()][] = $this->getFullObjectData($card);
         }
         return $result;
     }

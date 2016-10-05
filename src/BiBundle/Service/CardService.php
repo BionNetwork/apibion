@@ -2,13 +2,7 @@
 
 namespace BiBundle\Service;
 
-use BiBundle\Service\Exception\UserCard\AlreadyPurchasedException;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\EntityManager;
 use BiBundle\Entity\Card;
-use BiBundle\Entity\Exception\ValidatorException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class CardService extends UserAwareService
 {
@@ -26,4 +20,14 @@ class CardService extends UserAwareService
         return $em->getRepository('BiBundle:Card')->findByFilter($filter);
     }
 
+    /**
+     * Возвращает проект по фильтру
+     *
+     * @return \BiBundle\Entity\Card[]
+     */
+    public function getAllCards()
+    {
+        $em = $this->getEntityManager();
+        return $em->getRepository('BiBundle:Card')->findAll();
+    }
 }
