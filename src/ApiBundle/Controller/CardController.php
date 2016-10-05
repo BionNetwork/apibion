@@ -40,6 +40,7 @@ class CardController extends RestController
      * @QueryParam(name="id", allowBlank=true, requirements="\d+", description="Идентификатор карточки")
      * @QueryParam(name="limit", default="20", requirements="\d+", description="Количество запрашиваемых проектов" )
      * @QueryParam(name="offset", nullable=true, requirements="\d+", description="Смещение, с которого нужно начать просмотр" )
+     * @QueryParam(name="category_id", nullable=true, requirements="\d+", description="Категория карточки" )
      *
      * @param ParamFetcher $paramFetcher
      * @return Response

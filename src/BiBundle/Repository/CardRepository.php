@@ -2,9 +2,7 @@
 
 namespace BiBundle\Repository;
 
-use Doctrine\ORM\AbstractQuery;
 use BiBundle\Entity\Card;
-use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * CardRepository
@@ -28,6 +26,9 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
         if ($filter->id) {
             $qb->andWhere('c.id = :id');
             $qb->setParameter('id', $filter->id);
+        }
+        if ($filter->category_id) {
+            $qb->andWhere('c.cardCategory = :categoryId')->setParameter('categoryId', $filter->category_id);
         }
         $qb->setMaxResults($filter->getLimit());
         $qb->setFirstResult($filter->getOffset());
