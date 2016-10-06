@@ -52,6 +52,12 @@ class Argument
      */
     private $description;
 
+    /** @var  FilterControlType */
+    private $filterControlType;
+
+    /** @var  boolean */
+    private $isFiltered;
+
     /**
      * Constructor
      */
@@ -215,11 +221,11 @@ class Argument
     {
         return $this->card;
     }
+
     /**
      * @var string
      */
     private $dimension;
-
 
     /**
      * Set dimension
@@ -267,5 +273,37 @@ class Argument
     public function setLocale($locale)
     {
         $this->locale = $locale;
+    }
+
+    /**
+     * @return FilterControlType
+     */
+    public function getFilterControlType()
+    {
+        return $this->filterControlType;
+    }
+
+    /**
+     * @param FilterControlType $filterControlType
+     */
+    public function setFilterControlType($filterControlType)
+    {
+        $this->filterControlType = $filterControlType;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsFiltered()
+    {
+        return $this->isFiltered;
+    }
+
+    /**
+     * @param boolean $isFiltered
+     */
+    public function setIsFiltered($isFiltered)
+    {
+        $this->isFiltered = $isFiltered;
     }
 }

@@ -1,0 +1,16 @@
+BiBundle\Entity\FilterControlType:
+    type: entity
+    table: null
+    repositoryClass: BiBundle\Repository\FilterControlTypeRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+    lifecycleCallbacks: {  }

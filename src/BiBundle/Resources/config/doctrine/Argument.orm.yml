@@ -57,15 +57,22 @@ BiBundle\Entity\Argument:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
+        isFiltered:
+            type: boolean
+            nullable: false
+            column: is_filtered
+            options:
+                default: false
     manyToOne:
         card:
             targetEntity: Card
-            cascade: {  }
-            mappedBy: null
             inversedBy: argument
             joinColumns:
                 card_id:
-                    referencedColumnName: id
                     nullable: true
-            orphanRemoval: false
+        filterControlType:
+            targetEntity: BiBundle\Entity\FilterControlType
+            joinColumns:
+                filter_control_type_id:
+                    nullable: true
     lifecycleCallbacks: {  }
