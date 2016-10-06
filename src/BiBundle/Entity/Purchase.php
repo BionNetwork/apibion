@@ -2,6 +2,8 @@
 
 namespace BiBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Purchase
  */
@@ -34,6 +36,8 @@ class Purchase
 
     /**
      * @var \BiBundle\Entity\Card
+     *
+     * @Assert\NotBlank()
      */
     private $card;
 

@@ -2,13 +2,8 @@
 
 namespace BiBundle\Service;
 
-use BiBundle\BiBundle;
-use BiBundle\Service\Exception\Purchase\AlreadyPurchasedException;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\EntityManager;
 use BiBundle\Entity\Representation;
-use BiBundle\Entity\Exception\ValidatorException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class RepresentationService extends UserAwareService

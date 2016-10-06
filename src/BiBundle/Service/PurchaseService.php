@@ -14,35 +14,28 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class PurchaseService extends UserAwareService
 {
-
     /**
-     * Purchase card from store
+     * Saves purchase
      *
-     * @param Card $card
+     * @param Purchase $purchase
+     * @return Purchase|mixed
      */
-    public function purchase(Card $card)
+    public function save(\BiBundle\Entity\Purchase $purchase)
     {
         $em = $this->getEntityManager();
 
-        // Прорверяем, нет ли карточки в перечне уже приобретенных
-        $purchased = false;
         $items = $this->getUser()->getPurchase();
+        $card = $purchase->getCard();
+
+        // Прорверяем, нет ли карточки в перечне уже приобретенных
         foreach ($items as $purchase) {
             if($card->getId() === $purchase->getCard()->getId()) {
                 return $purchase;
-                $purchased = true;
             }
         }
-        if($purchased) {
-            throw new AlreadyPurchasedException('Уже приобретенная карточка');
-        }
 
-        $purchase = new \BiBundle\Entity\Purchase();
-
-        $purchase->setCard($card);
         $purchase->setUser($this->getUser());
         $purchase->setPrice($card->getPrice());
-        $purchase->setCreatedOn(new \DateTime());
 
         $em->persist($purchase);
         $em->flush();
@@ -50,11 +43,11 @@ class PurchaseService extends UserAwareService
         return $purchase;
     }
 
-
     /**
      * Создает экземпляр активации карточки
      *
      * @param \BiBundle\Entity\Purchase $purchase
+     * @return \BiBundle\Entity\Activation
      */
     public function activate(\BiBundle\Entity\Purchase $purchase)
     {
@@ -64,9 +57,10 @@ class PurchaseService extends UserAwareService
 
         $activation->setCard($purchase->getCard());
         $activation->setUser($this->getUser());
-        $activation->setCreatedOn(new \DateTime());
 
-        $activationStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy(['code' => \BiBundle\Entity\ActivationStatus::STATUS_PENDING]);
+        $activationStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy([
+            'code' => \BiBundle\Entity\ActivationStatus::STATUS_PENDING
+        ]);
 
         $activation->setActivationStatus($activationStatus);
 
@@ -80,11 +74,11 @@ class PurchaseService extends UserAwareService
      * Получение карточек пользователя
      *
      * @param User $user
+     * @return \BiBundle\Entity\Card[]
      */
     public function getUserCards(\BiBundle\Entity\User $user)
     {
         $em = $this->getEntityManager();
         return $em->getRepository('BiBundle:Purchase')->getUserCards($user);
     }
-
 }

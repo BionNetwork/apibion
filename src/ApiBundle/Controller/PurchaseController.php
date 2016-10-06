@@ -22,7 +22,7 @@ class PurchaseController extends RestController
      * @ApiDoc(
      *  section="3. Покупки",
      *  resource=true,
-     *  description="Получение карточек по фильтру",
+     *  description="Получение купленных карточек по фильтру",
      *  statusCodes={
      *         200="При успешном получении данных",
      *         400="Ошибка получения данных"
@@ -36,7 +36,6 @@ class PurchaseController extends RestController
      *    }
      * )
      *
-     * @param ParamFetcher $paramFetcher
      * @return Response
      */
     public function getPurchasesAction()
@@ -53,6 +52,44 @@ class PurchaseController extends RestController
 
 
     /**
+     * ### Failed Response ###
+     *      {
+     *          {
+     *              "success": false,
+     *              "exception": {
+     *                  "code": 400,
+     *                  "message": "Validation Failed"
+     *              },
+     *              "errors": {
+     *                  "purchase":{
+     *                      "errors":[
+     *                          <errorMessage 1>,
+     *                          <...>,
+     *                          <errorMessage N>
+     *                      ],
+     *                      "children": {
+     *                           <field_name>: {
+     *                              "errors": [
+     *                                  <errorMessage 1>,
+     *                                  <...>,
+     *                                  <errorMessage N>
+     *                              ],
+     *                              "children": null
+     *                          }
+     *                      }
+     *                  }
+     *              }
+     *          }
+     *      }
+     *
+     * ### Success Response ###
+     *      {
+     *          "data":{
+     *              "id":<new purchase id>
+     *          },
+     *          "time":<time request>
+     *      }
+     *
      * @ApiDoc(
      *  section="3. Покупки",
      *  resource=true,
@@ -68,21 +105,28 @@ class PurchaseController extends RestController
      *          "required"=true
      *      }
      *    }
-     * )
+     * ),
+     *  input={
+     *      "class"="BiBundle\Form\PurchaseType",
+     *      "name"=""
+     *  }
      *
-     * @Route("/purchase/card/{card}", requirements={"card": "\d+"})
-     *
-     * @QueryParam(name="price", allowBlank=true, requirements="\d+", description="Стоимость карточки в интерфейсе")
-     *
-     * @param \BiBundle\Entity\Card $card
-     * @param ParamFetcher $paramFetcher
+     * @RequestParam(name="card", requirements="\d+", allowBlank=false, nullable=false, description="Карточка для покупки")
+     * @param Request $request
      * @return Response
      */
-    public function postCardPurchaseAction(\BiBundle\Entity\Card $card, ParamFetcher $paramFetcher)
+    public function postPurchaseAction(Request $request)
     {
         $purchaseService = $this->get('bi.purchase.service');
+        $form = $this->createForm('BiBundle\Form\PurchaseType');
 
-        $purchase = $purchaseService->purchase($card);
+        $this->processForm($request, $form);
+
+        if (!$form->isValid()) {
+            throw $this->createFormValidationException($form);
+        }
+
+        $purchase = $purchaseService->save($form->getData());
 
         $data = [
             'id' => $purchase->getId()
@@ -96,7 +140,7 @@ class PurchaseController extends RestController
      * @ApiDoc(
      *  section="3. Покупки",
      *  resource=true,
-     *  description="Активация карточки",
+     *  description="Активация купленной карточки",
      *  statusCodes={
      *         200="При успешном получении данных",
      *         400="Ошибка получения данных"
@@ -110,12 +154,12 @@ class PurchaseController extends RestController
      *    }
      * )
      *
-     * @Route("/purchase/activate/{purchase}", requirements={"purchase": "\d+"})
+     * @Route(requirements={"purchase": "\d+"})
      *
      * @param \BiBundle\Entity\Purchase $purchase
      * @return Response
      */
-    public function postPurchaseActivateAction(\BiBundle\Entity\Purchase $purchase)
+    public function postPurchaseActivationAction(\BiBundle\Entity\Purchase $purchase)
     {
         $purchaseService = $this->get('bi.purchase.service');
 
@@ -128,5 +172,4 @@ class PurchaseController extends RestController
         $view = $this->view($data);
         return $this->handleView($view);
     }
-
 }
