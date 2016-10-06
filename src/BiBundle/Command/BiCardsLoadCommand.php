@@ -21,6 +21,8 @@ class BiCardsLoadCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        throw new \ErrorException('Not finished');
+
         if (!$input->getOption('force')) {
             throw new \Exception('To force loading cards use the --force option.');
         }
