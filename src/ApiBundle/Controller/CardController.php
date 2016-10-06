@@ -61,7 +61,6 @@ class CardController extends RestController
      *
      * @ApiDoc(
      *  section="2. Магазин",
-     *  resource=true,
      *  description="Аргументы",
      *  statusCodes={
      *          200="Успех",
@@ -99,7 +98,6 @@ class CardController extends RestController
      *
      * @ApiDoc(
      *  section="2. Магазин",
-     *  resource=true,
      *  description="Получение списка категорий по фильтру",
      *  statusCodes={
      *          200="Успех",
@@ -126,7 +124,7 @@ class CardController extends RestController
      * @param ParamFetcher $paramFetcher
      * @return Response
      */
-    public function getCardCategoriesAction(ParamFetcher $paramFetcher)
+    public function getCardsCategoriesAction(ParamFetcher $paramFetcher)
     {
         $cardCategoryService = $this->get('bi.card_category.service');
         $params = $this->getParams($paramFetcher, 'card');
@@ -143,7 +141,6 @@ class CardController extends RestController
     /**
      * @ApiDoc(
      *  section="2. Магазин",
-     *  resource=true,
      *  description="Получение списка карточек сгруппированных по категориям",
      *  statusCodes={
      *         200="При успешном получении данных",
