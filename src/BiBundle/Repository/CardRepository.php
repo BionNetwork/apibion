@@ -11,7 +11,7 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /**
-     * Find cards by filter
+     * Finds cards by filter
      *
      * @param \BiBundle\Entity\Filter\Card $filter
      * @return array
@@ -35,5 +35,25 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    
+
+    /**
+     * Finds all cards with data from related tables
+     *
+     * @return array
+     */
+    public function findAllCards()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('c', 'cc', 'p', 'a', 'cp')
+            ->from('BiBundle:Card', 'c')
+            ->leftJoin('c.cardCategory', 'cc')
+            ->leftJoin('c.purchase', 'p')
+            ->leftJoin('c.argument', 'a')
+            ->leftJoin('c.cardRepresentation', 'cp')
+            ->orderBy('c.createdOn', 'desc');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

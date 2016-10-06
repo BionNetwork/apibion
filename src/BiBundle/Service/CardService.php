@@ -8,7 +8,7 @@ class CardService extends UserAwareService
 {
 
     /**
-     * Возвращает проект по фильтру
+     * Returns cards by filter
      *
      * @param \BiBundle\Entity\Filter\Card $filter
      *
@@ -21,13 +21,13 @@ class CardService extends UserAwareService
     }
 
     /**
-     * Возвращает проект по фильтру
+     * Returns all cards with data from related tables
      *
      * @return \BiBundle\Entity\Card[]
      */
     public function getAllCards()
     {
         $em = $this->getEntityManager();
-        return $em->getRepository('BiBundle:Card')->findAll();
+        return $em->getRepository('BiBundle:Card')->findAllCards();
     }
 }

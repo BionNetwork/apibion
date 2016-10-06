@@ -168,8 +168,9 @@ class CardController extends RestController
     public function getCardsCategorizedAction()
     {
         $cards = $this->get('bi.card.service')->getAllCards();
-        $service = $this->get('api.data.transfer_object.card_transfer_object');
-        $view = $this->view($service->getObjectListDataCategorized($cards));
+        $view = $this->view(
+            $this->get('api.data.transfer_object.card_transfer_object')->getObjectListDataCategorized($cards)
+        );
         return $this->handleView($view);
     }
 }
