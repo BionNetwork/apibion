@@ -24,9 +24,6 @@ api_purchase:
 api_activation:
     type: rest
     resource: "ApiBundle\\Controller\\ActivationController"
-api_argument:
-    type: rest
-    resource: "ApiBundle\\Controller\\ArgumentController"
 api_card:
     type: rest
     resource: "ApiBundle\\Controller\\CardController"
