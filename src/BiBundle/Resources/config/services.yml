@@ -4,6 +4,7 @@ imports:
    - { resource: "services/events.yml" }
    - { resource: "services/repositories.yml" }
    - { resource: "services/backend.yml" }
+   - { resource: "services/controllers.yml" }
 
 services:
     twig.extension.dialog:
@@ -81,7 +82,7 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
+            - [ setAnnotationReader, [ '@annotation_reader' ] ]
             - [ setDefaultLocale, [ ru ] ]
             - [ setTranslatableLocale, [ ru ] ]
             - [ setTranslationFallback, [ true ] ]
@@ -90,3 +91,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
         arguments: ['@gedmo.listener.translatable']
+    bi.argument.service:
+        class: BiBundle\Service\ArgumentService
+        arguments: ['@doctrine.orm.entity_manager']

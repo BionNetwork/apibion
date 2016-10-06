@@ -17,7 +17,7 @@ class ArgumentType extends AbstractType
             'choice_label' => 'name',
             'required' => false,
         ]);
-        $builder->add('isFiltered', CheckboxType::class, [
+        $builder->add('filtered', CheckboxType::class, [
             'required' => false,
         ]);
     }

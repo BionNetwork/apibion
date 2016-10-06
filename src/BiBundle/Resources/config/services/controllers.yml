@@ -1,0 +1,6 @@
+services:
+    bi.argument.controller:
+        class: BiBundle\Controller\ArgumentController
+        arguments: ['@bi.argument.service']
+        calls:
+            - [setContainer, ['@service_container']]

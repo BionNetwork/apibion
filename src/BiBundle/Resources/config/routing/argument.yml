@@ -1,6 +1,6 @@
 argument_index:
     path:     /
-    defaults: { _controller: "BiBundle:Argument:index" }
+    defaults: { _controller: bi.argument.controller:indexAction }
     methods:  GET
 #
 #user_show:
@@ -15,7 +15,7 @@ argument_index:
 #
 argument_edit:
     path:     /{id}/edit
-    defaults: { _controller: "BiBundle:Argument:edit" }
+    defaults: { _controller: bi.argument.controller:editAction }
     methods:  [GET, POST]
 
 #user_delete:

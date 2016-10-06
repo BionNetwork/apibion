@@ -57,10 +57,10 @@ BiBundle\Entity\Argument:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
-        isFiltered:
+        filtered:
             type: boolean
             nullable: false
-            column: is_filtered
+            column: filtered
             options:
                 default: false
     manyToOne:
