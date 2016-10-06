@@ -55,9 +55,6 @@ class Argument
     /** @var  FilterControlType */
     private $filterControlType;
 
-    /** @var  boolean */
-    private $filtered;
-
     /**
      * Constructor
      */
@@ -289,21 +286,5 @@ class Argument
     public function setFilterControlType($filterControlType)
     {
         $this->filterControlType = $filterControlType;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isFiltered()
-    {
-        return $this->filtered;
-    }
-
-    /**
-     * @param boolean $filtered
-     */
-    public function setFiltered($filtered)
-    {
-        $this->filtered = $filtered;
     }
 }

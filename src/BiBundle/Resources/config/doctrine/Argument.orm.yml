@@ -57,12 +57,6 @@ BiBundle\Entity\Argument:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
-        filtered:
-            type: boolean
-            nullable: false
-            column: filtered
-            options:
-                default: false
     manyToOne:
         card:
             targetEntity: Card

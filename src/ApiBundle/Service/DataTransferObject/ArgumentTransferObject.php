@@ -46,7 +46,6 @@ class ArgumentTransferObject
             'name' => $argument->getName(),
             'code' => $argument->getCode(),
             'dimension' => $argument->getDimension(),
-            'is_filtered' => $argument->isFiltered(),
             'filter_control_type' => $argument->getFilterControlType() ? $argument->getFilterControlType()->getName() : null,
         ];
         return $data;
