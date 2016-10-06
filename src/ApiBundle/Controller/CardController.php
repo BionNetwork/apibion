@@ -15,7 +15,7 @@ class CardController extends RestController
 
     /**
      * @ApiDoc(
-     *  section="2. Магазин",
+     *  section="2. Карточки",
      *  resource=true,
      *  description="Получение списка карточек по фильтру",
      *  statusCodes={
@@ -58,9 +58,9 @@ class CardController extends RestController
      *
      *
      * @ApiDoc(
-     *  section="2. Магазин",
+     *  section="2. Карточки",
      *  resource=true,
-     *  description="Аргументы",
+     *  description="Получение информации по карточке",
      *  statusCodes={
      *          200="Успех",
      *          400="Ошибки валидации"
@@ -79,17 +79,17 @@ class CardController extends RestController
      *    }
      * )
      *
-     * @Route("/card/{card}/arguments", requirements={"card": "\d+"})
+     * @Route(requirements={"card": "\d+"})
      *
-     * @param Request $request
-     *
+     * @param Card $card
      * @return Response
+     * @internal param Request $request
+     *
      */
-    public function getCardArgumentsAction(Card $card)
+    public function getCardAction(Card $card)
     {
-        $data = $this->get('api.data.transfer_object.argument_transfer_object')
-            ->getObjectListData($card->getArgument()->toArray());
+        $dto = $this->get('api.data.transfer_object.card_transfer_object');
+        $data = $dto->getObjectData($card);
         return $this->handleView($this->view($data));
     }
-
 }

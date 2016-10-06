@@ -3,36 +3,10 @@
 namespace ApiBundle\Service\DataTransferObject;
 
 use BiBundle\Entity\Argument;
-use BiBundle\Entity\User;
-use BiBundle\Repository\ArgumentRepository;
-use BiBundle\Service\UserAwareService;
-use BiBundle\Service\Utils\HostBasedUrl;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class ArgumentTransferObject
 {
-
-    /**
-     * @var ArgumentRepository
-     */
-    private $repository;
-
-    /**
-     * @var HostBasedUrl
-     */
-    private $url;
-
-    /**
-     * @var User
-     */
-    private $user;
-
-    public function __construct(ArgumentRepository $repository, UserAwareService $userAwareService, HostBasedUrl $url)
-    {
-        $this->user = $userAwareService->getUser();
-        $this->repository = $repository;
-        $this->url = $url;
-    }
-
     /**
      * Get argument's data normalized
      *
@@ -53,10 +27,10 @@ class ArgumentTransferObject
     /**
      * Get argument list
      *
-     * @param \BiBundle\Entity\Argument[] $data
+     * @param ArrayCollection $data
      * @return array
      */
-    public function getObjectListData(array $data)
+    public function getObjectListData($data)
     {
         $result = [];
 
@@ -65,13 +39,5 @@ class ArgumentTransferObject
             $result[] = $item;
         }
         return $result;
-    }
-
-    /**
-     * @return ArgumentRepository
-     */
-    public function getRepository()
-    {
-        return $this->repository;
     }
 }

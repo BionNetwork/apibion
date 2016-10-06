@@ -3,34 +3,32 @@
 namespace ApiBundle\Service\DataTransferObject;
 
 use BiBundle\Entity\Card;
-use BiBundle\Entity\User;
-use BiBundle\Repository\CardRepository;
-use BiBundle\Service\UserAwareService;
+use BiBundle\Entity\CardRepresentation;
 use BiBundle\Service\Utils\HostBasedUrl;
 
 class CardTransferObject
 {
-
-    /**
-     * @var CardRepository
-     */
-    private $repository;
-
     /**
      * @var HostBasedUrl
      */
     private $url;
-
     /**
-     * @var User
+     * @var ArgumentTransferObject
      */
-    private $user;
+    private $argumentTransferObject;
+    /**
+     * @var RepresentationTransferObject
+     */
+    private $representationTransferObject;
 
-    public function __construct(CardRepository $repository, UserAwareService $userAwareService, HostBasedUrl $url)
+    public function __construct(
+        ArgumentTransferObject $argumentTransferObject,
+        RepresentationTransferObject $representationTransferObject,
+        HostBasedUrl $url)
     {
-        $this->repository = $repository;
-        $this->user = $userAwareService->getUser();
         $this->url = $url;
+        $this->argumentTransferObject = $argumentTransferObject;
+        $this->representationTransferObject = $representationTransferObject;
     }
 
     /**
@@ -41,12 +39,26 @@ class CardTransferObject
      */
     public function getObjectData(Card $card)
     {
+        $representations = $card->getCardRepresentation();
+        $representationsArray = [];
+        /** @var CardRepresentation $item */
+        foreach ($representations as $item) {
+            $representationsArray[] = $item->getRepresentation();
+        }
         $data = [
             'id' => $card->getId(),
             'name' => $card->getName(),
-            'created_on' => $card->getCreatedOn(),
+            'description' => $card->getDescription(),
+            'descriptionLong' => $card->getDescriptionLong(),
+            'rating' => $card->getRating(),
+            'author' => $card->getAuthor(),
+            'image' => $card->getImage(),
+            'carousel' => $card->getCarousel(),
+            'createdOn' => $card->getCreatedOn(),
+            'arguments' => $this->getArgumentTransferObject()->getObjectListData($card->getArgument()),
+            'representations' => $this->getRepresentationTransferObject()->getObjectListData($representationsArray)
         ];
-        $cardVO = Object\CardValueObject::fromArray($data, $this->url);
+        $cardVO = Object\CardValueObject::fromArray($data);
         return $cardVO;
     }
 
@@ -71,8 +83,6 @@ class CardTransferObject
                 'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
                 'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
                 'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
-                'representation' => $this->getRepresentations($card),
-                'argument' => $this->getArguments($card),
             ];
             $result[] = $item;
         }
@@ -80,71 +90,18 @@ class CardTransferObject
     }
 
     /**
-     * @param Card|null $card
-     * @return array|null
+     * @return ArgumentTransferObject
      */
-    protected function getRepresentations(\BiBundle\Entity\Card $card = null)
+    public function getArgumentTransferObject()
     {
-        $cardRepresentations = $card->getCardRepresentation();
-
-        $result = [];
-        foreach($cardRepresentations as $cardRepresentation) {
-            $representation = $cardRepresentation->getRepresentation();
-            $result[] = [
-                'id' => $representation->getId(),
-                'code' => $representation->getCode(),
-                'name' => $representation->getName(),
-            ];
-        }
-        return $result;
+        return $this->argumentTransferObject;
     }
 
     /**
-     * @param Card|null $card
-     * @return array|null
+     * @return RepresentationTransferObject
      */
-    protected function getArguments(\BiBundle\Entity\Card $card = null)
+    public function getRepresentationTransferObject()
     {
-        $argumentList = $card->getArgument();
-
-        $result = [];
-        foreach($argumentList as $argument) {
-            $result[] = [
-                'id' => $argument->getId(),
-                'name' => $argument->getName(),
-                'code' => $argument->getCode(),
-                'dimension' => $argument->getDimension(),
-            ];
-        }
-        return $result;
-    }
-
-    /**
-     * Get cards list
-     *
-     * @param array $data
-     * @return array
-     */
-    public function getListData(array $data)
-    {
-        $result = [];
-
-        foreach ($data as $card) {
-            $item = [
-                'id' => $card['id'],
-                'name' => $card['name'],
-                'created_on' => !empty($card['created_on']) ? $card['created_on']->getTimestamp() : null,
-            ];
-            $result[] = $item;
-        }
-        return $result;
-    }
-
-    /**
-     * @return DashboardRepository
-     */
-    public function getRepository()
-    {
-        return $this->repository;
+        return $this->representationTransferObject;
     }
 }

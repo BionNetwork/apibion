@@ -3,36 +3,9 @@
 namespace ApiBundle\Service\DataTransferObject;
 
 use BiBundle\Entity\Representation;
-use BiBundle\Entity\User;
-use BiBundle\Repository\RepresentationRepository;
-use BiBundle\Service\UserAwareService;
-use BiBundle\Service\Utils\HostBasedUrl;
 
 class RepresentationTransferObject
 {
-
-    /**
-     * @var RepresentationRepository
-     */
-    private $repository;
-
-    /**
-     * @var HostBasedUrl
-     */
-    private $url;
-
-    /**
-     * @var User
-     */
-    private $user;
-
-    public function __construct(RepresentationRepository $repository, UserAwareService $userAwareService, HostBasedUrl $url)
-    {
-        $this->user = $userAwareService->getUser();
-        $this->repository = $repository;
-        $this->url = $url;
-    }
-
     /**
      * Get representation's data normalized
      *
@@ -52,10 +25,10 @@ class RepresentationTransferObject
     /**
      * Get representations list
      *
-     * @param \BiBundle\Entity\Representation[] $data
+     * @param $data
      * @return array
      */
-    public function getObjectListData(array $data)
+    public function getObjectListData($data)
     {
         $result = [];
 
@@ -64,13 +37,5 @@ class RepresentationTransferObject
             $result[] = $item;
         }
         return $result;
-    }
-
-    /**
-     * @return DashboardRepository
-     */
-    public function getRepository()
-    {
-        return $this->repository;
     }
 }

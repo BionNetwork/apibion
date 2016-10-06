@@ -3,7 +3,6 @@
 namespace BiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Card
 {
     /**
-     * @var Collection
+     * @var ArrayCollection
      */
     private $purchase;
 
@@ -67,7 +66,7 @@ class Card
     private $image;
 
     /**
-     * @var Collection
+     * @var ArrayCollection
      */
     private $cardRepresentation;
 
@@ -77,7 +76,7 @@ class Card
     private $carousel;
 
     /**
-     * @var Collection
+     * @var ArrayCollection
      */
     private $argument;
 
@@ -261,7 +260,7 @@ class Card
     /**
      * Get purchase
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getPurchase()
     {
@@ -392,7 +391,7 @@ class Card
     /**
      * Get cardRepresentation
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getCardRepresentation()
     {
@@ -450,7 +449,7 @@ class Card
     /**
      * Get argument
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getArgument()
     {
