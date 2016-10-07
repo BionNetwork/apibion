@@ -14,6 +14,9 @@ task_user:
 bi_argument:
     resource: "@BiBundle/Resources/config/routing/argument.yml"
     prefix:   /argument
+bi_filter_control_type:
+    resource: "@BiBundle/Resources/config/routing/filter-control-type.yml"
+    prefix:   /filter-control-type
 task_homepage:
     path:     /
     defaults: { _controller: BiBundle:User:index }

@@ -94,3 +94,6 @@ services:
     bi.argument.service:
         class: BiBundle\Service\ArgumentService
         arguments: ['@doctrine.orm.entity_manager']
+    bi.filter_control_type.service:
+        class: BiBundle\Service\FilterControlTypeService
+        arguments: ['@doctrine.orm.entity_manager']

@@ -4,3 +4,8 @@ services:
         arguments: ['@bi.argument.service']
         calls:
             - [setContainer, ['@service_container']]
+    bi.filter_control_type.controller:
+        class: BiBundle\Controller\FilterControlTypeController
+        arguments: ['@bi.filter_control_type.service']
+        calls:
+            - [setContainer, ['@service_container']]
