@@ -2,32 +2,70 @@
 
 namespace BiBundle\Service;
 
-use Doctrine\ORM\Query;
-use Doctrine\ORM\EntityManager;
+use BiBundle\Entity\Activation;
+use BiBundle\Entity\Dashboard;
 use BiBundle\Entity\DashboardActivation;
-use BiBundle\Entity\Exception\ValidatorException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use BiBundle\Repository\DashboardActivationRepository;
+use Doctrine\ORM\Mapping as ORM;
 
-class DashboardActivationService extends UserAwareService
+class DashboardActivationService
 {
+    /**
+     * @var DashboardActivationRepository
+     */
+    private $dashboardActivationRepository;
 
     /**
-     * Save or create activation to dashboard link
+     * Constructor
      *
-     * @param DashboardActivation $dashboardActivation
+     * DashboardActivationService constructor.
+     * @param DashboardActivationRepository $dashboardActivationRepository
      */
-    public function save(DashboardActivation $dashboardActivation)
+    public function __construct(DashboardActivationRepository $dashboardActivationRepository)
     {
-        $em = $this->getEntityManager();
+        $this->dashboardActivationRepository = $dashboardActivationRepository;
+    }
 
-        if ($dashboardActivation->getId() === null) {
-            $dashboardActivation->setUser($this->getUser());
-            $dashboardActivation->setCreatedOn(new \DateTime());
+    /**
+     * @param Activation $activation
+     * @param Dashboard $dashboard
+     * @return DashboardActivation
+     * @throws \ErrorException
+     */
+    public function addActivationToDashboard(Activation $activation, Dashboard $dashboard)
+    {
+        if ($activation->getUser() !== $dashboard->getUser()) {
+            throw new \ErrorException('Dashboard and activation user don\'t match');
         }
+        $dashboardActivation = new DashboardActivation();
+        $dashboardActivation->setActivation($activation);
+        $dashboardActivation->setDashboard($dashboard);
+        $dashboardActivation->setUser($activation->getUser());
+        $this->dashboardActivationRepository->save($dashboardActivation);
 
-        $em->persist($dashboardActivation);
-        $em->flush();
+        return $dashboardActivation;
+    }
+
+    /**
+     * @param Activation $activation
+     * @param Dashboard $dashboard
+     * @throws \ErrorException
+     */
+    public function removeActivationFromDashboard(Activation $activation, Dashboard $dashboard)
+    {
+        if ($activation->getUser() !== $dashboard->getUser()) {
+            throw new \ErrorException('Dashboard and activation user don\'t match');
+        }
+        /** @var DashboardActivation $dashboardActivation */
+        $dashboardActivation = $this->dashboardActivationRepository
+            ->findOneBy([
+                'activation' => $activation,
+                'dashboard' => $dashboard
+            ]);
+        if (!$dashboardActivation) {
+            throw new \ErrorException();
+        }
+        $this->dashboardActivationRepository->delete($dashboardActivation);
     }
 
     /**
