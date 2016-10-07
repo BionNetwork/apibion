@@ -1,6 +1,6 @@
 project_index:
     path:     /
-    defaults: { _controller: "BiBundle:Card:index" }
+    defaults: { _controller: bi.card.controller:indexAction }
     methods:  GET
 task_user_role:
     resource: "@BiBundle/Resources/config/routing/userrole.yml"

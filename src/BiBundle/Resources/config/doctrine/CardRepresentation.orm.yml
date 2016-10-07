@@ -27,14 +27,9 @@ BiBundle\Entity\CardRepresentation:
     manyToOne:
         activation:
             targetEntity: Activation
-            cascade: {  }
-            mappedBy: null
-            inversedBy: card_representation
             joinColumns:
                 activation_id:
-                    referencedColumnName: id
                     nullable: true
-            orphanRemoval: false
         card:
             targetEntity: Card
             inversedBy: cardRepresentation
@@ -43,12 +38,7 @@ BiBundle\Entity\CardRepresentation:
                     nullable: true
         representation:
             targetEntity: Representation
-            cascade: {  }
-            mappedBy: null
-            inversedBy: card_representation
             joinColumns:
                 representation_id:
-                    referencedColumnName: id
                     nullable: true
-            orphanRemoval: false
     lifecycleCallbacks: {  }
