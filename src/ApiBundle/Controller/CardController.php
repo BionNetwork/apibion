@@ -8,7 +8,6 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CardController extends RestController
@@ -98,7 +97,7 @@ class CardController extends RestController
      *
      *
      * @ApiDoc(
-     *  section="2. Магазин",
+     *  section="2. Карточки",
      *  description="Получение списка категорий по фильтру",
      *  statusCodes={
      *          200="Успех",
@@ -141,7 +140,7 @@ class CardController extends RestController
 
     /**
      * @ApiDoc(
-     *  section="2. Магазин",
+     *  section="2. Карточки",
      *  description="Получение списка карточек сгруппированных по категориям",
      *  statusCodes={
      *         200="При успешном получении данных",
