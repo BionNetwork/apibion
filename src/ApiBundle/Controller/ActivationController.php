@@ -15,7 +15,6 @@ use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Controller\Annotations\Route;
-use BiBundle\Service\Upload\FilePathStrategy;
 
 class ActivationController extends RestController
 {
@@ -79,11 +78,11 @@ class ActivationController extends RestController
      * @param \BiBundle\Entity\Activation $activation
      * @param \BiBundle\Entity\Dashboard $dashboard
      *
-     * @Route("/activation/{activation}/dashboard/{dashboard}", requirements={"activation": "\d+", "dashboard": "\d+"})
+     * @Route(requirements={"activation": "\d+", "dashboard": "\d+"})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function postActivationDashboardAction(\BiBundle\Entity\Activation $activation, \BiBundle\Entity\Dashboard $dashboard)
+    public function postActivationsDashboardAction(\BiBundle\Entity\Activation $activation, \BiBundle\Entity\Dashboard $dashboard)
     {
         $dashboardActivationService = $this->get('bi.dashboard_activation.service');
         $dashboardActivation = new \BiBundle\Entity\DashboardActivation();
@@ -102,7 +101,7 @@ class ActivationController extends RestController
      * @ApiDoc(
      *  section="4. Активации",
      *  resource=true,
-     *  description="Получение активаций по фильтру",
+     *  description="Получение активаций пользователя по фильтру",
      *  statusCodes={
      *         200="При успешном получении данных",
      *         400="Ошибка получения данных"
@@ -127,7 +126,6 @@ class ActivationController extends RestController
      */
     public function getActivationsAction(ParamFetcher $paramFetcher)
     {
-
         $activationService = $this->get('bi.activation.service');
         $params = $this->getParams($paramFetcher, 'activation');
         $params['user_id'] = $this->getUser()->getId();
@@ -159,13 +157,11 @@ class ActivationController extends RestController
      *    }
      * )
      *
-     * @Route("/activation/{activation}/loaddata", requirements={"activation": "\d+"})
-     *
-     * @param Request $request
+     * @Route("/activations/{activation}/data", requirements={"activation": "\d+"})
      *
      * @return Response
      */
-    public function postActivationLoaddataAction(\BiBundle\Entity\Activation $activation)
+    public function postActivationDataAction(\BiBundle\Entity\Activation $activation)
     {
         $resourceList = $activation->getResource();
         $resourceListArray = [];
@@ -202,23 +198,15 @@ class ActivationController extends RestController
      *    }
      * )
      *
-     * @Route("/activation/{activation}/getfilters", requirements={"activation": "\d+"})
+     * @Route(requirements={"activation": "\d+"})
      *
-     * @param Request $request
-     *
+     * @param \BiBundle\Entity\Activation $activation
      * @return Response
      */
-    public function getFiltersAction(\BiBundle\Entity\Activation $activation)
+    public function getActivationsFiltersAction(\BiBundle\Entity\Activation $activation)
     {
-        $resourceList = $activation->getResource();
         $backendService = $this->get('bi.backend.service');
-
-        $resourceListArray = [];
-        foreach ($resourceList as $resource) {
-            $resourceListArray[] = $resource;
-        }
-
-        $result = $backendService->getFilters($activation, $resourceListArray);
+        $result = $backendService->getFilters($activation);
 
         $view = $this->view($result);
         return $this->handleView($view);
@@ -244,15 +232,15 @@ class ActivationController extends RestController
      *    }
      * )
      *
-     * @Route("/activation/{activation}/getdata", requirements={"activation": "\d+"})
+     * @Route("/activations/{activation}/data", requirements={"activation": "\d+"})
      *
      * @QueryParam(name="json", allowBlank=true, requirements=".+", description="Сериализованный в JSON фильтр")
      *
+     * @param \BiBundle\Entity\Activation $activation
      * @param ParamFetcher $paramFetcher
-     *
      * @return Response
      */
-    public function getDataAction(\BiBundle\Entity\Activation $activation, ParamFetcher $paramFetcher)
+    public function getActivationsDataAction(\BiBundle\Entity\Activation $activation, ParamFetcher $paramFetcher)
     {
         $activationStatusCode = $activation->getActivationStatus()->getCode();
         if(ActivationStatus::STATUS_ACTIVE !== $activationStatusCode) {
@@ -294,7 +282,7 @@ class ActivationController extends RestController
      *    }
      * )
      *
-     * @Route("/activation/{activation}/getemptyfilter", requirements={"activation": "\d+"})
+     * @Route("/activations/{activation}/empty_filters", requirements={"activation": "\d+"})
      *
      *
      * @param \BiBundle\Entity\Activation $activation
@@ -336,7 +324,7 @@ class ActivationController extends RestController
      *    }
      * )
      *
-     * @Route("/activation/{activation}/resource/{resource}/argument/{argument}", requirements={"activation": "\d+", "resource": "\d+", "argument": "\d+"})
+     * @Route(requirements={"activation": "\d+", "resource": "\d+", "argument": "\d+"})
      *
      * @RequestParam(name="table_name", allowBlank=false, requirements=".+", description="Наименование таблицы")
      * @RequestParam(name="column_name", allowBlank=false, requirements=".+", description="Уникальное наименование столбца")
@@ -345,12 +333,15 @@ class ActivationController extends RestController
      * @param \BiBundle\Entity\Resource $resource
      * @param \BiBundle\Entity\Argument $argument
      * @param ParamFetcher $paramFetcher
-     * @param Request $request
      *
      * @return Response
      */
 
-    public function postActivationResourceArgumentAction(\BiBundle\Entity\Activation $activation, \BiBundle\Entity\Resource $resource, \BiBundle\Entity\Argument $argument, ParamFetcher $paramFetcher)
+    public function postActivationsResourceArgumentAction(
+        \BiBundle\Entity\Activation $activation,
+        \BiBundle\Entity\Resource $resource,
+        \BiBundle\Entity\Argument $argument,
+        ParamFetcher $paramFetcher)
     {
         $params = $this->getParams($paramFetcher, 'ArgumentBond');
 
@@ -391,13 +382,13 @@ class ActivationController extends RestController
      *    }
      * )
      *
-     * @Route("/activation/{activation}/argument_bonds", requirements={"activation": "\d+"})
+     * @Route(requirements={"activation": "\d+"})
      *
      * @param \BiBundle\Entity\Activation $activation
      *
      * @return Response
      */
-    public function getActivationArgumentBondsAction(\BiBundle\Entity\Activation $activation)
+    public function getActivationsBondsAction(\BiBundle\Entity\Activation $activation)
     {
         $argumentBondService = $this->get('bi.argument_bond.service');
         $argumentBondList = $argumentBondService->getArgumentBondList($activation);

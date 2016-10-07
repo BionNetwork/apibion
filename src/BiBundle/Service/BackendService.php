@@ -9,6 +9,7 @@ namespace BiBundle\Service;
 use BiBundle\Service\Backend\Client;
 use BiBundle\Service\Backend\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use BiBundle\Service\Backend\Gateway\UrlOptions;
 
 /**
  * Backend service
@@ -60,7 +61,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath('/datasources');
+        $request->setPath(UrlOptions::DATA_SOURCES_URL);
 
         $uploadDir = $this->container->getParameter('upload_dir');
         $uploadFilePath = implode(DIRECTORY_SEPARATOR, [$uploadDir, $resource->getPath()]);
@@ -108,7 +109,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath('/datasources');
+        $request->setPath(UrlOptions::DATA_SOURCES_URL);
         
         $respond = $client->send($request);
 
@@ -129,7 +130,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('datasources/%d', $resource->getRemoteId()));
+        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_ITEM_URL, $resource->getRemoteId()));
 
         $respond = $client->send($request);
 
@@ -151,21 +152,8 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('datasources/%d/tables', $resource->getRemoteId()));
+        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_TABLES_URL, $resource->getRemoteId()));
         $request->setParams([$resource->getRemoteId()]);
-
-        $respond = $client->send($request);
-
-        return $respond;
-    }
-
-    public function getTables()
-    {
-        $client = $this->getClient();
-
-        $request = new \BiBundle\Service\Backend\Request;
-        $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('datasources/%d/TDSheet', 263));
 
         $respond = $client->send($request);
 
@@ -186,7 +174,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('datasources/%d/%s', $resource->getRemoteId(), $tableName));
+        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_TABLE_INFO_URL, $resource->getRemoteId(), $tableName));
 
         $respond = $client->send($request);
 
@@ -207,7 +195,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('datasources/%d/%s/preview', $resource->getRemoteId(), $tableName));
+        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_TABLE_PREVIEW_URL, $resource->getRemoteId(), $tableName));
 
         $respond = $client->send($request);
 
@@ -219,26 +207,7 @@ class BackendService extends UserAwareService
     }
 
     /**
-     * Очистка кеша
-     *
-     * @param \BiBundle\Entity\Activation $activation
-     *
-     * @return array()
-     */
-    public function clearCache(\BiBundle\Entity\Activation $activation)
-    {
-        $client = $this->getClient();
-
-        $request = new \BiBundle\Service\Backend\Request;
-        $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cards/%d/clear_cache/', $activation->getId()));
-        $respond = $client->send($request);
-
-        return $respond;
-    }
-
-    /**
-     * Получение таблиц источника
+     * Создание дерева по источнику
      *
      * @param \BiBundle\Entity\Activation $activation
      * @param \BiBundle\Entity\Resource[] $resourceList
@@ -247,13 +216,10 @@ class BackendService extends UserAwareService
      */
     public function createTree(\BiBundle\Entity\Activation $activation, array $resourceList)
     {
-        // Очистка кеша перед построением нового (при необходимости)
-        // $isCacheCleared = $this->clearCache($activation);
-
         // Построение дерева
+        $data = [];
         foreach ($resourceList as $resource) {
             $tables = $this->getResourceTables($resource);
-            $data = [];
             foreach ($tables as $table) {
                 $data[] = [
                     'source_id' => $resource->getRemoteId(),
@@ -266,7 +232,7 @@ class BackendService extends UserAwareService
         $request = new \BiBundle\Service\Backend\Request;
 
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf("cards/%d/create_tree/", $activation->getId()));
+        $request->setPath(sprintf(UrlOptions::CARDS_TREE_CREATE_URL, $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
 
         $respond = $client->send($request);
@@ -330,13 +296,14 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cards/%d/load_data/', $activation->getId()));
+        $request->setPath(sprintf(UrlOptions::CARDS_LOAD_DATA_URL, $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
         $respond = $client->send($request);
 
         $em = $this->getEntityManager();
 
-        $activationDoneStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy(['code' => \BiBundle\Entity\ActivationStatus::STATUS_ACTIVE]);
+        $activationDoneStatus = $em->getRepository('BiBundle:ActivationStatus')
+            ->findOneBy(['code' => \BiBundle\Entity\ActivationStatus::STATUS_ACTIVE]);
         $activation->setActivationStatus($activationDoneStatus);
 
         $activation->setLoadDataRespond(json_encode($respond, JSON_UNESCAPED_UNICODE));
@@ -360,7 +327,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf('cards/%d/get_filters', $activation->getId()));
+        $request->setPath(sprintf(UrlOptions::CARDS_FILTERS_URL, $activation->getId()));
 
         $respond = $client->send($request);
 
@@ -382,7 +349,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf('cards/%d/query_new', $activation->getId()));
+        $request->setPath(sprintf(UrlOptions::CARDS_QUERY_URL, $activation->getId()));
         $request->setData(['data' => $filter]);
         $respond = $client->send($request);
 

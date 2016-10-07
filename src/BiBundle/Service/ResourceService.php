@@ -8,10 +8,7 @@ namespace BiBundle\Service;
 
 use BiBundle\Service\Backend\Gateway\Exception;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\EntityManager;
-use BiBundle\Entity\Exception\ValidatorException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
@@ -19,7 +16,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  */
 class ResourceService extends UserAwareService
 {
-
     /**
      * @var ContainerInterface
      */
@@ -41,18 +37,28 @@ class ResourceService extends UserAwareService
         $em = $this->getEntityManager();
 
         if ($resource->getId() === null) {
-            $resource->setCreatedOn(new \DateTime());
             try {
-                $backendService = $this->container->get('bi.backend.service');
-                $resource = $backendService->putResource($resource);
+                $this->uploadData($resource);
             } catch (Exception $ex) {
-                throw new \Symfony\Component\HttpKernel\Exception\HttpException($ex->getMessage());
+                throw new \RuntimeException($ex->getMessage());
             }
         }
 
         $em->persist($resource);
         $em->flush();
         return $resource;
+    }
+
+    /**
+     * Uploads data to remote host
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     * @throws Backend\Exception
+     */
+    protected function uploadData(\BiBundle\Entity\Resource $resource)
+    {
+        $backendService = $this->container->get('bi.backend.service');
+        $backendService->putResource($resource);
     }
 
     /**
