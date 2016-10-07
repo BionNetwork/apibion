@@ -33,3 +33,11 @@ services:
         arguments: ['@bi.service.token.storage', '@api.auth_options']
     api.config.service:
         class: ApiBundle\Service\ConfigService
+    api.activation_setting.controller:
+        class: ApiBundle\Controller\ActivationSettingController
+        arguments: ['@service_container', '@bi.activation_setting.service']
+    api.activation.voter:
+        class: ApiBundle\Security\ActivationVoter
+        tags:
+            - { name: security.voter }
+        public: false

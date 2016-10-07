@@ -1,0 +1,31 @@
+BiBundle\Entity\ActivationSetting:
+    type: entity
+    table: activation_setting
+    repositoryClass: BiBundle\Repository\ActivationSettingRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        key:
+            type: string
+            length: 255
+        value:
+            type: text
+        createdOn:
+            type: datetime
+            nullable: true
+        deletedOn:
+            type: datetime
+            nullable: true
+    manyToOne:
+        activation:
+            targetEntity: Activation
+            inversedBy: activationSetting
+            joinColumns:
+                activation_id:
+                    onDelete: CASCADE
+                    nullable: false
+    lifecycleCallbacks: {  }

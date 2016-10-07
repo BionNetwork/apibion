@@ -44,3 +44,8 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\DashboardActivation
+    repository.activation_setting_repository:
+            class: BiBundle\Repository\ActivationSettingRepository
+            factory: ['@doctrine.orm.default_entity_manager', getRepository]
+            arguments:
+                - BiBundle\Entity\ActivationSetting

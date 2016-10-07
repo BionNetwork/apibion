@@ -81,7 +81,7 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
-            - [ setAnnotationReader, [ '@annotation_reader' ] ]
+            - [ setAnnotationReader, ['@annotation_reader'] ]
             - [ setDefaultLocale, [ ru ] ]
             - [ setTranslatableLocale, [ ru ] ]
             - [ setTranslationFallback, [ true ] ]
@@ -90,3 +90,9 @@ services:
         tags:
             - { name: kernel.event_subscriber }
         arguments: ['@gedmo.listener.translatable']
+    bi.activation_setting.service:
+        class: BiBundle\Service\ActivationSettingService
+        arguments: ['@repository.activation_setting_repository']
+    bi.test_entity.factory:
+        class: BiBundle\Service\TestEntityFactory
+        arguments: ['@doctrine.orm.entity_manager']
