@@ -26,3 +26,5 @@ services:
         arguments: ['@repository.dashboard_activation_repository', '@bi.user_aware_service', '@utils.host_based_url']
     api.data.transfer_object.activation_setting_transfer_object:
         class: ApiBundle\Service\DataTransferObject\ActivationSettingTransferObject
+    api.data.transfer_object.card_category_transfer_object:
+        class: ApiBundle\Service\DataTransferObject\CardCategoryTransferObject

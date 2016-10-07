@@ -53,19 +53,20 @@ class CardTransferObject
             'rating' => $card->getRating(),
             'author' => $card->getAuthor(),
             'image' => $card->getImage(),
+            'category' => $card->getCardCategory() ? $card->getCardCategory()->getId() : null,
             'carousel' => $card->getCarousel(),
             'createdOn' => $card->getCreatedOn(),
             'arguments' => $this->getArgumentTransferObject()->getObjectListData($card->getArgument()),
             'representations' => $this->getRepresentationTransferObject()->getObjectListData($representationsArray)
         ];
-        $cardVO = Object\CardValueObject::fromArray($data);
-        return $cardVO;
+
+        return Object\CardValueObject::fromArray($data, $this->url);
     }
 
     /**
      * Get cards list
      *
-     * @param \BiBundle\Entity\Card[] $data
+     * @param Card $card
      * @return array
      */
     public function getObjectListData(array $data)
@@ -80,9 +81,12 @@ class CardTransferObject
                 'description_long' => $card->getDescriptionLong(),
                 'rating' => $card->getRating(),
                 'price' => $card->getPrice(),
+                'category' => $card->getCardCategory() ? $card->getCardCategory()->getId() : null,
                 'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
                 'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
                 'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
+                'representation' => $this->getRepresentations($card),
+                'argument' => $this->getArguments($card),
             ];
             $result[] = $item;
         }

@@ -20,8 +20,6 @@ assetic:
             bin: '%uglifycss_bin%'
 
 framework:
-    #esi:             ~
-#    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
