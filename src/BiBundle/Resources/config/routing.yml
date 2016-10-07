@@ -11,6 +11,9 @@ task_user_status:
 task_user:
     resource: "@BiBundle/Resources/config/routing/user.yml"
     prefix:   /user
+bi_card:
+    resource: "@BiBundle/Resources/config/routing/card.yml"
+    prefix:   /card
 bi_argument:
     resource: "@BiBundle/Resources/config/routing/argument.yml"
     prefix:   /argument

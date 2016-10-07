@@ -1,0 +1,19 @@
+card_index:
+    path:     /
+    defaults: { _controller: bi.card.controller:indexAction }
+    methods:  GET
+
+card_new:
+    path:     /new
+    defaults: { _controller: bi.card.controller:newAction }
+    methods:  [GET, POST]
+
+card_edit:
+    path:     /{id}/edit
+    defaults: { _controller: bi.card.controller:editAction }
+    methods:  [GET, POST]
+
+card_delete:
+    path:     /{id}/delete
+    defaults: { _controller: bi.card.controller:deleteAction }
+    methods:  DELETE

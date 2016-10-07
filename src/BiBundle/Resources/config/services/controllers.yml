@@ -9,3 +9,8 @@ services:
         arguments: ['@bi.filter_control_type.service']
         calls:
             - [setContainer, ['@service_container']]
+    bi.card.controller:
+        class: BiBundle\Controller\CardController
+        arguments: ['@bi.card.service']
+        calls:
+            - [setContainer, ['@service_container']]

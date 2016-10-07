@@ -23,7 +23,7 @@ services:
         parent: bi.user_aware_service
     bi.card.service:
         class: BiBundle\Service\CardService
-        parent: bi.user_aware_service
+        arguments: ['@doctrine.orm.entity_manager']
     bi.purchase.service:
         class: BiBundle\Service\PurchaseService
         parent: bi.user_aware_service

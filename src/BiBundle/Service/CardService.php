@@ -3,9 +3,19 @@
 namespace BiBundle\Service;
 
 use BiBundle\Entity\Card;
+use Doctrine\ORM\EntityManager;
 
-class CardService extends UserAwareService
+class CardService
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * Returns cards by filter
@@ -16,8 +26,7 @@ class CardService extends UserAwareService
      */
     public function getByFilter(\BiBundle\Entity\Filter\Card $filter)
     {
-        $em = $this->getEntityManager();
-        return $em->getRepository('BiBundle:Card')->findByFilter($filter);
+        return $this->entityManager->getRepository('BiBundle:Card')->findByFilter($filter);
     }
 
     /**
@@ -27,7 +36,32 @@ class CardService extends UserAwareService
      */
     public function getAllCards()
     {
-        $em = $this->getEntityManager();
-        return $em->getRepository('BiBundle:Card')->findAllCards();
+        return $this->entityManager->getRepository('BiBundle:Card')->findAllCards();
+    }
+
+    /**
+     * @param Card $card
+     */
+    public function create(Card $card)
+    {
+        $this->entityManager->persist($card);
+        $this->entityManager->flush($card);
+    }
+
+    /**
+     * @param Card $card
+     */
+    public function update(Card $card)
+    {
+        $this->entityManager->flush($card);
+    }
+
+    /**
+     * @param Card $card
+     */
+    public function delete(Card $card)
+    {
+        $this->entityManager->remove($card);
+        $this->entityManager->flush($card);
     }
 }
