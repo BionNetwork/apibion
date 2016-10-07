@@ -52,6 +52,9 @@ class Argument
      */
     private $description;
 
+    /** @var  FilterControlType */
+    private $filterControlType;
+
     /**
      * Constructor
      */
@@ -215,11 +218,11 @@ class Argument
     {
         return $this->card;
     }
+
     /**
      * @var string
      */
     private $dimension;
-
 
     /**
      * Set dimension
@@ -267,5 +270,21 @@ class Argument
     public function setLocale($locale)
     {
         $this->locale = $locale;
+    }
+
+    /**
+     * @return FilterControlType
+     */
+    public function getFilterControlType()
+    {
+        return $this->filterControlType;
+    }
+
+    /**
+     * @param FilterControlType $filterControlType
+     */
+    public function setFilterControlType($filterControlType)
+    {
+        $this->filterControlType = $filterControlType;
     }
 }

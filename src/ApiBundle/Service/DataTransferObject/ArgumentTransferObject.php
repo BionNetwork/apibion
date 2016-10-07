@@ -13,13 +13,14 @@ class ArgumentTransferObject
      * @param Argument $argument
      * @return array
      */
-    public function getObjectData(Argument $argument)
+    public static function getObjectData(Argument $argument)
     {
         $data = [
             'id' => $argument->getId(),
             'name' => $argument->getName(),
             'code' => $argument->getCode(),
-            'dimension' => $argument->getDimension()
+            'dimension' => $argument->getDimension(),
+            'filter_control_type' => $argument->getFilterControlType() ? $argument->getFilterControlType()->getName() : null,
         ];
         return $data;
     }

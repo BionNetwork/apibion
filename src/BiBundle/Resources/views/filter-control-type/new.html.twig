@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block header_content %}
+    Добавление типа
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="box box-primary">
+                {{ form_start(new_form) }}
+                <div class="box-body">
+                    {{ form_widget(new_form) }}
+                </div>
+                <div class="box-footer">
+                    <ul class="pull-right">
+                        <a class="btn btn-default" href="{{ path('filter_control_type_index') }}">Отмена</a>
+                        <input type="submit" class="btn btn-primary" value="Сохранить"/>
+                        {{ form_end(new_form) }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

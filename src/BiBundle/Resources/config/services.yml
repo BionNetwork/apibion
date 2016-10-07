@@ -4,6 +4,7 @@ imports:
    - { resource: "services/events.yml" }
    - { resource: "services/repositories.yml" }
    - { resource: "services/backend.yml" }
+   - { resource: "services/controllers.yml" }
 
 services:
     twig.extension.dialog:
@@ -98,4 +99,10 @@ services:
         arguments: ['@repository.activation_setting_repository']
     bi.test_entity.factory:
         class: BiBundle\Service\TestEntityFactory
+        arguments: ['@doctrine.orm.entity_manager']
+    bi.argument.service:
+        class: BiBundle\Service\ArgumentService
+        arguments: ['@doctrine.orm.entity_manager']
+    bi.filter_control_type.service:
+        class: BiBundle\Service\FilterControlTypeService
         arguments: ['@doctrine.orm.entity_manager']

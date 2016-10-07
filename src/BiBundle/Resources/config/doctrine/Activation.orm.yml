@@ -45,15 +45,9 @@ BiBundle\Entity\Activation:
     manyToOne:
         card:
             targetEntity: Card
-            cascade: ["persist"]
-            mappedBy: null
-            inversedBy: activation
             joinColumns:
                 card_id:
-                    referencedColumnName: id
-                    onDelete: CASCADE
                     nullable: false
-            orphanRemoval: false
         user:
             targetEntity: User
             cascade: {  }
@@ -67,13 +61,7 @@ BiBundle\Entity\Activation:
             orphanRemoval: false
         activation_status:
             targetEntity: ActivationStatus
-            cascade: {  }
-            mappedBy: null
-            inversedBy: activation
             joinColumns:
                 activation_status_id:
-                    referencedColumnName: id
-                    onDelete: CASCADE
                     nullable: false
-            orphanRemoval: false
     lifecycleCallbacks: {  }
