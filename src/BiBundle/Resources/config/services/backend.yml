@@ -1,4 +1,4 @@
 services:
     bi.backend.client:
         class: BiBundle\Service\Backend\Client
-        parent: bi.user_aware_service
+        arguments: ['@bi.backend.gateway_service']

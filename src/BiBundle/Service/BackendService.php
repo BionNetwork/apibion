@@ -21,29 +21,14 @@ class BackendService extends UserAwareService
      */
     protected $client;
 
-    public function __construct()
-    {
-        $this->gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-    }
-
     /**
      * @var ContainerInterface
      */
     protected $container;
 
-    /**
-     * @var
-     */
-    protected $gateway;
-
     public function setServiceContainer($container)
     {
         $this->container = $container;
-    }
-
-    public function setEntityManager($em)
-    {
-        $this->em = $em;
     }
 
     /**
@@ -61,9 +46,9 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(UrlOptions::DATA_SOURCES_URL);
+        $request->setUri(UrlOptions::DATA_SOURCES_URL);
 
-        $uploadDir = $this->container->getParameter('upload_dir');
+        $uploadDir = $this->getContainer()->getParameter('upload_dir');
         $uploadFilePath = implode(DIRECTORY_SEPARATOR, [$uploadDir, $resource->getPath()]);
 
         $uploadable = new Backend\Uploadable;
@@ -109,8 +94,8 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(UrlOptions::DATA_SOURCES_URL);
-        
+        $request->setUri(UrlOptions::DATA_SOURCES_URL);
+
         $respond = $client->send($request);
 
         return $respond;
@@ -130,7 +115,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_ITEM_URL, $resource->getRemoteId()));
+        $request->setUri(sprintf(UrlOptions::DATA_SOURCES_ITEM_URL, $resource->getRemoteId()));
 
         $respond = $client->send($request);
 
@@ -152,7 +137,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_TABLES_URL, $resource->getRemoteId()));
+        $request->setUri(sprintf(UrlOptions::DATA_SOURCES_TABLES_URL, $resource->getRemoteId()));
         $request->setParams([$resource->getRemoteId()]);
 
         $respond = $client->send($request);
@@ -174,7 +159,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_TABLE_INFO_URL, $resource->getRemoteId(), $tableName));
+        $request->setUri(sprintf(UrlOptions::DATA_SOURCES_TABLE_INFO_URL, $resource->getRemoteId(), $tableName));
 
         $respond = $client->send($request);
 
@@ -195,7 +180,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf(UrlOptions::DATA_SOURCES_TABLE_PREVIEW_URL, $resource->getRemoteId(), $tableName));
+        $request->setUri(sprintf(UrlOptions::DATA_SOURCES_TABLE_PREVIEW_URL, $resource->getRemoteId(), $tableName));
 
         $respond = $client->send($request);
 
@@ -232,7 +217,7 @@ class BackendService extends UserAwareService
         $request = new \BiBundle\Service\Backend\Request;
 
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf(UrlOptions::CARDS_TREE_CREATE_URL, $activation->getId()));
+        $request->setUri(sprintf(UrlOptions::CARDS_TREE_CREATE_URL, $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
 
         $respond = $client->send($request);
@@ -296,7 +281,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf(UrlOptions::CARDS_LOAD_DATA_URL, $activation->getId()));
+        $request->setUri(sprintf(UrlOptions::CARDS_LOAD_DATA_URL, $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
         $respond = $client->send($request);
 
@@ -327,7 +312,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
-        $request->setPath(sprintf(UrlOptions::CARDS_FILTERS_URL, $activation->getId()));
+        $request->setUri(sprintf(UrlOptions::CARDS_FILTERS_URL, $activation->getId()));
 
         $respond = $client->send($request);
 
@@ -349,7 +334,7 @@ class BackendService extends UserAwareService
 
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
-        $request->setPath(sprintf(UrlOptions::CARDS_QUERY_URL, $activation->getId()));
+        $request->setUri(sprintf(UrlOptions::CARDS_QUERY_URL, $activation->getId()));
         $request->setData(['data' => $filter]);
         $respond = $client->send($request);
 
@@ -368,11 +353,16 @@ class BackendService extends UserAwareService
     {
         if (null === $this->client) {
             $client = $this->container->get('bi.backend.client');
-            $gateway = new \BiBundle\Service\Backend\Gateway\Bi;
-            $client->setGateway($gateway);
             $this->client = $client;
         }
         return $this->client;
     }
 
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
 }

@@ -43,12 +43,14 @@ services:
     bi.argument_bond.service:
         class: BiBundle\Service\ArgumentBondService
         parent: bi.user_aware_service
+    bi.backend.gateway_service:
+        class: BiBundle\Service\Backend\Gateway\Bi
+        arguments: [{'gatewayUrl': '%backend_gateway_url%'}]
     bi.backend.service:
         class: BiBundle\Service\BackendService
         parent: bi.user_aware_service
         calls:
           - ['setServiceContainer', ['@service_container']]
-          - ['setEntityManager', ['@doctrine.orm.entity_manager']]
     user.listener:
         class: BiBundle\Entity\Listener\UserListener
         arguments: ['@service_container']

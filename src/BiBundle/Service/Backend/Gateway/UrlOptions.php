@@ -37,7 +37,7 @@ class UrlOptions
     /**
      * Load data on selected card
      */
-    const CARDS_LOAD_DATA_URL = "/cubes/%d/load_data/";
+    const CARDS_LOAD_DATA_URL = "/cubes/%d/load_data";
     /**
      * Get card filters
      */

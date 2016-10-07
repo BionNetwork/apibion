@@ -28,5 +28,5 @@ parameters:
     redis_server: localhost
     upload_dir: '%kernel.root_dir%/../web'
     profile_upload_photo_dir: uploads/profiles
-    projects_upload_photo_dir: uploads/projects
     auth_key_ttl: 36000
+    backend_gateway_url: http://p3.bidemo.itgkh.ru/api/v1/

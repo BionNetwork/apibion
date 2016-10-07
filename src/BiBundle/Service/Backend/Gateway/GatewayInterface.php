@@ -9,7 +9,7 @@ use BiBundle\Service\Backend;
 /**
  * Gateway Interface
  */
-interface IGateway
+interface GatewayInterface
 {
     /**
      * Gateway name

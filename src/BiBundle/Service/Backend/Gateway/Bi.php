@@ -14,15 +14,7 @@ class Bi extends AbstractGateway
      *
      * @var string
      */
-    protected $gatewayUrl = 'http://p3.bidemo.itgkh.ru/api/v1/';
-    //protected $gatewayUrl = 'http://172.19.110.210:8000/api/v1/';
-
-    /**
-     * From whom field in Platform message
-     *
-     * @var string
-     */
-    protected $originator = 'bion';
+    protected $gatewayUrl;
 
     /**
      * Gateway name
@@ -34,8 +26,9 @@ class Bi extends AbstractGateway
         return 'bi';
     }
 
-    private function processUri($path, $params) {
-        return $this->getGatewayUrl() . trim($path, '/') . '/?format=json';
+    private function processUri($uri)
+    {
+        return $this->getGatewayUrl() . trim($uri, '/') . '?format=json';
     }
 
     public function send(Backend\Request $backendRequest)
@@ -51,12 +44,6 @@ class Bi extends AbstractGateway
         );
         $client->setMethod($backendRequest->getMethod());
 
-        /*
-        $headers = $client->getRequest()->getHeaders();
-        $headers->addHeaderLine('Content-type','application/json');
-        $client->setHeaders($headers);
-        */
-
         foreach ($backendRequest->getUploadableList() as $uploadable) {
             $client->setFileUpload(
                 $uploadable->getFilename(),
@@ -70,8 +57,8 @@ class Bi extends AbstractGateway
 
         $client->setParameterPost($data);
 
-        $uri = $this->processUri($backendRequest->getPath(), $backendRequest->getParams());
-        $client->setUri($uri);
+        $url = $this->processUri($backendRequest->getUri());
+        $client->setUri($url);
 
         $response = $client->send();
 
@@ -86,18 +73,5 @@ class Bi extends AbstractGateway
                 'code' => $response->getStatusCode()
             ];
         }
-
-    }
-
-    /**
-     * Get response message error
-     *
-     * @param $body
-     * @param string $default
-     * @return string
-     */
-    protected function getError($body, $default = null)
-    {
-
     }
 }

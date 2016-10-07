@@ -9,7 +9,7 @@ namespace BiBundle\Service\Backend\Gateway;
  * Abstract Gateway class
  */
 
-abstract class AbstractGateway implements IGateway
+abstract class AbstractGateway implements GatewayInterface
 {
     protected $config;
     /**
@@ -30,34 +30,6 @@ abstract class AbstractGateway implements IGateway
      * @var string
      */
     protected $gatewayUrl;
-    /**
-     * From whom field in Platform message
-     *
-     * @var string
-     */
-    protected $originator;
-
-    /**
-     * @param string $originator
-     */
-    public function setOriginator($originator)
-    {
-        if (mb_strlen($originator) > 11) {
-            $originator = mb_substr($originator, 0, 11);
-        }
-        $this->originator = $originator;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOriginator()
-    {
-        if(mb_strlen($this->originator) > 11) {
-            $this->originator = mb_substr($this->originator, 0, 11);
-        }
-        return $this->originator;
-    }
 
     /**
      * @param string $gatewayUrl
@@ -123,7 +95,7 @@ abstract class AbstractGateway implements IGateway
     public function setOptions(array $options)
     {
         foreach($options as $key => $value) {
-            if(in_array($key, array('login', 'password', 'gatewayUrl', 'originator'))) {
+            if(in_array($key, array('login', 'password', 'gatewayUrl'))) {
                 $this->{$key} = $value;
             }
         }
@@ -148,40 +120,5 @@ abstract class AbstractGateway implements IGateway
     public function setConfig($config)
     {
         $this->config = $config;
-    }
-    /**
-     * Set data from external source
-     *
-     * @param array $data from external source
-     * @throws \RuntimeException
-     * @return mixed
-     */
-    public function setFromArray(array $data)
-    {
-        $config = $this->getConfig();
-        if (!empty($data['originator'])) {
-            $this->setOriginator($data['originator']);
-        }
-
-        if (!empty($config)) {
-            foreach (array('login', 'password') as $key) {
-                if (!isset($config[$key])) {
-                    throw new \RuntimeException(
-                        sprintf(
-                            "Channel %s does not have %s parameter",
-                            $this->getName(),
-                            $key
-                        ));
-                }
-            }
-            if (!empty($config['gateway_url'])) {
-                $this->setGatewayUrl($config['gateway_url']);
-            }
-
-            $this->setLogin($config['login']);
-            $this->setPassword($config['password']);
-        } else {
-            throw new \RuntimeException(sprintf("%s channel is not set", $this->getName()));
-        }
     }
 }

@@ -18,7 +18,7 @@ class Request
      * Function path
      * @var string
      */
-    protected $path = null;
+    protected $uri = null;
 
     /**
      * Function path
@@ -127,16 +127,16 @@ class Request
     /**
      * @return string
      */
-    public function getPath()
+    public function getUri()
     {
-        return $this->path;
+        return $this->uri;
     }
 
     /**
-     * @param string $path
+     * @param string $uri
      */
-    public function setPath($path)
+    public function setUri($uri)
     {
-        $this->path = $path;
+        $this->uri = $uri;
     }
 }

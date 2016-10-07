@@ -12,12 +12,16 @@ namespace BiBundle\Service\Backend;
 class Client
 {
     /**
-     * @var Gateway\IGateway
+     * @var Gateway\GatewayInterface
      */
     protected $gateway;
 
+    public function __construct(\BiBundle\Service\Backend\Gateway\GatewayInterface $gateway)
+    {
+        $this->gateway = $gateway;
+    }
     /**
-     * @param \BiBundle\Service\Backend\Gateway\IGateway $gateway
+     * @param \BiBundle\Service\Backend\Gateway\GatewayInterface $gateway
      */
     public function setGateway($gateway)
     {
@@ -25,7 +29,7 @@ class Client
     }
 
     /**
-     * @return \BiBundle\Service\Backend\Gateway\IGateway
+     * @return \BiBundle\Service\Backend\Gateway\GatewayInterface
      */
     public function getGateway()
     {
@@ -35,14 +39,11 @@ class Client
     /**
      * Call API method through gateway
      *
+     * @param Request $request
      * @return mixed
-     * @throws Client\Exception
      */
     public function send(Request $request)
     {
-        if(null === $this->getGateway()) {
-            throw new Client\Exception("Gateway is not set");
-        }
         $response = $this->getGateway()->send($request);
         return $response;
     }
