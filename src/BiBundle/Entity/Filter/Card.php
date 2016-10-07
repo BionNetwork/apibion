@@ -16,4 +16,9 @@ class Card extends AbstractFilter
      */
     public $user_id;
 
+    /**
+     * Card category id
+     * @var int
+     */
+    public $category_id;
 }

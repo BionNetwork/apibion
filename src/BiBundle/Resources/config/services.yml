@@ -4,6 +4,7 @@ imports:
    - { resource: "services/events.yml" }
    - { resource: "services/repositories.yml" }
    - { resource: "services/backend.yml" }
+   - { resource: "services/controllers.yml" }
 
 services:
     twig.extension.dialog:
@@ -39,13 +40,16 @@ services:
           - ['setServiceContainer', ['@service_container']]
     bi.dashboard_activation.service:
         class: BiBundle\Service\DashboardActivationService
-        parent: bi.user_aware_service
+        arguments: ['@repository.dashboard_activation_repository', '@security.token_storage']
     bi.argument_bond.service:
         class: BiBundle\Service\ArgumentBondService
         parent: bi.user_aware_service
     bi.backend.gateway_service:
         class: BiBundle\Service\Backend\Gateway\Bi
         arguments: [{'gatewayUrl': '%backend_gateway_url%'}]
+    bi.card_category.service:
+        class: BiBundle\Service\CardCategoryService
+        arguments: ['@repository.card_category_repository']
     bi.backend.service:
         class: BiBundle\Service\BackendService
         parent: bi.user_aware_service
@@ -83,7 +87,7 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
+            - [ setAnnotationReader, ['@annotation_reader'] ]
             - [ setDefaultLocale, [ ru ] ]
             - [ setTranslatableLocale, [ ru ] ]
             - [ setTranslationFallback, [ true ] ]
@@ -92,3 +96,15 @@ services:
         tags:
             - { name: kernel.event_subscriber }
         arguments: ['@gedmo.listener.translatable']
+    bi.activation_setting.service:
+        class: BiBundle\Service\ActivationSettingService
+        arguments: ['@repository.activation_setting_repository']
+    bi.test_entity.factory:
+        class: BiBundle\Service\TestEntityFactory
+        arguments: ['@doctrine.orm.entity_manager']
+    bi.argument.service:
+        class: BiBundle\Service\ArgumentService
+        arguments: ['@doctrine.orm.entity_manager']
+    bi.filter_control_type.service:
+        class: BiBundle\Service\FilterControlTypeService
+        arguments: ['@doctrine.orm.entity_manager']

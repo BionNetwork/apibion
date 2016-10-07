@@ -44,3 +44,18 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\DashboardActivation
+    repository.activation_setting_repository:
+            class: BiBundle\Repository\ActivationSettingRepository
+            factory: ['@doctrine.orm.default_entity_manager', getRepository]
+            arguments:
+                - BiBundle\Entity\ActivationSetting
+    repository.card_category_repository:
+        class: BiBundle\Repository\CardCategoryRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\CardCategory
+    repository.filter_control_type_repository:
+        class: BiBundle\Repository\FilterControlTypeRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - BiBundle\Entity\FilterControlType

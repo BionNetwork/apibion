@@ -86,6 +86,11 @@ class Card
     private $author;
 
     /**
+     * @var CardCategory
+     */
+    private $cardCategory;
+
+    /**
      * @var string
      */
     private $locale;
@@ -478,6 +483,22 @@ class Card
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * @return CardCategory
+     */
+    public function getCardCategory()
+    {
+        return $this->cardCategory;
+    }
+
+    /**
+     * @param CardCategory $cardCategory
+     */
+    public function setCardCategory($cardCategory)
+    {
+        $this->cardCategory = $cardCategory;
     }
 
     /**

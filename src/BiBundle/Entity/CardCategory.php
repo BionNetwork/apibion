@@ -2,6 +2,8 @@
 
 namespace BiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * CardCategory
  */
@@ -33,11 +35,16 @@ class CardCategory
     private $path;
 
     /**
+     * @var string
+     */
+    private $locale;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->card = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->card = new ArrayCollection();
         $this->createdOn = new \DateTime();
     }
     /**
@@ -154,5 +161,13 @@ class CardCategory
     public function getCard()
     {
         return $this->card;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

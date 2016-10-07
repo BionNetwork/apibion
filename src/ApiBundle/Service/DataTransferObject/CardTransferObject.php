@@ -35,7 +35,7 @@ class CardTransferObject
      * Get card's data normalized
      *
      * @param Card $card
-     * @return array
+     * @return Object\CardValueObject
      */
     public function getObjectData(Card $card)
     {
@@ -53,40 +53,25 @@ class CardTransferObject
             'rating' => $card->getRating(),
             'author' => $card->getAuthor(),
             'image' => $card->getImage(),
+            'category' => $card->getCardCategory() ? $card->getCardCategory()->getId() : null,
             'carousel' => $card->getCarousel(),
             'createdOn' => $card->getCreatedOn(),
             'arguments' => $this->getArgumentTransferObject()->getObjectListData($card->getArgument()),
             'representations' => $this->getRepresentationTransferObject()->getObjectListData($representationsArray)
         ];
-        $cardVO = Object\CardValueObject::fromArray($data);
-        return $cardVO;
+
+        return Object\CardValueObject::fromArray($data);
     }
 
     /**
      * Get cards list
      *
-     * @param \BiBundle\Entity\Card[] $data
+     * @param Card $card
      * @return array
      */
     public function getObjectListData(array $data)
     {
-        $result = [];
-
-        foreach ($data as $card) {
-            $item = [
-                'id' => $card->getId(),
-                'name' => $card->getName(),
-                'description' => $card->getDescription(),
-                'description_long' => $card->getDescriptionLong(),
-                'rating' => $card->getRating(),
-                'price' => $card->getPrice(),
-                'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
-                'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->getTimestamp() : null,
-                'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->getTimestamp() : null,
-            ];
-            $result[] = $item;
-        }
-        return $result;
+        return array_map([$this, 'getObjectData'], $data);
     }
 
     /**
@@ -103,5 +88,25 @@ class CardTransferObject
     public function getRepresentationTransferObject()
     {
         return $this->representationTransferObject;
+    }
+
+    /**
+     * Get categorized cards list
+     *
+     * @param \BiBundle\Entity\Card[] $data
+     * @return array
+     */
+    public function getObjectListDataCategorized(array $data)
+    {
+        $result = [];
+
+        foreach ($data as $card) {
+            if ($card->getCardCategory()) {
+                $result[$card->getCardCategory()->getId()][] = $this->getObjectData($card);
+            } else {
+                $result['no_category'] = $this->getObjectData($card);
+            }
+        }
+        return $result;
     }
 }

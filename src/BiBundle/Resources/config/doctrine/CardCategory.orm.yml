@@ -1,6 +1,10 @@
 BiBundle\Entity\CardCategory:
     type: entity
     table: card_category
+    gedmo:
+        translation:
+            locale: locale
+    repositoryClass: BiBundle\Repository\CardCategoryRepository
     id:
         id:
             type: integer
@@ -16,6 +20,8 @@ BiBundle\Entity\CardCategory:
             length: 255
             fixed: false
             comment: 'Наименование'
+            gedmo:
+              - translatable
         path:
             type: string
             nullable: true
@@ -30,5 +36,5 @@ BiBundle\Entity\CardCategory:
     oneToMany:
         card:
             targetEntity: Card
-            mappedBy: card_category
+            mappedBy: cardCategory
     lifecycleCallbacks: {  }

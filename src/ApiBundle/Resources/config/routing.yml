@@ -36,3 +36,6 @@ api_dashboard_card:
 api_config:
     type: rest
     resource: ApiBundle\Controller\ConfigController
+api_activation_settings:
+    type: rest
+    resource: api.activation_setting.controller

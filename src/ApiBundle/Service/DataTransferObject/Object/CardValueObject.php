@@ -96,7 +96,7 @@ class CardValueObject implements \JsonSerializable
      * Create object
      *
      * @param array $data
-     * @return UserValueObject
+     * @return CardValueObject
      */
     public static function fromArray(array $data)
     {

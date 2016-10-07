@@ -2,9 +2,7 @@
 
 namespace BiBundle\Repository;
 
-use Doctrine\ORM\AbstractQuery;
 use BiBundle\Entity\Card;
-use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * CardRepository
@@ -13,7 +11,7 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /**
-     * Find cards by filter
+     * Finds cards by filter
      *
      * @param \BiBundle\Entity\Filter\Card $filter
      * @return array
@@ -29,10 +27,33 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('c.id = :id');
             $qb->setParameter('id', $filter->id);
         }
+        if ($filter->category_id) {
+            $qb->andWhere('c.cardCategory = :categoryId')->setParameter('categoryId', $filter->category_id);
+        }
         $qb->setMaxResults($filter->getLimit());
         $qb->setFirstResult($filter->getOffset());
 
         return $qb->getQuery()->getResult();
     }
-    
+
+    /**
+     * Finds all cards with data from related tables
+     *
+     * @return array
+     */
+    public function findAllCards()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('c', 'cc', 'p', 'a', 'cp')
+            ->from('BiBundle:Card', 'c')
+            ->leftJoin('c.cardCategory', 'cc')
+            ->leftJoin('c.purchase', 'p')
+            ->leftJoin('c.argument', 'a')
+            ->leftJoin('c.cardRepresentation', 'cp')
+            ->orderBy('c.createdOn', 'desc');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
