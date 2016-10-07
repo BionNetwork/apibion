@@ -33,17 +33,17 @@ class UrlOptions
     /**
      * Create tree on selected card
      */
-    const CARDS_TREE_CREATE_URL = "/cards/%d/create_tree";
+    const CARDS_TREE_CREATE_URL = "/cubes/%d/create_tree";
     /**
      * Load data on selected card
      */
-    const CARDS_LOAD_DATA_URL = "/cards/%d/load_data/";
+    const CARDS_LOAD_DATA_URL = "/cubes/%d/load_data/";
     /**
      * Get card filters
      */
-    const CARDS_FILTERS_URL = "/cards/%d/get_filters";
+    const CARDS_FILTERS_URL = "/cubes/%d/get_filters";
     /**
      * Send query to card
      */
-    const CARDS_QUERY_URL = "/cards/%d/query_new";
+    const CARDS_QUERY_URL = "/cubes/%d/query_new";
 }
