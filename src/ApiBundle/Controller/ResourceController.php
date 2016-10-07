@@ -121,11 +121,6 @@ class ResourceController extends RestController
     {
         $resourceService = $this->get('bi.resource.service');
 
-        $service = $this->get('bi.backend.service');
-        $d = $service->getAllResources();
-        var_dump($d);
-        die("tut");
-
         $params = $this->getParams($paramFetcher, 'Resource/Filter');
         $filter = new \BiBundle\Entity\Filter\Resource($params);
         $filter->user_id = $this->getUser()->getId();
