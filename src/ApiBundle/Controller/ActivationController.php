@@ -10,13 +10,8 @@ use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Request\ParamFetcher;
-use FOS\RestBundle\Controller\Annotations\Route;
 
 class ActivationController extends RestController
 {
