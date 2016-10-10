@@ -1,0 +1,14 @@
+BiBundle\Entity\File:
+    type: entity
+    table: null
+    repositoryClass: BiBundle\Repository\FileRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        path:
+            type: text
+    lifecycleCallbacks: {  }

@@ -2,7 +2,12 @@
 
 namespace BiBundle\Form;
 
+use BiBundle\Entity\Card;
+use BiBundle\Entity\CardCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,22 +22,31 @@ class CardType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
-            ->add('description_long')
+            ->add('description', TextType::class, [
+                'required' => false
+            ])
+            ->add('description_long', TextareaType::class, [
+                'required' => false
+            ])
             ->add('rating')
             ->add('author')
-            ->add('image')
+            ->add('image', FileType::class, [
+                'data_class' => null,
+                'required' => false
+            ])
             ->add('carousel')
             ->add('type')
             ->add('price')
-//            ->add('createdOn', 'datetime')
-//            ->add('updatedOn', 'datetime')
-//            ->add('cardCategory')
-        ;
-        $builder->add('locale', TextType::class, [
-            'required' => false,
-            'attr' => ['readonly' => true]
-        ]);
+            ->add('cardCategory')
+            ->add('cardCategory', EntityType::class, [
+                'class' => CardCategory::class,
+                'choice_label' => 'name',
+                'required' => false
+            ])
+            ->add('locale', TextType::class, [
+                'required' => false,
+                'attr' => ['readonly' => true]
+            ]);
     }
 
     /**

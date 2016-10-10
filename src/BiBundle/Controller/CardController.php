@@ -7,6 +7,7 @@ use BiBundle\Form\CardType;
 use BiBundle\Service\CardService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CardController extends Controller
 {
+    const CARDS_PREVIEW_PATH = '/images/cards-preview';
+
     /**
      * @var CardService
      */
@@ -37,7 +40,7 @@ class CardController extends Controller
      */
     public function indexAction()
     {
-        $cards = $this->get('repository.card_repository')->findAll();
+        $cards = $this->get('repository.card_repository')->findBy([], ['id' => 'asc']);
         return $this->render('@Bi/card/index.html.twig', ['cards' => $cards]);
     }
 
@@ -54,6 +57,17 @@ class CardController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($card->getImage() instanceof UploadedFile) {
+
+                /** @var UploadedFile $file */
+                $file = $card->getImage();
+                $uploadResource = $this->get('file.upload_resource');
+                $uploadResource->setUploadPath(self::CARDS_PREVIEW_PATH);
+                $card->setImage(
+                    $uploadResource->upload($file)['path']
+                );
+            }
+
             $this->service->create($card);
             return $this->redirectToRoute('card_index');
         }
@@ -74,17 +88,36 @@ class CardController extends Controller
      */
     public function editAction(Request $request, Card $card)
     {
+//        if (!empty($card->getImage()) && is_string($card->getImage())) {
+//            $card->setImage(
+//                new File($this->getParameter('upload_dir') . '/' . $card->getImage())
+//            );
+//        }
         $deleteForm = $this->createDeleteForm($card);
         $editForm = $this->createForm('BiBundle\Form\CardType', $card);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if ($card->getImage() instanceof UploadedFile) {
+
+                /** @var UploadedFile $file */
+                $file = $card->getImage();
+                $uploadResource = $this->get('file.upload_resource');
+                $uploadResource->setUploadPath(self::CARDS_PREVIEW_PATH);
+                $card->setImage(
+                    $uploadResource->upload($file)['path']
+                );
+            }
+
             $this->service->update($card);
             return $this->redirectToRoute('card_index', ['id' => $card->getId()]);
         }
 
+        $arguments = $card->getArgument();
+
         return $this->render('@Bi/card/edit.html.twig', [
             'card' => $card,
+            'arguments' => $arguments,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);

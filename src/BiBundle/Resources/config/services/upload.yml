@@ -2,3 +2,6 @@ services:
     file.upload_resource:
         class: BiBundle\Service\UploadResource
         arguments: ['@service_container']
+    file.upload_image:
+        class: BiBundle\Service\UploadResource
+        arguments: ['@service_container']
