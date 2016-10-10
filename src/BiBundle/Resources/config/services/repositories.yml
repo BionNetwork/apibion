@@ -59,3 +59,8 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\FilterControlType
+    repository.file:
+            class: BiBundle\Repository\FileRepository
+            factory: ['@doctrine.orm.default_entity_manager', getRepository]
+            arguments:
+                - BiBundle\Entity\File

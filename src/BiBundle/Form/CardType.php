@@ -6,7 +6,6 @@ use BiBundle\Entity\Card;
 use BiBundle\Entity\CardCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,10 +29,6 @@ class CardType extends AbstractType
             ])
             ->add('rating')
             ->add('author')
-            ->add('image', FileType::class, [
-                'data_class' => null,
-                'required' => false
-            ])
             ->add('carousel')
             ->add('type')
             ->add('price')

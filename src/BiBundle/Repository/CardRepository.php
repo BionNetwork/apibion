@@ -65,6 +65,7 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('c.purchase', 'p')
             ->leftJoin('c.argument', 'a')
             ->leftJoin('c.cardRepresentation', 'cp')
+            ->leftJoin('c.cardCarouselImage', 'ci')
             ->orderBy('c.createdOn', 'desc');
 
         return $qb->getQuery()->getResult();

@@ -108,3 +108,6 @@ services:
     bi.filter_control_type.service:
         class: BiBundle\Service\FilterControlTypeService
         arguments: ['@doctrine.orm.entity_manager']
+    bi.file.service:
+        class: BiBundle\Service\FileService
+        arguments: ['@repository.file', %upload_dir%]

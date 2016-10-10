@@ -15,24 +15,7 @@
                     <a class="btn" href="{{ path('card_edit', {id: card.id, locale: 'ru'}) }}">RU</a>
                 </div>
                 <div class="box-body">
-                    {{ form_row(edit_form.name) }}
-                    {{ form_row(edit_form.description) }}
-                    {{ form_row(edit_form.description_long) }}
-                    {{ form_row(edit_form.rating) }}
-                    {{ form_row(edit_form.author) }}
-                    {{ form_row(edit_form.image) }}
-                    {% if card.image is not empty %}
-                        <div class="form-group">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-10">
-                                <img src="{{ '/uploads/' ~  card.image }}" width="300"/>
-                            </div>
-                        </div>
-                    {% endif %}
-                    {{ form_row(edit_form.carousel) }}
-                    {{ form_row(edit_form.type) }}
-                    {{ form_row(edit_form.price) }}
-                    {{ form_row(edit_form.cardCategory) }}
+                    {{ form_widget(edit_form) }}
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Arguments</label>
                         <div class="col-sm-10">

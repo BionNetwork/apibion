@@ -4,6 +4,7 @@ namespace BiBundle\Service;
 
 use BiBundle\Entity\File;
 use BiBundle\Repository\FileRepository;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
@@ -27,22 +28,22 @@ class FileService
 
     public function upload(UploadedFile $uploadedFile, $path = '')
     {
-        $name = md5(uniqid()) . $uploadedFile->getClientOriginalExtension();
-        $path = $this->getUploadPath($name, $path);
-        $uploadedFile->move($path, $name);
+        $filename = Uuid::uuid4()->toString() . '.' . $uploadedFile->getClientOriginalExtension();
+        $filesystemPath = $this->formatPath($this->uploadDir, $filename, $path);
+        $uploadedFile->move($filesystemPath, $filename);
         $file = new File();
-        $file->setPath($path);
+        $file->setPath($this->formatPath('', $filename, $path));
         $this->fileRepository->create($file);
 
         return $file;
     }
 
-    private function getUploadPath($filename, $path = '')
+    private function formatPath($prefix, $filename, $path = '')
     {
         if ($path) {
-            return rtrim($this->uploadDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . trim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
+            return rtrim($prefix, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . trim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
         } else {
-            return rtrim($this->uploadDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
+            return rtrim($prefix, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
         }
     }
 }
