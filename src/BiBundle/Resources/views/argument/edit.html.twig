@@ -10,6 +10,10 @@
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 			<div class="box box-primary">
 				{{ form_start(edit_form) }}
+                <div class="box-header with-border">
+                    <a class="btn" href="{{ path('argument_edit', {id: argument.id, locale: 'en'}) }}">EN</a>
+                    <a class="btn" href="{{ path('argument_edit', {id: argument.id, locale: 'ru'}) }}">RU</a>
+                </div>
 				<div class="box-body">
 					{{ form_widget(edit_form) }}
 				</div>

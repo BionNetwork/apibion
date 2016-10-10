@@ -21,4 +21,10 @@ class ArgumentService
     {
         $this->entityManager->flush($argument);
     }
+
+    public function create(Argument $argument)
+    {
+        $this->entityManager->persist($argument);
+        $this->entityManager->flush($argument);
+    }
 }

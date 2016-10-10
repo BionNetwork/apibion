@@ -83,14 +83,14 @@ services:
         class: BiBundle\Service\Utils\HostBasedUrl
         arguments: ['@request_stack']
     gedmo.listener.translatable:
-        class: Gedmo\Translatable\TranslatableListener
+        class: BiBundle\EventListener\TranslatableListener
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, ['@annotation_reader'] ]
-            - [ setDefaultLocale, [ ru ] ]
-            - [ setTranslatableLocale, [ ru ] ]
-            - [ setTranslationFallback, [ true ] ]
+            - [ setDefaultLocale, [ 'ru' ] ]
+            - [ setTranslatableLocale, [ 'ru' ] ]
+            - [ setTranslationFallback, [ 'true' ] ]
     translatable_locale.listener:
         class: ApiBundle\EventListener\TranslatableLocaleListener
         tags:

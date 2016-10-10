@@ -273,6 +273,14 @@ class Argument
     }
 
     /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
      * @return FilterControlType
      */
     public function getFilterControlType()

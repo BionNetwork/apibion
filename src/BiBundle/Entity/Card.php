@@ -508,4 +508,12 @@ class Card
     {
         $this->locale = $locale;
     }
+
+    /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
 }

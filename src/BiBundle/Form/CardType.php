@@ -3,6 +3,7 @@
 namespace BiBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,6 +29,10 @@ class CardType extends AbstractType
 //            ->add('updatedOn', 'datetime')
 //            ->add('cardCategory')
         ;
+        $builder->add('locale', TextType::class, [
+            'required' => false,
+            'attr' => ['readonly' => true]
+        ]);
     }
 
     /**

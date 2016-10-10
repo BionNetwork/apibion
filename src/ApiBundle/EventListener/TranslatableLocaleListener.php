@@ -16,6 +16,8 @@ class TranslatableLocaleListener implements EventSubscriberInterface
 {
     private $translatableListener;
 
+    private $supportedLocales = ['en', 'ru'];
+
     public function __construct(TranslatableListener $translatableListener)
     {
         $this->translatableListener = $translatableListener;
@@ -23,7 +25,12 @@ class TranslatableLocaleListener implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if ($locale = $event->getRequest()->getPreferredLanguage(['ru', 'en'])) {
+        if ($locale = $event->getRequest()->get('locale')) {
+            if (!in_array($locale, $this->supportedLocales)) {
+                throw new \ErrorException("Locale $locale is not supported");
+            }
+            $this->translatableListener->setTranslatableLocale($locale);
+        } elseif ($locale = $event->getRequest()->getPreferredLanguage(['ru', 'en'])) {
             $this->translatableListener->setTranslatableLocale($locale);
         }
     }

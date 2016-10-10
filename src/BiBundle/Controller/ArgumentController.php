@@ -26,6 +26,22 @@ class ArgumentController extends Controller
         return $this->render('@Bi/argument/index.html.twig', ['arguments' => $arguments]);
     }
 
+    public function newAction(Request $request)
+    {
+        $argument = new Argument();
+        $form = $this->createForm(ArgumentType::class, $argument);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $this->service->create($argument);
+            return $this->redirectToRoute('argument_index');
+        }
+
+        return $this->render('@Bi/argument/new.html.twig', [
+            'argument' => $argument,
+            'form' => $form->createView(),
+        ]);
+    }
+
     public function editAction(Argument $argument, Request $request)
     {
         $deleteForm = $this->createForm(DeleteType::class);
