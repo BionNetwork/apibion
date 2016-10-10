@@ -41,7 +41,6 @@ class ResourceController extends RestController
      *
      * @RequestParam(name="resource_file", description="Файл источника", nullable=false)
      * @RequestParam(name="activation_id", requirements="\d+", description="Идентификатор активации карточки", nullable=true)
-     * @Route("/resource/add")
      *
      * @param Request $request
      *
@@ -49,7 +48,6 @@ class ResourceController extends RestController
      */
     public function postResourceAction(Request $request, ParamFetcher $params)
     {
-
         $params = $this->getParams($params, 'Resource');
 
         if($params['activation_id']) {
