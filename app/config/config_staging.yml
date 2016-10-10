@@ -1,0 +1,50 @@
+imports:
+    - { resource: config.yml }
+
+#framework:
+#    validation:
+#        cache: validator.mapping.cache.doctrine.apc
+#    serializer:
+#        cache: serializer.mapping.cache.doctrine.apc
+
+#doctrine:
+#    orm:
+#        metadata_cache_driver: apc
+#        result_cache_driver: apc
+#        query_cache_driver: apc
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        console:
+            type:  console
+
+snc_redis:
+    session:
+        ttl: 2592000 # 3600*24*30 (1 month)
+    doctrine:
+        metadata_cache:
+            client: cache
+            entity_manager: default          # the name of entity_manager connection
+            document_manager: default        # the name of document_manager connection
+        result_cache:
+            client: cache
+            entity_manager: [default, read]  # you may specify multiple entity_managers
+        query_cache:
+            client: cache
+            entity_manager: default
+        second_level_cache:
+            client: cache
+            entity_manager: default
+
+nelmio_api_doc:
+    cache:
+        enabled: true
+        file: "%kernel.cache_dir%/api-doc.cache"
