@@ -101,6 +101,9 @@ BiBundle\Entity\Card:
         argument:
             targetEntity: Argument
             mappedBy: card
+        cardCarouselImage:
+            targetEntity: CardCarouselImage
+            mappedBy: card
     manyToOne:
         cardCategory:
             targetEntity: CardCategory

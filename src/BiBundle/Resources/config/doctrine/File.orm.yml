@@ -11,4 +11,8 @@ BiBundle\Entity\File:
     fields:
         path:
             type: text
+    oneToMany:
+        cardCarouselImage:
+            targetEntity: CardCarouselImage
+            mappedBy: file
     lifecycleCallbacks: {  }

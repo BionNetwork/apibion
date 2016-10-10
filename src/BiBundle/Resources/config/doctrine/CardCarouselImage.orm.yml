@@ -1,0 +1,28 @@
+BiBundle\Entity\CardCarouselImage:
+    type: entity
+    table: null
+    repositoryClass: BiBundle\Repository\CardCarouselImageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        priority:
+            type: integer
+            nullable: true
+    manyToOne:
+        file:
+            targetEntity: File
+            inversedBy: cardCarouselImage
+            joinColumns:
+                file_id:
+                    nullable: true
+        card:
+            targetEntity: Card
+            inversedBy: cardCarouselImage
+            joinColumns:
+                card_id:
+                    nullable: true
+    lifecycleCallbacks: {  }

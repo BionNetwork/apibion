@@ -3,6 +3,7 @@
 namespace BiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -96,6 +97,11 @@ class Card
     private $locale;
 
     /**
+     * @var Collection
+     */
+    private $cardCarouselImage;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -103,6 +109,7 @@ class Card
         $this->purchase = new ArrayCollection();
         $this->cardRepresentation = new ArrayCollection();
         $this->argument = new ArrayCollection();
+        $this->cardCarouselImage = new ArrayCollection();
         $this->createdOn = new \DateTime();
         $this->updatedOn = new \DateTime();
     }
@@ -515,5 +522,39 @@ class Card
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * Add cardCarouselImage
+     *
+     * @param CardCarouselImage $cardCarouselImage
+     *
+     * @return Card
+     */
+    public function addCardCarouselImage(CardCarouselImage $cardCarouselImage)
+    {
+        $this->cardCarouselImage[] = $cardCarouselImage;
+
+        return $this;
+    }
+
+    /**
+     * Remove cardCarouselImage
+     *
+     * @param CardCarouselImage $cardCarouselImage
+     */
+    public function removeCardCarouselImage(CardCarouselImage $cardCarouselImage)
+    {
+        $this->cardCarouselImage->removeElement($cardCarouselImage);
+    }
+
+    /**
+     * Get cardCarouselImage
+     *
+     * @return Collection
+     */
+    public function getCardCarouselImage()
+    {
+        return $this->cardCarouselImage;
     }
 }

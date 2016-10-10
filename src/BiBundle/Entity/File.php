@@ -2,6 +2,8 @@
 
 namespace BiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * File
  */
@@ -19,6 +21,19 @@ class File
 
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $cardCarouselImage;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->cardCarouselImage = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -27,7 +42,6 @@ class File
     {
         return $this->id;
     }
-
     /**
      * Set path
      *
@@ -51,5 +65,38 @@ class File
     {
         return $this->path;
     }
-}
 
+    /**
+     * Add cardCarouselImage
+     *
+     * @param \BiBundle\Entity\CardCarouselImage $cardCarouselImage
+     *
+     * @return File
+     */
+    public function addCardCarouselImage(\BiBundle\Entity\CardCarouselImage $cardCarouselImage)
+    {
+        $this->cardCarouselImage[] = $cardCarouselImage;
+
+        return $this;
+    }
+
+    /**
+     * Remove cardCarouselImage
+     *
+     * @param \BiBundle\Entity\CardCarouselImage $cardCarouselImage
+     */
+    public function removeCardCarouselImage(\BiBundle\Entity\CardCarouselImage $cardCarouselImage)
+    {
+        $this->cardCarouselImage->removeElement($cardCarouselImage);
+    }
+
+    /**
+     * Get cardCarouselImage
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCardCarouselImage()
+    {
+        return $this->cardCarouselImage;
+    }
+}
