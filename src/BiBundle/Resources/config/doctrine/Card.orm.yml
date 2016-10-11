@@ -58,18 +58,6 @@ BiBundle\Entity\Card:
             comment: 'Наименование автора'
             gedmo:
               - translatable
-        image:
-            type: string
-            nullable: true
-            length: 255
-            fixed: false
-            comment: 'Основное изображение'
-        carousel:
-            type: string
-            nullable: true
-            length: 4096
-            fixed: false
-            comment: 'Ссылки на изображения карусели через ;'
         type:
             type: string
             nullable: true
@@ -111,4 +99,9 @@ BiBundle\Entity\Card:
             joinColumns:
                 category_id:
                     nullable: true
+        imageFile:
+                targetEntity: BiBundle\Entity\File
+                joinColumns:
+                    image_file_id:
+                        nullable: true
     lifecycleCallbacks: {  }

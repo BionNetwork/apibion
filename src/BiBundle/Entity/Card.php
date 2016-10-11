@@ -62,7 +62,7 @@ class Card
     private $rating;
 
     /**
-     * @var string
+     * @var File
      */
     private $image;
 
@@ -70,11 +70,6 @@ class Card
      * @var ArrayCollection
      */
     private $cardRepresentation;
-
-    /**
-     * @var string
-     */
-    private $carousel;
 
     /**
      * @var ArrayCollection
@@ -100,6 +95,11 @@ class Card
      * @var Collection
      */
     private $cardCarouselImage;
+
+    /**
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * Constructor
@@ -354,7 +354,7 @@ class Card
     /**
      * Set image
      *
-     * @param string $image
+     * @param File $image
      *
      * @return Card
      */
@@ -368,7 +368,7 @@ class Card
     /**
      * Get image
      *
-     * @return string
+     * @return File
      */
     public function getImage()
     {
@@ -408,30 +408,6 @@ class Card
     public function getCardRepresentation()
     {
         return $this->cardRepresentation;
-    }
-
-    /**
-     * Set carousel
-     *
-     * @param string $carousel
-     *
-     * @return Card
-     */
-    public function setCarousel($carousel)
-    {
-        $this->carousel = $carousel;
-
-        return $this;
-    }
-
-    /**
-     * Get carousel
-     *
-     * @return string
-     */
-    public function getCarousel()
-    {
-        return $this->carousel;
     }
 
     /**
@@ -556,5 +532,29 @@ class Card
     public function getCardCarouselImage()
     {
         return $this->cardCarouselImage;
+    }
+
+    /**
+     * Set imageFile
+     *
+     * @param File $imageFile
+     *
+     * @return Card
+     */
+    public function setImageFile(File $imageFile)
+    {
+        $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    /**
+     * Get imageFile
+     *
+     * @return File
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 }

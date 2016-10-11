@@ -38,6 +38,11 @@ class FileService
         return $file;
     }
 
+    public function create(File $file)
+    {
+        $this->fileRepository->create($file);
+    }
+
     private function formatPath($prefix, $filename, $path = '')
     {
         if ($path) {
