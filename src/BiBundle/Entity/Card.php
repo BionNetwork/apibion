@@ -62,11 +62,6 @@ class Card
     private $rating;
 
     /**
-     * @var File
-     */
-    private $image;
-
-    /**
      * @var ArrayCollection
      */
     private $cardRepresentation;
@@ -349,30 +344,6 @@ class Card
     public function getRating()
     {
         return $this->rating;
-    }
-
-    /**
-     * Set image
-     *
-     * @param File $image
-     *
-     * @return Card
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return File
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 
     /**

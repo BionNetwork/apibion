@@ -63,7 +63,7 @@ class CardTransferObject
             'descriptionLong' => $card->getDescriptionLong(),
             'rating' => $card->getRating(),
             'author' => $card->getAuthor(),
-            'image' => $card->getImage(),
+            'image' => $card->getImageFile() ? $card->getImageFile()->getPath() : null,
             'category' => $card->getCardCategory() ? $card->getCardCategory()->getId() : null,
             'carousel' => array_map(function (File $file) {
                 return $file->getPath();

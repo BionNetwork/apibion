@@ -23,9 +23,14 @@ class BiCardsLoadCommand extends ContainerAwareCommand
     const REPRESENTATION_PIE = 'pie';
     const REPRESENTATION_FUNNEL = 'funnel';
 
-    private $uploadPath;
+    /** @var  string */
+    private $webUploadPath;
 
-    private $cardImagesPath = '/images/cards/';
+    /** @var  string */
+    private $webRootPath;
+
+    /** @var  string */
+    private $cardImagesPath;
 
     /** @var  EntityManager */
     private $entityManager;
@@ -46,7 +51,10 @@ class BiCardsLoadCommand extends ContainerAwareCommand
             throw new \Exception('To force loading cards use the --force option.');
         }
 
-        $this->uploadPath = rtrim($this->getContainer()->getParameter('upload_dir'), '/');
+        $this->webRootPath = rtrim($this->getContainer()->getParameter('web_root_directory'), '/');
+        $this->webUploadPath = trim($this->getContainer()->getParameter('web_upload_directory'), '/');
+        $this->cardImagesPath = '/' . $this->webUploadPath . '/images/cards/';
+
         $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         if (count($this->entityManager->getRepository(Card::class)->findAll()) > 0) {
@@ -154,7 +162,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
 
     private function checkImageFile($filename)
     {
-        $path = $this->uploadPath . $this->cardImagesPath . $filename;
+        $path = $this->webRootPath . '/' . $this->cardImagesPath . $filename;
         if (!file_exists($path)) {
             throw new \ErrorException("Image file '$filename' not found");
         } elseif (!is_file($path)) {

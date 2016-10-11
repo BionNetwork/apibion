@@ -29,4 +29,6 @@ parameters:
     upload_dir: '%kernel.root_dir%/../web'
     profile_upload_photo_dir: uploads/profiles
     auth_key_ttl: 36000
+    web_root_directory: '%kernel.root_dir%/../web'
+    web_upload_directory: 'uploads'
     backend_gateway_url: http://p3.bidemo.itgkh.ru/api/v1/
