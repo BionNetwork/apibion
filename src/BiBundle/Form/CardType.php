@@ -29,7 +29,6 @@ class CardType extends AbstractType
             ])
             ->add('rating')
             ->add('author')
-            ->add('carousel')
             ->add('type')
             ->add('price')
             ->add('cardCategory')

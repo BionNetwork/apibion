@@ -26,29 +26,42 @@ class FileService
         $this->uploadDir = $uploadDir;
     }
 
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param string $path
+     * @return File
+     */
     public function upload(UploadedFile $uploadedFile, $path = '')
     {
         $filename = Uuid::uuid4()->toString() . '.' . $uploadedFile->getClientOriginalExtension();
-        $filesystemPath = $this->formatPath($this->uploadDir, $filename, $path);
+        $filesystemPath = $this->formatPath($this->uploadDir, $path);
         $uploadedFile->move($filesystemPath, $filename);
         $file = new File();
-        $file->setPath($this->formatPath('', $filename, $path));
+        $file->setPath($this->formatPath('', $path) . $filename);
         $this->fileRepository->create($file);
 
         return $file;
     }
 
+    /**
+     * @param File $file
+     */
     public function create(File $file)
     {
         $this->fileRepository->create($file);
     }
 
-    private function formatPath($prefix, $filename, $path = '')
+    /**
+     * @param $prefix
+     * @param string $path
+     * @return string
+     */
+    private function formatPath($prefix, $path = '')
     {
         if ($path) {
-            return rtrim($prefix, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . trim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
+            return rtrim($prefix, '/') . '/' . trim($path, '/') . '/';
         } else {
-            return rtrim($prefix, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
+            return rtrim($prefix, '/') . '/';
         }
     }
 }

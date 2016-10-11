@@ -4,6 +4,8 @@ namespace ApiBundle\Service\DataTransferObject;
 
 use BiBundle\Entity\Card;
 use BiBundle\Entity\CardRepresentation;
+use BiBundle\Entity\File;
+use BiBundle\Service\CardService;
 use BiBundle\Service\Utils\HostBasedUrl;
 
 class CardTransferObject
@@ -12,23 +14,32 @@ class CardTransferObject
      * @var HostBasedUrl
      */
     private $url;
+
     /**
      * @var ArgumentTransferObject
      */
     private $argumentTransferObject;
+
     /**
      * @var RepresentationTransferObject
      */
     private $representationTransferObject;
 
+    /**
+     * @var
+     */
+    private $cardService;
+
     public function __construct(
         ArgumentTransferObject $argumentTransferObject,
         RepresentationTransferObject $representationTransferObject,
-        HostBasedUrl $url)
+        HostBasedUrl $url,
+        CardService $cardService)
     {
         $this->url = $url;
         $this->argumentTransferObject = $argumentTransferObject;
         $this->representationTransferObject = $representationTransferObject;
+        $this->cardService = $cardService;
     }
 
     /**
@@ -54,7 +65,9 @@ class CardTransferObject
             'author' => $card->getAuthor(),
             'image' => $card->getImage(),
             'category' => $card->getCardCategory() ? $card->getCardCategory()->getId() : null,
-            'carousel' => $card->getCarousel(),
+            'carousel' => array_map(function (File $file) {
+                return $file->getPath();
+            }, $this->cardService->getCarouselFiles($card)),
             'createdOn' => $card->getCreatedOn(),
             'arguments' => $this->getArgumentTransferObject()->getObjectListData($card->getArgument()),
             'representations' => $this->getRepresentationTransferObject()->getObjectListData($representationsArray)

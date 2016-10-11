@@ -71,4 +71,23 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * Finds all carousel files for card
+     *
+     * @param Card $card
+     * @return array
+     */
+    public function findCarouselFiles(Card $card)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('f')
+            ->from('BiBundle:File', 'f')
+            ->leftJoin('f.cardCarouselImage', 'ci')
+            ->where('ci.card = :card')
+            ->orderBy('ci.priority', 'asc')
+            ->setParameter('card', $card);
+
+        return $qb->getQuery()->getResult();
+    }
 }

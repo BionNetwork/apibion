@@ -3,6 +3,8 @@
 namespace BiBundle\Controller;
 
 use BiBundle\Entity\Card;
+use BiBundle\Entity\CardCarouselImage;
+use BiBundle\Entity\File;
 use BiBundle\Form\CardType;
 use BiBundle\Service\CardService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -57,19 +59,8 @@ class CardController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($card->getImage() instanceof UploadedFile) {
-
-                /** @var UploadedFile $file */
-                $file = $card->getImage();
-                $uploadResource = $this->get('file.upload_resource');
-                $uploadResource->setUploadPath(self::CARDS_PREVIEW_PATH);
-                $card->setImage(
-                    $uploadResource->upload($file)['path']
-                );
-            }
-
             $this->service->create($card);
-            return $this->redirectToRoute('card_index');
+            return $this->redirectToRoute('card_edit', ['id' => $card->getId()]);
         }
 
         return $this->render('@Bi/card/new.html.twig', [
@@ -88,38 +79,46 @@ class CardController extends Controller
      */
     public function editAction(Request $request, Card $card)
     {
-//        if (!empty($card->getImage()) && is_string($card->getImage())) {
-//            $card->setImage(
-//                new File($this->getParameter('upload_dir') . '/' . $card->getImage())
-//            );
-//        }
         $deleteForm = $this->createDeleteForm($card);
         $editForm = $this->createForm('BiBundle\Form\CardType', $card);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            if ($card->getImage() instanceof UploadedFile) {
-
-                /** @var UploadedFile $file */
-                $file = $card->getImage();
-                $uploadResource = $this->get('file.upload_resource');
-                $uploadResource->setUploadPath(self::CARDS_PREVIEW_PATH);
-                $card->setImage(
-                    $uploadResource->upload($file)['path']
-                );
-            }
-
             $this->service->update($card);
-            return $this->redirectToRoute('card_index', ['id' => $card->getId()]);
+            return $this->redirectToRoute('card_index');
         }
 
-        $arguments = $card->getArgument();
+        $newFile = new File();
+        $files = $this->service->getCarouselFiles($card);
+
+        $uploadForm = $this->createForm('BiBundle\Form\UploadFileType', $newFile);
+        $uploadForm->handleRequest($request);
+
+        if ($uploadForm->isSubmitted() && $uploadForm->isValid()) {
+
+            /** @var UploadedFile[] $uploadedFiles */
+            $uploadedFiles = $newFile->getPath();
+            foreach ($uploadedFiles as $uploadedFile) {
+                $file = $this->get('bi.file.service')->upload($uploadedFile, self::CARDS_PREVIEW_PATH);
+
+                if ($file instanceof File) {
+                    $cardCarouselImage = new CardCarouselImage();
+                    $cardCarouselImage->setCard($card);
+                    $cardCarouselImage->setFile($file);
+                    $this->service->addCarouselFile($cardCarouselImage);
+                }
+            }
+
+            return $this->redirectToRoute('card_edit', ['id' => $card->getId()]);
+        }
 
         return $this->render('@Bi/card/edit.html.twig', [
             'card' => $card,
-            'arguments' => $arguments,
+            'arguments' => $card->getArgument(),
+            'files' => $files,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'upload_form' => $uploadForm->createView(),
         ]);
     }
 

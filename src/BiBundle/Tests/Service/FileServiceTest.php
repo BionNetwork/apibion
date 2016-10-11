@@ -32,10 +32,11 @@ class FileServiceTest extends KernelTestCase
         $uploadedFile = $this->getMockBuilder(UploadedFile::class)->disableOriginalConstructor()->getMock();
         $uploadedFile->method('getClientOriginalExtension')->willReturn('txt');
         $uploadedFile->expects($this->once())->method('move')->with($this->anything(), $this->anything());
-        $file = $this->service->upload($uploadedFile);
+        $path = 'cards/etc';
+        $file = $this->service->upload($uploadedFile, $path);
 
         $this->assertInstanceOf(File::class, $file);
-        $this->assertStringStartsWith('/', $file->getPath());
+        $this->assertStringStartsWith('/' . $path, $file->getPath());
         $this->assertStringEndsWith('.txt', $file->getPath());
         $this->assertStringEndsNotWith('..txt', $file->getPath());
     }
