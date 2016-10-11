@@ -18,6 +18,5 @@ $CONSOLE doctrine:database:drop --env $ENV --force --if-exists
 $CONSOLE doctrine:database:create --env $ENV
 $CONSOLE doctrine:migration:migrate --env $ENV -n
 
-#$CONSOLE bi:cards:update --force --env $ENV
-#$CONSOLE bi:arguments:update --force --env $ENV
-#$CONSOLE bi:categories:load --force --env $ENV
+$CONSOLE bi:categories:load --force --env $ENV
+$CONSOLE bi:cards:load --force --env $ENV

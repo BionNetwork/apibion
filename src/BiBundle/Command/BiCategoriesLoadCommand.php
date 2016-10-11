@@ -2,7 +2,6 @@
 
 namespace BiBundle\Command;
 
-use BiBundle\Entity\Card;
 use BiBundle\Entity\CardCategory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,13 +21,6 @@ class BiCategoriesLoadCommand extends ContainerAwareCommand
      * @var string
      */
     const COMMERCIAL_OPERATIONS_CATEGORY_NAME = 'Финансы / Коммерческие операции';
-
-    /**
-     * Cards' IDs which category should be updated
-     *
-     * @var array
-     */
-    const CARD_IDS = [21, 22, 23];
 
     protected function configure()
     {
@@ -58,21 +50,6 @@ class BiCategoriesLoadCommand extends ContainerAwareCommand
             $cardCategory->setLocale('en');
             $cardCategory->setName($categoryData['name_en']);
             $entityManager->flush($cardCategory);
-        }
-
-        /** @var Card[] $cards */
-        $cards = $this->getContainer()->get('repository.card_repository')->findBy(['id' => self::CARD_IDS]);
-        if (count($cards) !== 3) {
-            throw new \ErrorException();
-        }
-
-        /** @var CardCategory $category */
-        $category = $this->getContainer()->get('repository.card_category_repository')
-            ->findOneBy(['name' => self::COMMERCIAL_OPERATIONS_CATEGORY_NAME]);
-
-        foreach ($cards as $card) {
-            $card->setCardCategory($category);
-            $entityManager->flush($card);
         }
 
         $output->writeln('Done.');
