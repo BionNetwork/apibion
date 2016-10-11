@@ -64,22 +64,40 @@ class CardTransferObject
     }
 
     /**
-     * Get cards list
-     *
-     * @param Card $card
-     * @return array
-     */
-    public function getObjectListData(array $data)
-    {
-        return array_map([$this, 'getObjectData'], $data);
-    }
-
-    /**
      * @return ArgumentTransferObject
      */
     public function getArgumentTransferObject()
     {
         return $this->argumentTransferObject;
+    }
+
+    /**
+     * Get cards list
+     *
+     * @param array $data
+     * @return array
+     */
+    public function getObjectListData(array $data)
+    {
+        $result = [];
+
+        foreach ($data as $card) {
+            $item = [
+                'id' => $card['id'],
+                'name' => $card['name'],
+                'description' => $card['description'],
+                'description_long' => $card['description_long'],
+                'category' => $card['category_id'],
+                'rating' => $card['rating'],
+                'price' => $card['price'],
+                'purchased' => !empty($card['purchase_id']),
+                'carousel' => !empty($card['carousel']) ? explode(';', $card['carousel']) : [],
+                'created_on' => !empty($card['created_on']) ? $card['created_on']->getTimestamp() : null,
+                'updated_on' => !empty($card['updated_on']) ? $card['updated_on']->getTimestamp() : null,
+            ];
+            $result[] = $item;
+        }
+        return $result;
     }
 
     /**

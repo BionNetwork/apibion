@@ -49,6 +49,7 @@ class CardController extends RestController
         $cardService = $this->get('bi.card.service');
         $params = $this->getParams($paramFetcher, 'card');
         $filter = new \BiBundle\Entity\Filter\Card($params);
+        $filter->user_id = $this->getUser()->getId();
         $cards = $cardService->getByFilter($filter);
         $service = $this->get('api.data.transfer_object.card_transfer_object');
         $view = $this->view($service->getObjectListData($cards));
