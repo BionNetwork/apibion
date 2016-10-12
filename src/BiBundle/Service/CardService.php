@@ -84,4 +84,14 @@ class CardService
         $this->entityManager->persist($cardCarouselImage);
         $this->entityManager->flush($cardCarouselImage);
     }
+
+    /**
+     * @param CardCarouselImage $cardCarouselImage
+     * @return array
+     */
+    public function removeCarouselFile(CardCarouselImage $cardCarouselImage)
+    {
+        $this->entityManager->remove($cardCarouselImage);
+        $this->entityManager->flush($cardCarouselImage);
+    }
 }

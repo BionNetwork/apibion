@@ -110,4 +110,4 @@ services:
         arguments: ['@doctrine.orm.entity_manager']
     bi.file.service:
         class: BiBundle\Service\FileService
-        arguments: ['@repository.file', %upload_dir%]
+        arguments: ['@repository.file', '%web_root_directory%', '%web_upload_directory%']

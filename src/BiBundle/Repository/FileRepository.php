@@ -18,4 +18,13 @@ class FileRepository extends EntityRepository
         $this->getEntityManager()->persist($file);
         $this->getEntityManager()->flush($file);
     }
+
+    /**
+     * @param File $file
+     */
+    public function delete(File $file)
+    {
+        $this->getEntityManager()->remove($file);
+        $this->getEntityManager()->flush($file);
+    }
 }

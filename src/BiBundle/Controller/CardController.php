@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CardController extends Controller
 {
-    const CARDS_PREVIEW_PATH = '/images/cards-preview';
+    const CARD_CAROUSEL_IMAGE_PATH = 'images/card/carousel';
 
     /**
      * @var CardService
@@ -88,24 +88,43 @@ class CardController extends Controller
             return $this->redirectToRoute('card_index');
         }
 
-        $newFile = new File();
         $files = $this->service->getCarouselFiles($card);
 
-        $uploadForm = $this->createForm('BiBundle\Form\UploadFileType', $newFile);
+        $uploadForm = $this->createForm('BiBundle\Form\CardCarouselImageType', $files);
         $uploadForm->handleRequest($request);
 
         if ($uploadForm->isSubmitted() && $uploadForm->isValid()) {
 
-            /** @var UploadedFile[] $uploadedFiles */
-            $uploadedFiles = $newFile->getPath();
-            foreach ($uploadedFiles as $uploadedFile) {
-                $file = $this->get('bi.file.service')->upload($uploadedFile, self::CARDS_PREVIEW_PATH);
+            $fileService = $this->get('bi.file.service');
 
-                if ($file instanceof File) {
-                    $cardCarouselImage = new CardCarouselImage();
-                    $cardCarouselImage->setCard($card);
-                    $cardCarouselImage->setFile($file);
-                    $this->service->addCarouselFile($cardCarouselImage);
+            $deletedFileIds = $uploadForm->get('deletedImages')->getData();
+            if (is_array($deletedFileIds) && !empty($deletedFileIds)) {
+
+                /** @var File[] $files */
+                foreach ($files as $file) {
+                    if (in_array($file->getId(), $deletedFileIds)) {
+                        foreach ($file->getCardCarouselImage() as $cardCarouselImage) {
+                            $this->service->removeCarouselFile($cardCarouselImage);
+                        }
+                        $fileService->delete($file);
+                    }
+                }
+            }
+
+            /** @var UploadedFile[] $uploadedFiles */
+            $uploadedFiles = $uploadForm->get('uploadedImages')->getData();
+            if (is_array($uploadedFiles) && !empty($uploadedFiles)) {
+                foreach ($uploadedFiles as $uploadedFile) {
+                    if ($uploadedFile instanceof UploadedFile) {
+                        $file = $fileService->upload($uploadedFile, self::CARD_CAROUSEL_IMAGE_PATH);
+
+                        if ($file instanceof File) {
+                            $cardCarouselImage = new CardCarouselImage();
+                            $cardCarouselImage->setCard($card);
+                            $cardCarouselImage->setFile($file);
+                            $this->service->addCarouselFile($cardCarouselImage);
+                        }
+                    }
                 }
             }
 
