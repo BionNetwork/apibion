@@ -3,6 +3,7 @@
 namespace BiBundle\Repository;
 
 use BiBundle\Entity\Card;
+use BiBundle\Entity\File;
 
 /**
  * CardRepository
@@ -75,7 +76,7 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
      * Finds all carousel files for card
      *
      * @param Card $card
-     * @return array
+     * @return File[]
      */
     public function findCarouselFiles(Card $card)
     {

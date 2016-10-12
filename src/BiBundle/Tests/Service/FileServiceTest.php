@@ -27,7 +27,7 @@ class FileServiceTest extends KernelTestCase
         $this->uploadDir = $container->getParameter('upload_dir');
     }
 
-    public function testFileService()
+    public function testFileServiceUpload()
     {
         $uploadedFile = $this->getMockBuilder(UploadedFile::class)->disableOriginalConstructor()->getMock();
         $uploadedFile->method('getClientOriginalExtension')->willReturn('txt');
@@ -36,7 +36,7 @@ class FileServiceTest extends KernelTestCase
         $file = $this->service->upload($uploadedFile, $path);
 
         $this->assertInstanceOf(File::class, $file);
-        $this->assertStringStartsWith('/' . $path, $file->getPath());
+        $this->assertStringStartsWith('/uploads/' . $path, $file->getPath());
         $this->assertStringEndsWith('.txt', $file->getPath());
         $this->assertStringEndsNotWith('..txt', $file->getPath());
     }

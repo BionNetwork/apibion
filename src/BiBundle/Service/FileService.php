@@ -32,8 +32,8 @@ class FileService
     {
         $this->fileRepository = $fileRepository;
         $this->webRootDir = $webRootDir;
-        $this->webUploadDir = $webUploadDir;
-        $this->uploadPath = $webRootDir . $webUploadDir;
+        $this->webUploadDir = ltrim($webUploadDir, '/');
+        $this->uploadPath = $webRootDir . '/' . $webUploadDir;
     }
 
     /**
@@ -45,9 +45,14 @@ class FileService
     {
         $filename = Uuid::uuid4()->toString() . '.' . $uploadedFile->getClientOriginalExtension();
         $filesystemPath = $this->formatPath($this->uploadPath, $path);
+        if (!is_dir($filesystemPath)) {
+            if (!mkdir($filesystemPath, 0755, true)) {
+                throw new \ErrorException("Failed to create directory $filesystemPath");
+            }
+        }
         $uploadedFile->move($filesystemPath, $filename);
         $file = new File();
-        $file->setPath($this->formatPath($this->webUploadDir, $path) . $filename);
+        $file->setPath('/' . $this->formatPath($this->webUploadDir, $path) . $filename);
         $this->fileRepository->create($file);
 
         return $file;

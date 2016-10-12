@@ -23,6 +23,13 @@ class BiCardsLoadCommand extends ContainerAwareCommand
     const REPRESENTATION_PIE = 'pie';
     const REPRESENTATION_FUNNEL = 'funnel';
 
+    CONST CONTROL_TYPE_MULTISELECT = 'multiselect';
+    const CONTROL_TYPE_CHECKBOX = 'checkbox';
+    const CONTROL_TYPE_RADIOBUTTON = 'radiobutton';
+    const CONTROL_TYPE_DATESLIDER = 'dateslider';
+    const CONTROL_TYPE_NDS = 'nds';
+    const CONTROL_TYPE_ONESELECT = 'oneselect';
+
     /** @var  string */
     private $webUploadPath;
 
@@ -313,6 +320,22 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'name_en' => 'Sales',
                     'description' => 'Выручка от реализации',
                     'description_en' => 'Revenues from sales',
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Проект',
+                    'name_en' => 'Project',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_CHECKBOX,
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Период',
+                    'name_en' => 'Period',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_DATESLIDER,
                 ]
             ]
         ],
@@ -342,6 +365,22 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => 'Краткосрочные обязательства',
                     'description_en' => 'Сurrent  liabilities',
                 ],
+                [
+                    'code' => '',
+                    'name' => 'Период',
+                    'name_en' => 'Period',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_DATESLIDER,
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Филиал',
+                    'name_en' => 'Branch',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_CHECKBOX,
+                ],
             ]
         ],
         [
@@ -369,6 +408,22 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'name_en' => 'Average Inventory',
                     'description' => 'Cредняя стоимость запасов',
                     'description_en' => 'Average Inventory',
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Продукт',
+                    'name_en' => 'Product',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_MULTISELECT,
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Период',
+                    'name_en' => 'Period',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_DATESLIDER,
                 ],
             ]
         ],
@@ -419,6 +474,22 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => 'Фактическая стоимость (Actual Cost) - реальная стоимость выполненных работ',
                     'description_en' => 'Actual Cost (AC) - the actual cost of work performed',
                 ],
+                [
+                    'code' => '',
+                    'name' => 'Проект',
+                    'name_en' => 'Project',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_CHECKBOX,
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Стадии',
+                    'name_en' => 'Stages',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_RADIOBUTTON,
+                ],
             ]
         ],
         [
@@ -447,6 +518,23 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => 'Среднесписочная численность персонала',
                     'description_en' => 'Average number of personnel',
                 ],
+                [
+                    'code' => '',
+                    'name' => 'Цеха',
+                    'name_en' => 'Divisions',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_RADIOBUTTON
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Года',
+                    'name_en' => 'Years',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_RADIOBUTTON
+                ],
+
             ]
         ],
         [
@@ -488,6 +576,22 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'name_en' => 'The value of investments',
                     'description' => 'Величина инвестиций',
                     'description_en' => 'The value of investments',
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Период',
+                    'name_en' => 'Period',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_DATESLIDER,
+                ],
+                [
+                    'code' => '',
+                    'name' => 'Проекты',
+                    'name_en' => 'Projects',
+                    'description' => '',
+                    'description_en' => '',
+                    'ct' => self::CONTROL_TYPE_RADIOBUTTON,
                 ],
             ]
         ],
