@@ -14,9 +14,6 @@ class FileService
     private $fileRepository;
 
     /** @var  string */
-    private $uploadPath;
-
-    /** @var  string */
     private $webRootDir;
 
     /** @var  string */
@@ -33,18 +30,18 @@ class FileService
         $this->fileRepository = $fileRepository;
         $this->webRootDir = $webRootDir;
         $this->webUploadDir = ltrim($webUploadDir, '/');
-        $this->uploadPath = $webRootDir . '/' . $webUploadDir;
     }
 
     /**
      * @param UploadedFile $uploadedFile
      * @param string $path
      * @return File
+     * @throws \ErrorException
      */
     public function upload(UploadedFile $uploadedFile, $path = '')
     {
         $filename = Uuid::uuid4()->toString() . '.' . $uploadedFile->getClientOriginalExtension();
-        $filesystemPath = $this->formatPath($this->uploadPath, $path);
+        $filesystemPath = $this->formatPath($this->webUploadDir, $path, $this->webRootDir);
         if (!is_dir($filesystemPath)) {
             if (!mkdir($filesystemPath, 0755, true)) {
                 throw new \ErrorException("Failed to create directory $filesystemPath");
@@ -52,7 +49,7 @@ class FileService
         }
         $uploadedFile->move($filesystemPath, $filename);
         $file = new File();
-        $file->setPath('/' . $this->formatPath($this->webUploadDir, $path) . $filename);
+        $file->setPath($this->formatPath($this->webUploadDir, $path) . $filename);
         $this->fileRepository->create($file);
 
         return $file;
@@ -72,7 +69,7 @@ class FileService
     public function delete(File $file)
     {
         $filesystem = new Filesystem();
-        $filePath = $this->webRootDir . $file->getPath();
+        $filePath = rtrim($this->webRootDir, '/') . $file->getPath();
         if ($filesystem->exists($filePath)) {
             $filesystem->remove($filePath);
         }
@@ -80,16 +77,14 @@ class FileService
     }
 
     /**
-     * @param $prefix
+     * @param string $uploadDir
      * @param string $path
+     * @param string $rootPath
      * @return string
      */
-    private function formatPath($prefix, $path = '')
+    private function formatPath($uploadDir, $path = '', $rootPath = '')
     {
-        if ($path) {
-            return rtrim($prefix, '/') . '/' . trim($path, '/') . '/';
-        } else {
-            return rtrim($prefix, '/') . '/';
-        }
+        $path = $path ? trim($path, '/') . '/' : '';
+        return rtrim($rootPath, '/') . '/' . trim($uploadDir, '/') . '/' . $path;
     }
 }

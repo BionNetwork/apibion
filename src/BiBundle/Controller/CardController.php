@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CardController extends Controller
 {
-    const CARD_CAROUSEL_IMAGE_PATH = 'images/cards/carousel';
+    const CARD_CAROUSEL_IMAGE_PATH = 'images/cards';
 
     /**
      * @var CardService
