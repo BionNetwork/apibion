@@ -17,6 +17,8 @@
 /web/js
 /web/uploads/*
 !web/uploads/.gitkeep
+!web/uploads/images/.gitkeep
+!web/uploads/images/cards/.gitkeep
 /web/media/*
 !web/media/.gitkeep
 .rocketeer

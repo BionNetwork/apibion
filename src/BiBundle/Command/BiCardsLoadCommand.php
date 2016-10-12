@@ -37,6 +37,9 @@ class BiCardsLoadCommand extends ContainerAwareCommand
 
     private $addRepresentations = false;
 
+    /** @var  string */
+    private $cardImagesDestinationPath;
+
     protected function configure()
     {
         $this
@@ -52,7 +55,9 @@ class BiCardsLoadCommand extends ContainerAwareCommand
         }
 
         $this->webRootPath = rtrim($this->getContainer()->getParameter('web_root_directory'), '/');
+        $this->webUploadPath = rtrim($this->getContainer()->getParameter('web_upload_directory'), '/');
         $this->cardImagesPath = '/images/cards/';
+        $this->cardImagesDestinationPath = '/' . $this->webUploadPath . '/images/cards/';
 
         $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -141,8 +146,13 @@ class BiCardsLoadCommand extends ContainerAwareCommand
 
     private function createImageFile($filename)
     {
+        $sourcePath = $this->webRootPath . $this->cardImagesPath . $filename;
+        $destinationPath = $this->webRootPath . $this->cardImagesDestinationPath . $filename;
+        if (!copy($sourcePath, $destinationPath)) {
+            throw new \ErrorException("Failed to copy $sourcePath to $destinationPath");
+        }
         $file = new File();
-        $file->setPath($this->cardImagesPath . $filename);
+        $file->setPath($this->cardImagesDestinationPath . $filename);
         $this->getContainer()->get('bi.file.service')->create($file);
 
         return $file;
