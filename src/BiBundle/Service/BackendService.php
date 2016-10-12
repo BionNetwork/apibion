@@ -120,8 +120,26 @@ class BackendService extends UserAwareService
         $respond = $client->send($request);
 
         return $respond;
+    }
 
+    /**
+     * Resource structure
+     *
+     * @param \BiBundle\Entity\Resource $resource
+     * @return array
+     */
+    public function getResourceStructure(\BiBundle\Entity\Resource $resource)
+    {
+        $data = [];
+        $tables = $this->getResourceTables($resource);
+        foreach ($tables as $table) {
+            $columns = $this->getResourceTableColumns($resource, $table);
+            $data[$table] = [
+                'columns' => $columns[$table]
+            ];
+        }
 
+        return $data;
     }
 
     /**
@@ -131,7 +149,7 @@ class BackendService extends UserAwareService
      *
      * @return array()
      */
-    public function getResourceTables(\BiBundle\Entity\Resource $resource)
+    protected function getResourceTables(\BiBundle\Entity\Resource $resource)
     {
         $client = $this->getClient();
 
@@ -153,7 +171,7 @@ class BackendService extends UserAwareService
      *
      * @return array()
      */
-    public function getResourceTableColumns(\BiBundle\Entity\Resource $resource, $tableName)
+    protected function getResourceTableColumns(\BiBundle\Entity\Resource $resource, $tableName)
     {
         $client = $this->getClient();
 

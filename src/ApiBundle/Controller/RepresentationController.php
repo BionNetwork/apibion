@@ -43,7 +43,7 @@ class RepresentationController extends RestController
     {
         $representationService = $this->get('bi.representation.service');
 
-        $params = $this->getParams($paramFetcher, 'Representation/Filter');
+        $params = $this->getParams($paramFetcher, 'representation');
         $filter = new \BiBundle\Entity\Filter\Representation($params);
         $representationList = $representationService->getByFilter($filter);
 

@@ -296,7 +296,7 @@ class DashboardController extends RestController
     public function getDashboardActivationsAction(\BiBundle\Entity\Dashboard $dashboard, ParamFetcher $paramFetcher)
     {
         $activationsService = $this->get('bi.activation.service');
-        $params = $this->getParams($paramFetcher, 'Filter\Activation');
+        $params = $this->getParams($paramFetcher, 'dashboard');
         $filter = new \BiBundle\Entity\Filter\Activation($params);
         $filter->dashboard_id = $dashboard->getId();
         $cards = $activationsService->getByFilter($filter);
