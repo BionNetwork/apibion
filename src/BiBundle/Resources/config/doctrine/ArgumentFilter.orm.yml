@@ -1,0 +1,28 @@
+BiBundle\Entity\ArgumentFilter:
+    type: entity
+    table: null
+    repositoryClass: BiBundle\Repository\ArgumentFilterRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: 255
+        filterType:
+            type: string
+            length: 255
+    manyToOne:
+        filterControlType:
+            targetEntity: BiBundle\Entity\FilterControlType
+            joinColumns:
+                filter_control_type_id:
+                    referencedColumnName: id
+    manyToMany:
+        arguments:
+            targetEntity: BiBundle\Entity\Argument
+            mappedBy: argumentFilters
+    lifecycleCallbacks: {  }

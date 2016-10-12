@@ -69,4 +69,16 @@ BiBundle\Entity\Argument:
             joinColumns:
                 filter_control_type_id:
                     nullable: true
+    manyToMany:
+        argumentFilters:
+            targetEntity: BiBundle\Entity\Argument
+            inversedBy: arguments
+            joinTable:
+                name: arguments_to_arguments_filters
+                joinColumns:
+                    argument_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    argument_filter_id:
+                        referencedColumnName: id
     lifecycleCallbacks: {  }

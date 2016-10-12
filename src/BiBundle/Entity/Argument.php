@@ -295,4 +295,44 @@ class Argument
     {
         $this->filterControlType = $filterControlType;
     }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $argumentFilters;
+
+
+    /**
+     * Add argumentFilter
+     *
+     * @param \BiBundle\Entity\Argument $argumentFilter
+     *
+     * @return Argument
+     */
+    public function addArgumentFilter(\BiBundle\Entity\Argument $argumentFilter)
+    {
+        $this->argumentFilters[] = $argumentFilter;
+
+        return $this;
+    }
+
+    /**
+     * Remove argumentFilter
+     *
+     * @param \BiBundle\Entity\Argument $argumentFilter
+     */
+    public function removeArgumentFilter(\BiBundle\Entity\Argument $argumentFilter)
+    {
+        $this->argumentFilters->removeElement($argumentFilter);
+    }
+
+    /**
+     * Get argumentFilters
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArgumentFilters()
+    {
+        return $this->argumentFilters;
+    }
 }
