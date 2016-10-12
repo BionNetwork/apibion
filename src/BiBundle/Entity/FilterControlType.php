@@ -56,4 +56,3 @@ class FilterControlType
         return $this->name;
     }
 }
-

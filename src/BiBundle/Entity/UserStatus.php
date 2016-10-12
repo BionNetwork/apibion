@@ -87,4 +87,3 @@ class UserStatus
         return $this->code;
     }
 }
-

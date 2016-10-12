@@ -43,7 +43,7 @@ class ResourceTransferObject
         $data = [
             'id' => $resource->getId(),
             'activation_id' => !empty($resource->getActivation()) ? $resource->getActivation()->getId() : null,
-            'path' => $resource->getPath(),
+            'settings' => $resource->getSettings(),
         ];
         return $data;
     }

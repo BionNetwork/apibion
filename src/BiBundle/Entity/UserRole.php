@@ -85,4 +85,3 @@ class UserRole
         return $this->title;
     }
 }
-

@@ -28,11 +28,6 @@ class Resource
     private $updatedOn;
 
     /**
-     * @var string
-     */
-    private $path;
-
-    /**
      * @var \BiBundle\Entity\Activation
      */
     private $activation;
@@ -41,6 +36,11 @@ class Resource
      * @var integer
      */
     private $remoteId;
+
+    /**
+     * @var array
+     */
+    private $settings;
 
     public function __construct()
     {
@@ -103,30 +103,6 @@ class Resource
     public function getUpdatedOn()
     {
         return $this->updatedOn;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     *
-     * @return Resource
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 
     /**
@@ -199,5 +175,46 @@ class Resource
     public function getRemoteId()
     {
         return $this->remoteId;
+    }
+
+    /**
+     * Set settings
+     *
+     * @param array $settings
+     *
+     * @return Resource
+     */
+    public function setSettings(array $settings)
+    {
+        $this->settings = json_encode($settings);
+
+        return $this;
+    }
+
+    /**
+     * Get settings
+     *
+     * @return array
+     */
+    public function getSettings()
+    {
+        return json_decode($this->settings, true);
+    }
+
+    /**
+     * Adds file to settings
+     *
+     * @param $type
+     * @param $path
+     */
+    public function addFile($type, $path)
+    {
+        $settings = $this->getSettings();
+        if (!$settings) {
+            $settings = [];
+        }
+        $settings['type'] = $type;
+        $settings['file'] = ['path' => $path];
+        $this->setSettings($settings);
     }
 }

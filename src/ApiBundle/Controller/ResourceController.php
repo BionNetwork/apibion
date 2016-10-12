@@ -44,43 +44,45 @@ class ResourceController extends RestController
      *
      * @param Request $request
      *
+     * @param ParamFetcher $params
      * @return Response
      */
     public function postResourceAction(Request $request, ParamFetcher $params)
     {
         $params = $this->getParams($params, 'Resource');
 
+        $resource = new \BiBundle\Entity\Resource();
+
         if($params['activation_id']) {
             $activationId = $params['activation_id'];
             $activationRepository = $this->get('repository.activation_repository');
+            /** @var \BiBundle\Entity\Activation $activation */
             $activation = $activationRepository->findOneBy(['id' => $activationId, 'user' => $this->getUser()]);
-            $activationPathExt = sprintf('/%d', $activation->getId());
             if(null === $activation) {
                 throw new NotFoundHttpException('Активация не найдена');
             }
-        } else {
-            $activationPathExt = '';
+            $resource->setActivation($activation);
         }
 
-        $resource = new \BiBundle\Entity\Resource();
-
+        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $resourceFile */
         $resourceFile = $request->files->get('resource_file');
         if (!$resourceFile) {
             throw new HttpException(400, 'Файл не загружен');
+        }
+        if(false === strpos($resourceFile->getClientMimeType(), 'excel')) {
+            throw new HttpException(400, 'Некорректный тип файла');
         }
 
         $resourceService = $this->get('bi.resource.service');
 
         $uploadResourceService = $this->get('file.upload_resource');
-        $uploadResourceService->setUploadPath('uploads/resource' . $activationPathExt);
+        $uploadResourceService->setUploadPath('uploads/resource/'.date("Ymd"));
 
         $uploadedResourcePathArray = $uploadResourceService->upload($resourceFile);
 
-        $resource->setPath($uploadedResourcePathArray['path']);
+        $resource->addFile('excel', $uploadedResourcePathArray['path']);
         $resource->setUser($this->getUser());
-        if(!empty($activation)) {
-            $resource->setActivation($activation);
-        }
+
         $resource = $resourceService->save($resource);
 
         $service = $this->get('api.data.transfer_object.resource_transfer_object');

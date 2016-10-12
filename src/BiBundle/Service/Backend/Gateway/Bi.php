@@ -26,9 +26,15 @@ class Bi extends AbstractGateway
         return 'bi';
     }
 
-    private function processUri($uri)
+    private function processUri($uri, $method)
     {
-        return $this->getGatewayUrl() . trim($uri, '/') . '?format=json';
+        $url = $this->getGatewayUrl() . trim($uri, '/');
+        if (strtolower($method) == 'get') {
+            $url .= '?format=json';
+        } else {
+            $url .= "/";
+        }
+        return $url;
     }
 
     public function send(Backend\Request $backendRequest)
@@ -55,9 +61,15 @@ class Bi extends AbstractGateway
 
         $data = $backendRequest->getData();
 
-        $client->setParameterPost($data);
+        if (!empty($data)) {
+            if ($backendRequest->getMethod() == 'POST') {
+                $client->setParameterPost($data);
+            } else {
+                $client->setParameterGet($data);
+            }
+        }
 
-        $url = $this->processUri($backendRequest->getUri());
+        $url = $this->processUri($backendRequest->getUri(), $backendRequest->getMethod());
         $client->setUri($url);
 
         $response = $client->send();

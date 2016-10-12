@@ -86,4 +86,3 @@ class ActivationStatus
         return $this->code;
     }
 }
-

@@ -31,10 +31,10 @@ BiBundle\Entity\Resource:
             fixed: false
             comment: 'Идентификатор источника данных в платформе BI'
             column: remote_id
-        path:
-            type: string
-            nullable: false
-            unsigned: false
+        settings:
+            type: json_array
+            nullable: true
+            comment: 'Настройки источника'
     manyToOne:
         activation:
             targetEntity: Activation

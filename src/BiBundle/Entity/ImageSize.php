@@ -200,4 +200,3 @@ class ImageSize
         return $this->image;
     }
 }
-

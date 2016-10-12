@@ -10,6 +10,7 @@ use BiBundle\Service\Backend\Client;
 use BiBundle\Service\Backend\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use BiBundle\Service\Backend\Gateway\UrlOptions;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Backend service
@@ -47,9 +48,10 @@ class BackendService extends UserAwareService
         $request = new \BiBundle\Service\Backend\Request;
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setUri(UrlOptions::DATA_SOURCES_URL);
+        $settings = $resource->getSettings();
 
         $uploadDir = $this->getContainer()->getParameter('upload_dir');
-        $uploadFilePath = implode(DIRECTORY_SEPARATOR, [$uploadDir, $resource->getPath()]);
+        $uploadFilePath = implode(DIRECTORY_SEPARATOR, [$uploadDir, $settings['file']['path']]);
 
         $uploadable = new Backend\Uploadable;
         $uploadable->setFilename(basename($uploadFilePath));
@@ -60,25 +62,23 @@ class BackendService extends UserAwareService
         $request->addUploadable($uploadable);
 
         $body = [
-            'csrfmiddlewaretoken' => '3eZ2QbotuZ9OkSt3J8jBYMBNZVyQHwRY',
             'db' => null,
             'host' => null,
             'port' => null,
             'login' => null,
             'password' => null,
-            'conn_type' => 5,
+            'conn_type' => 'Excel',
             'user_id' => null,
             'settings' => [],
-
         ];
         $request->setData($body);
 
         $respond = $client->send($request);
 
-        if($respond['id']) {
+        if(isset($respond['id'])) {
             $resource->setRemoteId($respond['id']);
         } else {
-            throw new Exception('Не удалось обработать файл');
+            throw new HttpException(400, 'Ошибка создания источника: '.$respond['message']);
         }
         return $resource;
     }

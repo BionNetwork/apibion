@@ -205,4 +205,3 @@ class UserContact
         return $this->user;
     }
 }
-

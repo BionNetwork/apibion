@@ -33,11 +33,11 @@ class UrlOptions
     /**
      * Create tree on selected card
      */
-    const CARDS_TREE_CREATE_URL = "/cubes/%d/create_tree";
+    const CARDS_TREE_CREATE_URL = "/cubes/%d/nodes";
     /**
      * Load data on selected card
      */
-    const CARDS_LOAD_DATA_URL = "/cubes/%d/load_data";
+    const CARDS_LOAD_DATA_URL = "/cubes/%d/data";
     /**
      * Get card filters
      */
@@ -45,5 +45,5 @@ class UrlOptions
     /**
      * Send query to card
      */
-    const CARDS_QUERY_URL = "/cubes/%d/query_new";
+    const CARDS_QUERY_URL = "/cubes/%d/query";
 }
