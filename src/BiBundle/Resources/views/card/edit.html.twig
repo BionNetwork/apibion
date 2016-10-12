@@ -50,7 +50,7 @@
                 <div class="box-body">
                     {% for file in files %}
                         <div class="box-pane">
-                            <img src="{{ '/uploads' ~  file.path }}" width="500"/>
+                            <img src="{{ file.path }}" width="500"/>
                         </div>
                     {% endfor %}
                 </div>

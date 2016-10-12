@@ -52,8 +52,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
         }
 
         $this->webRootPath = rtrim($this->getContainer()->getParameter('web_root_directory'), '/');
-        $this->webUploadPath = trim($this->getContainer()->getParameter('web_upload_directory'), '/');
-        $this->cardImagesPath = '/' . $this->webUploadPath . '/images/cards/';
+        $this->cardImagesPath = '/images/cards/';
 
         $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
