@@ -43,16 +43,9 @@
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="box box-primary">
-                <div class="box-header with-border">
+                <div class="box-body">
                     {{ form_start(upload_form) }}
                     {{ form_widget(upload_form) }}
-                </div>
-                <div class="box-body">
-                    {% for file in files %}
-                        <div class="box-pane">
-                            <img src="{{ file.path }}" width="500"/>
-                        </div>
-                    {% endfor %}
                 </div>
                 <div class="box-footer">
                     <ul class="pull-right">
@@ -60,6 +53,25 @@
                         <input type="submit" class="btn btn-primary" value="Сохранить"/>
                         {{ form_end(upload_form) }}
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="box box-primary">
+                <div class="box-body">
+                    {% for file in files %}
+                        <div>
+                            <p>
+                                {% for image in file.cardCarouselImage %}
+                                    <b>Priority:</b> {{ image.priority }} <br/>
+                                {% endfor %}
+                                <b>Path:</b> {{ file.path }}
+                            </p>
+                            <img src="{{ file.path }}" width="500"/>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

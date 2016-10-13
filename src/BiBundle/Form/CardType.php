@@ -6,6 +6,7 @@ use BiBundle\Entity\Card;
 use BiBundle\Entity\CardCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,7 +38,14 @@ class CardType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false
             ])
-            ->add('locale', TextType::class, [
+            ->add('cardCarouselImage', CollectionType::class, [
+                'entry_type' => CardCarouselImageType::class,
+                'entry_options' => [
+                    'card' => $options['data'],
+                    'label' => false
+                ],
+                'required' => false
+            ])->add('locale', TextType::class, [
                 'required' => false,
                 'attr' => ['readonly' => true]
             ]);
@@ -48,8 +56,8 @@ class CardType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'BiBundle\Entity\Card'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'BiBundle\Entity\Card',
+        ]);
     }
 }

@@ -82,7 +82,7 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->select('f')
+        $qb->select('f', 'ci')
             ->from('BiBundle:File', 'f')
             ->leftJoin('f.cardCarouselImage', 'ci')
             ->where('ci.card = :card')

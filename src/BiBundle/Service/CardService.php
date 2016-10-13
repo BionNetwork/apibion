@@ -51,11 +51,11 @@ class CardService
     }
 
     /**
-     * @param Card $card
+     *
      */
-    public function update(Card $card)
+    public function update()
     {
-        $this->entityManager->flush($card);
+        $this->entityManager->flush();
     }
 
     /**

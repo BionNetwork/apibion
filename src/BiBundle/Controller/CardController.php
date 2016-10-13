@@ -83,13 +83,13 @@ class CardController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->service->update($card);
-            return $this->redirectToRoute('card_index');
+            $this->service->update();
+            return $this->redirectToRoute('card_edit', ['id' => $card->getId()]);
         }
 
         $files = $this->service->getCarouselFiles($card);
 
-        $uploadForm = $this->createForm('BiBundle\Form\CardCarouselImageType', $files);
+        $uploadForm = $this->createForm('BiBundle\Form\CardCarouselFileType', $files);
         $uploadForm->handleRequest($request);
 
         if ($uploadForm->isSubmitted() && $uploadForm->isValid()) {
