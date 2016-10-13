@@ -8,8 +8,8 @@ namespace BiBundle\Service;
 
 use BiBundle\Service\Backend\Client;
 use BiBundle\Service\Backend\Exception;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use BiBundle\Service\Backend\Gateway\UrlOptions;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -226,7 +226,7 @@ class BackendService extends UserAwareService
             foreach ($tables as $table) {
                 $data[] = [
                     'source_id' => $resource->getRemoteId(),
-                    'table_name' => $table['name']
+                    'table_name' => $table
                 ];
             }
         }
@@ -270,10 +270,10 @@ class BackendService extends UserAwareService
             $tables = $this->getResourceTables($resource);
             $data[$resource->getRemoteId()] = [];
             foreach ($tables as $table) {
-                $columnsResponce = $this->getResourceTableColumns($resource, $table['name']);
-                $columns = array_shift($columnsResponce);
+                $columnsResponse = $this->getResourceTableColumns($resource, $table);
+                $columns = array_shift($columnsResponse);
                 foreach ($columns as $column) {
-                    $data[$resource->getRemoteId()][$table['name']][] = $column['name'];
+                    $data[$resource->getRemoteId()][$table][] = $column['name'];
                 }
             }
         }
