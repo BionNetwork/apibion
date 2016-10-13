@@ -96,10 +96,10 @@ BiBundle\Entity\Card:
         cardCarouselImage:
             targetEntity: CardCarouselImage
             mappedBy: card
+            orderBy: {'priority' : 'ASC'}
         argumentFilters:
             targetEntity: BiBundle\Entity\ArgumentFilter
             mappedBy: card
-            orderBy: {'priority' : 'ASC'}
     manyToOne:
         cardCategory:
             targetEntity: CardCategory
