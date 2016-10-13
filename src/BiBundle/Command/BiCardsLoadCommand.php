@@ -39,7 +39,6 @@ class BiCardsLoadCommand extends ContainerAwareCommand
 
     /** @var  string */
     private $cardImagesPath;
-
     /** @var  EntityManager */
     private $entityManager;
 

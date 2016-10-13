@@ -100,4 +100,13 @@ class CardService
         $this->entityManager->remove($cardCarouselImage);
         $this->entityManager->flush($cardCarouselImage);
     }
+
+    /**
+     * @param $id
+     * @return Card|null
+     */
+    public function findById($id)
+    {
+        return $this->entityManager->getRepository('BiBundle:Card')->find($id);
+    }
 }

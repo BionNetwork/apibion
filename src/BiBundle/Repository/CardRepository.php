@@ -28,7 +28,6 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
             'c.description_long',
             'c.rating',
             'c.price',
-            'c.carousel',
             'c.createdOn AS created_on',
             'c.updatedOn AS updated_on',
             'cc.id AS category_id',

@@ -26,9 +26,6 @@ class CardControllerTest extends ControllerTestCase
     /** @var  string */
     private $webDirectory;
 
-    /** @var  CardRepository */
-    private $cardRepository;
-
     /**
      * @inheritdoc
      */
@@ -44,7 +41,7 @@ class CardControllerTest extends ControllerTestCase
         $this->cardCategoryService = $container->get('bi.card_category.service');
         $this->cardService = $container->get('bi.card.service');
         $this->cardRepository = $container->get('repository.card_repository');
-        $this->webDirectory = rtrim($container)->getParameter('web_root_directory'), '/');
+        $this->webDirectory = rtrim($container->getParameter('web_root_directory'), '/');
     }
 
     /**
@@ -96,12 +93,13 @@ class CardControllerTest extends ControllerTestCase
 
     public function testGetCardsAction()
     {
-        $this->client->request('GET', "/api/v1/cards");
+        $totalCardCount = count($this->cardRepository->findAll());
+        $this->client->request('GET', "/api/v1/cards", ['limit' => $totalCardCount]);
 
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $data = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('data', $data);
-        $this->assertSame(count($this->cardRepository->findAll()), count($data['data']));
+        $this->assertSame($totalCardCount, count($data['data']));
     }
 
     public function testCardImage()

@@ -81,8 +81,12 @@ class CardTransferObject
      * @param Card $card
      * @return Object\CardValueObject
      */
-    public function getObjectData(Card $card)
+    public function getObjectData($card)
     {
+        ### 8b188de9b1af75d8d2a83729b92cbc116390840a сломал CardRepository::findByFilter
+        $card = $card instanceof Card ? $card : $this->cardService->findById($card['id']);
+        ### поэтому так
+
         $representations = $card->getCardRepresentation();
         $representationsArray = [];
         /** @var CardRepresentation $item */
@@ -138,35 +142,6 @@ class CardTransferObject
             },
             $argumentFilters
         );
-    }
-
-    /**
-     * Get cards list
-     *
-     * @param array $data
-     * @return array
-     */
-    public function getObjectListData(array $data)
-    {
-        $result = [];
-
-        foreach ($data as $card) {
-            $item = [
-                'id' => $card['id'],
-                'name' => $card['name'],
-                'description' => $card['description'],
-                'description_long' => $card['description_long'],
-                'category' => $card['category_id'],
-                'rating' => $card['rating'],
-                'price' => $card['price'],
-                'purchased' => !empty($card['purchase_id']),
-                'carousel' => !empty($card['carousel']) ? explode(';', $card['carousel']) : [],
-                'created_on' => !empty($card['created_on']) ? $card['created_on']->getTimestamp() : null,
-                'updated_on' => !empty($card['updated_on']) ? $card['updated_on']->getTimestamp() : null,
-            ];
-            $result[] = $item;
-        }
-        return $result;
     }
 
     /**
