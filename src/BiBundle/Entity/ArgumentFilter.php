@@ -11,17 +11,30 @@ class ArgumentFilter
      * @var int
      */
     private $id;
-
     /**
      * @var string
      */
     private $label;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $arguments;
+    /**
+     * @var \BiBundle\Entity\FilterControlType
+     */
+    private $filterControlType;
+    /**
+     * @var \BiBundle\Entity\Card
+     */
+    private $card;
 
     /**
-     * @var string
+     * Constructor
      */
-    private $filterType;
-
+    public function __construct()
+    {
+        $this->arguments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -31,6 +44,16 @@ class ArgumentFilter
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
     }
 
     /**
@@ -45,53 +68,6 @@ class ArgumentFilter
         $this->label = $label;
 
         return $this;
-    }
-
-    /**
-     * Get label
-     *
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
-     * Set filterType
-     *
-     * @param string $filterType
-     *
-     * @return ArgumentFilter
-     */
-    public function setFilterType($filterType)
-    {
-        $this->filterType = $filterType;
-
-        return $this;
-    }
-
-    /**
-     * Get filterType
-     *
-     * @return string
-     */
-    public function getFilterType()
-    {
-        return $this->filterType;
-    }
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $arguments;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->arguments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -129,10 +105,14 @@ class ArgumentFilter
     }
 
     /**
-     * @var \BiBundle\Entity\FilterControlType
+     * Get filterControlType
+     *
+     * @return \BiBundle\Entity\FilterControlType
      */
-    private $filterControlType;
-
+    public function getFilterControlType()
+    {
+        return $this->filterControlType;
+    }
 
     /**
      * Set filterControlType
@@ -149,12 +129,26 @@ class ArgumentFilter
     }
 
     /**
-     * Get filterControlType
+     * Get card
      *
-     * @return \BiBundle\Entity\FilterControlType
+     * @return \BiBundle\Entity\Card
      */
-    public function getFilterControlType()
+    public function getCard()
     {
-        return $this->filterControlType;
+        return $this->card;
+    }
+
+    /**
+     * Set card
+     *
+     * @param \BiBundle\Entity\Card $card
+     *
+     * @return ArgumentFilter
+     */
+    public function setCard(\BiBundle\Entity\Card $card = null)
+    {
+        $this->card = $card;
+
+        return $this;
     }
 }

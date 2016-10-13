@@ -3,7 +3,6 @@
 namespace BiBundle\Form;
 
 use BiBundle\Entity\Card;
-use BiBundle\Entity\FilterControlType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,7 +22,6 @@ class ArgumentType extends AbstractType
         $builder->add('card', EntityType::class, [
             'class' => Card::class,
             'choice_label' => 'name',
-            'required' => false,
         ]);
         $builder->add('locale', TextType::class, [
             'required' => false,

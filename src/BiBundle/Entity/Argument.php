@@ -2,6 +2,8 @@
 
 namespace BiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Argument
  */
@@ -52,8 +54,14 @@ class Argument
      */
     private $description;
 
-    /** @var  FilterControlType */
-    private $filterControlType;
+    /**
+     * @var string
+     */
+    private $dimension;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $argumentFilters;
 
     /**
      * Constructor
@@ -62,6 +70,7 @@ class Argument
     {
         $this->createdOn = new \DateTime();
         $this->updatedOn = new \DateTime();
+        $this->argumentFilters = new ArrayCollection();
     }
 
     /**
@@ -72,6 +81,16 @@ class Argument
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -89,13 +108,13 @@ class Argument
     }
 
     /**
-     * Get name
+     * Get code
      *
      * @return string
      */
-    public function getName()
+    public function getCode()
     {
-        return $this->name;
+        return $this->code;
     }
 
     /**
@@ -113,13 +132,13 @@ class Argument
     }
 
     /**
-     * Get code
+     * Get datatype
      *
      * @return string
      */
-    public function getCode()
+    public function getDatatype()
     {
-        return $this->code;
+        return $this->datatype;
     }
 
     /**
@@ -137,13 +156,13 @@ class Argument
     }
 
     /**
-     * Get datatype
+     * Get createdOn
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getDatatype()
+    public function getCreatedOn()
     {
-        return $this->datatype;
+        return $this->createdOn;
     }
 
     /**
@@ -161,13 +180,13 @@ class Argument
     }
 
     /**
-     * Get createdOn
+     * Get updatedOn
      *
      * @return \DateTime
      */
-    public function getCreatedOn()
+    public function getUpdatedOn()
     {
-        return $this->createdOn;
+        return $this->updatedOn;
     }
 
     /**
@@ -185,15 +204,14 @@ class Argument
     }
 
     /**
-     * Get updatedOn
+     * Get card
      *
-     * @return \DateTime
+     * @return Card
      */
-    public function getUpdatedOn()
+    public function getCard()
     {
-        return $this->updatedOn;
+        return $this->card;
     }
-
 
     /**
      * Set card
@@ -210,19 +228,14 @@ class Argument
     }
 
     /**
-     * Get card
+     * Get dimension
      *
-     * @return Card
+     * @return string
      */
-    public function getCard()
+    public function getDimension()
     {
-        return $this->card;
+        return $this->dimension;
     }
-
-    /**
-     * @var string
-     */
-    private $dimension;
 
     /**
      * Set dimension
@@ -236,16 +249,6 @@ class Argument
         $this->dimension = $dimension;
 
         return $this;
-    }
-
-    /**
-     * Get dimension
-     *
-     * @return string
-     */
-    public function getDimension()
-    {
-        return $this->dimension;
     }
 
     /**
@@ -265,14 +268,6 @@ class Argument
     }
 
     /**
-     * @param string $locale
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-    }
-
-    /**
      * @return string
      */
     public function getLocale()
@@ -281,26 +276,12 @@ class Argument
     }
 
     /**
-     * @return FilterControlType
+     * @param string $locale
      */
-    public function getFilterControlType()
+    public function setLocale($locale)
     {
-        return $this->filterControlType;
+        $this->locale = $locale;
     }
-
-    /**
-     * @param FilterControlType $filterControlType
-     */
-    public function setFilterControlType($filterControlType)
-    {
-        $this->filterControlType = $filterControlType;
-    }
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $argumentFilters;
-
 
     /**
      * Add argumentFilter
@@ -309,7 +290,7 @@ class Argument
      *
      * @return Argument
      */
-    public function addArgumentFilter(\BiBundle\Entity\Argument $argumentFilter)
+    public function addArgumentFilter(\BiBundle\Entity\ArgumentFilter $argumentFilter)
     {
         $this->argumentFilters[] = $argumentFilter;
 
@@ -319,9 +300,9 @@ class Argument
     /**
      * Remove argumentFilter
      *
-     * @param \BiBundle\Entity\Argument $argumentFilter
+     * @param \BiBundle\Entity\ArgumentFilter $argumentFilter
      */
-    public function removeArgumentFilter(\BiBundle\Entity\Argument $argumentFilter)
+    public function removeArgumentFilter(\BiBundle\Entity\ArgumentFilter $argumentFilter)
     {
         $this->argumentFilters->removeElement($argumentFilter);
     }

@@ -49,6 +49,8 @@ BiBundle\Entity\Card:
             type: decimal
             nullable: false
             comment: 'Рейтинг в процентах'
+            precision: 10
+            scale: 2
             default: 0
         author:
             type: string
@@ -67,6 +69,8 @@ BiBundle\Entity\Card:
             type: decimal
             nullable: false
             comment: 'Стоимость'
+            precision: 10
+            scale: 2
             gedmo:
               - translatable
         createdOn:
@@ -91,6 +95,9 @@ BiBundle\Entity\Card:
             mappedBy: card
         cardCarouselImage:
             targetEntity: CardCarouselImage
+            mappedBy: card
+        argumentFilters:
+            targetEntity: BiBundle\Entity\ArgumentFilter
             mappedBy: card
             orderBy: {'priority' : 'ASC'}
     manyToOne:

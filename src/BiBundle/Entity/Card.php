@@ -95,6 +95,10 @@ class Card
      * @var File
      */
     private $imageFile;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $argumentFilters;
 
     /**
      * Constructor
@@ -120,6 +124,16 @@ class Card
     }
 
     /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -134,13 +148,13 @@ class Card
     }
 
     /**
-     * Get name
+     * Get type
      *
      * @return string
      */
-    public function getName()
+    public function getType()
     {
-        return $this->name;
+        return $this->type;
     }
 
     /**
@@ -158,13 +172,13 @@ class Card
     }
 
     /**
-     * Get type
+     * Get price
      *
      * @return string
      */
-    public function getType()
+    public function getPrice()
     {
-        return $this->type;
+        return $this->price;
     }
 
     /**
@@ -182,13 +196,13 @@ class Card
     }
 
     /**
-     * Get price
+     * Get createdOn
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getPrice()
+    public function getCreatedOn()
     {
-        return $this->price;
+        return $this->createdOn;
     }
 
     /**
@@ -206,13 +220,13 @@ class Card
     }
 
     /**
-     * Get createdOn
+     * Get updatedOn
      *
      * @return \DateTime
      */
-    public function getCreatedOn()
+    public function getUpdatedOn()
     {
-        return $this->createdOn;
+        return $this->updatedOn;
     }
 
     /**
@@ -227,16 +241,6 @@ class Card
         $this->updatedOn = $updatedOn;
 
         return $this;
-    }
-
-    /**
-     * Get updatedOn
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedOn()
-    {
-        return $this->updatedOn;
     }
 
     /**
@@ -275,6 +279,16 @@ class Card
     }
 
     /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set description
      *
      * @param string $description
@@ -289,13 +303,13 @@ class Card
     }
 
     /**
-     * Get description
+     * Get descriptionLong
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescriptionLong()
     {
-        return $this->description;
+        return $this->description_long;
     }
 
     /**
@@ -313,13 +327,13 @@ class Card
     }
 
     /**
-     * Get descriptionLong
+     * Get rating
      *
      * @return string
      */
-    public function getDescriptionLong()
+    public function getRating()
     {
-        return $this->description_long;
+        return $this->rating;
     }
 
     /**
@@ -334,16 +348,6 @@ class Card
         $this->rating = $rating;
 
         return $this;
-    }
-
-    /**
-     * Get rating
-     *
-     * @return string
-     */
-    public function getRating()
-    {
-        return $this->rating;
     }
 
     /**
@@ -416,6 +420,16 @@ class Card
     }
 
     /**
+     * Get author
+     *
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
      * Set author
      *
      * @param string $author
@@ -427,16 +441,6 @@ class Card
         $this->author = $author;
 
         return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
     }
 
     /**
@@ -456,19 +460,19 @@ class Card
     }
 
     /**
-     * @param string $locale
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-    }
-
-    /**
      * @return string
      */
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
     /**
@@ -506,6 +510,16 @@ class Card
     }
 
     /**
+     * Get imageFile
+     *
+     * @return File
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
      * Set imageFile
      *
      * @param File $imageFile
@@ -520,12 +534,36 @@ class Card
     }
 
     /**
-     * Get imageFile
+     * Add argumentFilter
      *
-     * @return File
+     * @param \BiBundle\Entity\ArgumentFilter $argumentFilter
+     *
+     * @return Card
      */
-    public function getImageFile()
+    public function addArgumentFilter(\BiBundle\Entity\ArgumentFilter $argumentFilter)
     {
-        return $this->imageFile;
+        $this->argumentFilters[] = $argumentFilter;
+
+        return $this;
+    }
+
+    /**
+     * Remove argumentFilter
+     *
+     * @param \BiBundle\Entity\ArgumentFilter $argumentFilter
+     */
+    public function removeArgumentFilter(\BiBundle\Entity\ArgumentFilter $argumentFilter)
+    {
+        $this->argumentFilters->removeElement($argumentFilter);
+    }
+
+    /**
+     * Get argumentFilters
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArgumentFilters()
+    {
+        return $this->argumentFilters;
     }
 }

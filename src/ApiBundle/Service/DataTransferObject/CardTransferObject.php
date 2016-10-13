@@ -2,6 +2,8 @@
 
 namespace ApiBundle\Service\DataTransferObject;
 
+use BiBundle\Entity\Argument;
+use BiBundle\Entity\ArgumentFilter;
 use BiBundle\Entity\Card;
 use BiBundle\Entity\CardRepresentation;
 use BiBundle\Entity\File;
@@ -43,6 +45,37 @@ class CardTransferObject
     }
 
     /**
+     * Get cards list
+     *
+     * @param Card $card
+     * @return array
+     */
+    public function getObjectListData(array $data)
+    {
+        return array_map([$this, 'getObjectData'], $data);
+    }
+
+    /**
+     * Get categorized cards list
+     *
+     * @param \BiBundle\Entity\Card[] $data
+     * @return array
+     */
+    public function getObjectListDataCategorized(array $data)
+    {
+        $result = [];
+
+        foreach ($data as $card) {
+            if ($card->getCardCategory()) {
+                $result[$card->getCardCategory()->getId()][] = $this->getObjectData($card);
+            } else {
+                $result['no_category'] = $this->getObjectData($card);
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Get card's data normalized
      *
      * @param Card $card
@@ -70,6 +103,7 @@ class CardTransferObject
             }, $this->cardService->getCarouselFiles($card)),
             'createdOn' => $card->getCreatedOn(),
             'arguments' => $this->getArgumentTransferObject()->getObjectListData($card->getArgument()),
+            'argumentFilters' => $this->serializeArgumentFilters($card->getArgumentFilters()->toArray()),
             'representations' => $this->getRepresentationTransferObject()->getObjectListData($representationsArray)
         ];
 
@@ -82,6 +116,28 @@ class CardTransferObject
     public function getArgumentTransferObject()
     {
         return $this->argumentTransferObject;
+    }
+
+    /**
+     * @param ArgumentFilter[] $argumentFilters
+     */
+    private function serializeArgumentFilters(array $argumentFilters)
+    {
+        return array_map(
+            function (ArgumentFilter $argumentFilter) {
+                return [
+                    'id' => $argumentFilter->getId(),
+                    'label' => $argumentFilter->getLabel(),
+                    'filter_control_type' => $argumentFilter->getFilterControlType() ? $argumentFilter->getFilterControlType()->getName() : null,
+                    'argument_ids' => array_map(
+                        function (Argument $argument) {
+                            return $argument->getId();
+                        },
+                        $argumentFilter->getArguments()->toArray()),
+                ];
+            },
+            $argumentFilters
+        );
     }
 
     /**
@@ -119,25 +175,5 @@ class CardTransferObject
     public function getRepresentationTransferObject()
     {
         return $this->representationTransferObject;
-    }
-
-    /**
-     * Get categorized cards list
-     *
-     * @param \BiBundle\Entity\Card[] $data
-     * @return array
-     */
-    public function getObjectListDataCategorized(array $data)
-    {
-        $result = [];
-
-        foreach ($data as $card) {
-            if ($card->getCardCategory()) {
-                $result[$card->getCardCategory()->getId()][] = $this->getObjectData($card);
-            } else {
-                $result['no_category'] = $this->getObjectData($card);
-            }
-        }
-        return $result;
     }
 }

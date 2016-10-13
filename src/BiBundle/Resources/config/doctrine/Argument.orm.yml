@@ -64,14 +64,9 @@ BiBundle\Entity\Argument:
             joinColumns:
                 card_id:
                     nullable: true
-        filterControlType:
-            targetEntity: BiBundle\Entity\FilterControlType
-            joinColumns:
-                filter_control_type_id:
-                    nullable: true
     manyToMany:
         argumentFilters:
-            targetEntity: BiBundle\Entity\Argument
+            targetEntity: BiBundle\Entity\ArgumentFilter
             inversedBy: arguments
             joinTable:
                 name: arguments_to_arguments_filters

@@ -8,24 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class ArgumentTransferObject
 {
     /**
-     * Get argument's data normalized
-     *
-     * @param Argument $argument
-     * @return array
-     */
-    public static function getObjectData(Argument $argument)
-    {
-        $data = [
-            'id' => $argument->getId(),
-            'name' => $argument->getName(),
-            'code' => $argument->getCode(),
-            'dimension' => $argument->getDimension(),
-            'filter_control_type' => $argument->getFilterControlType() ? $argument->getFilterControlType()->getName() : null,
-        ];
-        return $data;
-    }
-
-    /**
      * Get argument list
      *
      * @param ArrayCollection $data
@@ -40,5 +22,22 @@ class ArgumentTransferObject
             $result[] = $item;
         }
         return $result;
+    }
+
+    /**
+     * Get argument's data normalized
+     *
+     * @param Argument $argument
+     * @return array
+     */
+    public static function getObjectData(Argument $argument)
+    {
+        $data = [
+            'id' => $argument->getId(),
+            'name' => $argument->getName(),
+            'code' => $argument->getCode(),
+            'dimension' => $argument->getDimension(),
+        ];
+        return $data;
     }
 }

@@ -70,6 +70,8 @@ class CardValueObject implements \JsonSerializable
      * @var array
      */
     protected $arguments;
+
+    protected $argumentFilters;
     /**
      * @var array
      */
@@ -88,7 +90,8 @@ class CardValueObject implements \JsonSerializable
             'carousel' => $this->getCarousel(),
             'created_on' => $this->getCreatedOn(),
             'arguments' => $this->getArguments(),
-            'representations' => $this->getRepresentations()
+            'representations' => $this->getRepresentations(),
+            'argument_filters' => $this->argumentFilters,
         ];
     }
 

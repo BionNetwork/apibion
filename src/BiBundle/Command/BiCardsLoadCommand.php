@@ -3,6 +3,7 @@
 namespace BiBundle\Command;
 
 use BiBundle\Entity\Argument;
+use BiBundle\Entity\ArgumentFilter;
 use BiBundle\Entity\Card;
 use BiBundle\Entity\CardCarouselImage;
 use BiBundle\Entity\CardCategory;
@@ -130,6 +131,9 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                 $argument->setName($argumentData['name_en']);
                 $argument->setDescription($argumentData['description_en']);
                 $this->entityManager->flush($argument);
+                if (isset($argumentData['is_filter']) && $argumentData['is_filter']) {
+                    $this->createSimpleArgumentFilter($argument, $argumentData);
+                }
             }
         }
         $output->writeln('Done.');
@@ -195,6 +199,18 @@ class BiCardsLoadCommand extends ContainerAwareCommand
             $this->entityManager->persist($cardRepresentation);
             $this->entityManager->flush($cardRepresentation);
         }
+    }
+
+    private function createSimpleArgumentFilter(Argument $argument, array $argumentData)
+    {
+        $argumentFilter = new ArgumentFilter();
+        $label = isset($argumentData['filter_label']) ? $argumentData['filter_label'] : $argument->getName();
+        $argumentFilter->setLabel($label);
+        $argumentFilter->setCard($argument->getCard());
+        $argument->addArgumentFilter($argumentFilter);
+        $this->entityManager->persist($argumentFilter);
+        $this->entityManager->flush($argumentFilter);
+        $this->entityManager->flush($argument);
     }
 
     private $data = [
@@ -328,6 +344,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_CHECKBOX,
+                    'is_filter' => true,
                 ],
                 [
                     'code' => '',
@@ -336,6 +353,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_DATESLIDER,
+                    'is_filter' => true,
                 ]
             ]
         ],
@@ -372,6 +390,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_DATESLIDER,
+                    'is_filter' => true,
                 ],
                 [
                     'code' => '',
@@ -380,6 +399,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_CHECKBOX,
+                    'is_filter' => true,
                 ],
             ]
         ],
@@ -416,6 +436,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_MULTISELECT,
+                    'is_filter' => true,
                 ],
                 [
                     'code' => '',
@@ -424,6 +445,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_DATESLIDER,
+                    'is_filter' => true,
                 ],
             ]
         ],
@@ -481,6 +503,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_CHECKBOX,
+                    'is_filter' => true,
                 ],
                 [
                     'code' => '',
@@ -489,6 +512,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_RADIOBUTTON,
+                    'is_filter' => true,
                 ],
             ]
         ],
@@ -518,15 +542,18 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => 'Среднесписочная численность персонала',
                     'description_en' => 'Average number of personnel',
                 ],
+                // TODO: make filters
                 [
+                    // it's a filter
                     'code' => '',
                     'name' => 'Цеха',
                     'name_en' => 'Divisions',
                     'description' => '',
                     'description_en' => '',
-                    'ct' => self::CONTROL_TYPE_RADIOBUTTON
+                    'ct' => self::CONTROL_TYPE_RADIOBUTTON,
                 ],
                 [
+                    // it's a filter
                     'code' => '',
                     'name' => 'Года',
                     'name_en' => 'Years',
@@ -584,14 +611,16 @@ class BiCardsLoadCommand extends ContainerAwareCommand
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_DATESLIDER,
+                    'is_filter' => true,
                 ],
                 [
                     'code' => '',
-                    'name' => 'Проекты',
-                    'name_en' => 'Projects',
+                    'name' => 'Проект',
+                    'name_en' => 'Project',
                     'description' => '',
                     'description_en' => '',
                     'ct' => self::CONTROL_TYPE_RADIOBUTTON,
+                    'is_filter' => true,
                 ],
             ]
         ],
