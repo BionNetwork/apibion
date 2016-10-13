@@ -70,7 +70,8 @@ class ActivationTransferObject
                 'description' => $card->getDescription(),
                 'description_long' => $card->getDescriptionLong(),
                 'rating' => $card->getRating(),
-                'carousel' => !empty($card->getCarousel()) ? explode(';', $card->getCarousel()) : [],
+                // @todo set images
+                'carousel' =>  [],
                 'created_on' => !empty($card->getCreatedOn()) ? $card->getCreatedOn()->format('Y/m/d H:i') : null,
                 'updated_on' => !empty($card->getUpdatedOn()) ? $card->getUpdatedOn()->format('Y/m/d H:i') : null,
             ];
