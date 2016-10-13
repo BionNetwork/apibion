@@ -5,6 +5,7 @@ namespace ApiBundle\Controller;
 use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationStatus;
 use BiBundle\Entity\Dashboard;
+use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\Route;
@@ -430,4 +431,33 @@ class ActivationController extends RestController
         return $this->handleView($view);
     }
 
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="4. Активации",
+     *  description="Выполнение запроса по конкретной активации",
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    }
+     * )
+     *
+     * @Post("/activations/{activation}/query")
+     * @RequestParam(name="query", allowBlank=true, requirements=".+", description="JSON запрос")
+     * @param \BiBundle\Entity\Activation $activation
+     * @return Response
+     */
+    public function postActivationQueryAction(Activation $activation, ParamFetcher $paramFetcher)
+    {
+        if ($activation->getActivationStatus()->getCode() !== ActivationStatus::STATUS_ACTIVE) {
+            throw new HttpException('Activation status is not ' . ActivationStatus::STATUS_ACTIVE);
+        }
+        $result = $this->get('bi.backend.service')->makeQuery($activation, $paramFetcher->get('query'));
+
+        return $this->handleView($this->view($result));
+    }
 }

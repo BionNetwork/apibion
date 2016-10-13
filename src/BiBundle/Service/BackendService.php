@@ -6,9 +6,12 @@
 
 namespace BiBundle\Service;
 
+use BiBundle\Entity\Activation;
+use BiBundle\Entity\ActivationStatus;
 use BiBundle\Service\Backend\Client;
 use BiBundle\Service\Backend\Exception;
 use BiBundle\Service\Backend\Gateway\UrlOptions;
+use BiBundle\Service\Backend\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -45,7 +48,7 @@ class BackendService extends UserAwareService
         // todo Сделать создание источников не только для XLS файлов
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setUri(UrlOptions::DATA_SOURCES_URL);
         $settings = $resource->getSettings();
@@ -92,7 +95,7 @@ class BackendService extends UserAwareService
     {
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setUri(UrlOptions::DATA_SOURCES_URL);
 
@@ -113,7 +116,7 @@ class BackendService extends UserAwareService
     {
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setUri(sprintf(UrlOptions::DATA_SOURCES_ITEM_URL, $resource->getRemoteId()));
 
@@ -153,7 +156,7 @@ class BackendService extends UserAwareService
     {
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setUri(sprintf(UrlOptions::DATA_SOURCES_TABLES_URL, $resource->getRemoteId()));
         $request->setParams([$resource->getRemoteId()]);
@@ -175,7 +178,7 @@ class BackendService extends UserAwareService
     {
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setUri(sprintf(UrlOptions::DATA_SOURCES_TABLE_INFO_URL, $resource->getRemoteId(), $tableName));
 
@@ -196,7 +199,7 @@ class BackendService extends UserAwareService
     {
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setUri(sprintf(UrlOptions::DATA_SOURCES_TABLE_PREVIEW_URL, $resource->getRemoteId(), $tableName));
 
@@ -232,7 +235,7 @@ class BackendService extends UserAwareService
         }
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
 
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setUri(sprintf(UrlOptions::CARDS_TREE_CREATE_URL, $activation->getId()));
@@ -297,7 +300,7 @@ class BackendService extends UserAwareService
         */
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setUri(sprintf(UrlOptions::CARDS_LOAD_DATA_URL, $activation->getId()));
         $request->setData(['data' => json_encode($data)]);
@@ -328,7 +331,7 @@ class BackendService extends UserAwareService
     {
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_GET);
         $request->setUri(sprintf(UrlOptions::CARDS_FILTERS_URL, $activation->getId()));
 
@@ -350,7 +353,7 @@ class BackendService extends UserAwareService
         $filter = $filter ?: $activation->getLastFilter();
         $client = $this->getClient();
 
-        $request = new \BiBundle\Service\Backend\Request;
+        $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setUri(sprintf(UrlOptions::CARDS_QUERY_URL, $activation->getId()));
         $request->setData(['data' => $filter]);
@@ -382,5 +385,16 @@ class BackendService extends UserAwareService
     public function getContainer()
     {
         return $this->container;
+    }
+
+    public function makeQuery(Activation $activation, $query)
+    {
+        $request = new Request();
+        $request->setMethod(\Zend\Http\Request::METHOD_POST);
+        $request->setUri(sprintf(UrlOptions::CARDS_QUERY_URL, $activation->getId()));
+        $request->setData(['query' => $query]);
+        $result = $this->getClient()->send($request);
+
+        return $result;
     }
 }
