@@ -5,6 +5,22 @@
     <small>редактирование карты</small>
 {% endblock %}
 
+{% form_theme edit_form _self %}
+{% block _card_cardCarouselImage_entry_row %}
+    <ul class="list-inline">
+        <li><img src="{{ form.file.vars['data'].path }}" width="250"/></li>
+        <li>{{ form_widget(form.priority) }}</li>
+    </ul>
+{% endblock %}
+
+{% form_theme upload_form _self %}
+{% block _card_carousel_file_deletedImages_widget %}
+    {% for option in form.children %}
+        {{ form_widget(option) }}
+        <img src="{{ option.vars['label'] }}" width="500"/>
+    {% endfor %}
+{% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -53,25 +69,6 @@
                         <input type="submit" class="btn btn-primary" value="Сохранить"/>
                         {{ form_end(upload_form) }}
                     </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div class="box box-primary">
-                <div class="box-body">
-                    {% for file in files %}
-                        <div>
-                            <p>
-                                {% for image in file.cardCarouselImage %}
-                                    <b>Priority:</b> {{ image.priority }} <br/>
-                                {% endfor %}
-                                <b>Path:</b> {{ file.path }}
-                            </p>
-                            <img src="{{ file.path }}" width="500"/>
-                        </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>

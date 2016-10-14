@@ -8,6 +8,7 @@ use BiBundle\Entity\File;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +17,9 @@ class CardCarouselImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('priority')
+            ->add('priority', TextType::class, [
+                'attr' => ['style' => 'width: 35px']
+            ])
             ->add('file', EntityType::class, [
                 'class' => File::class,
                 'choice_label' => 'path',

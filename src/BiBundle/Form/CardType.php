@@ -44,7 +44,8 @@ class CardType extends AbstractType
                     'card' => $options['data'],
                     'label' => false
                 ],
-                'required' => false
+                'required' => false,
+                'label' => 'Priority'
             ])->add('locale', TextType::class, [
                 'required' => false,
                 'attr' => ['readonly' => true]
