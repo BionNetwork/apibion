@@ -89,6 +89,9 @@ class CardControllerTest extends ControllerTestCase
         $data = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('data', $data);
         $this->assertSame($card->getId(), $data['data']['id']);
+        $this->assertInternalType('array', $data['data']['category']);
+        $this->assertInternalType('array', $data['data']['arguments']);
+        $this->assertInternalType('array', $data['data']['argument_filters']);
     }
 
     public function testGetCardsAction()

@@ -101,7 +101,8 @@ class CardTransferObject
             'rating' => $card->getRating(),
             'author' => $card->getAuthor(),
             'image' => $card->getImageFile() ? $card->getImageFile()->getPath() : null,
-            'category' => $card->getCardCategory() ? $card->getCardCategory()->getId() : null,
+            'category' => $card->getCardCategory() ?
+                ['id' => $card->getCardCategory()->getId(), 'name' => $card->getCardCategory()->getName()] : null,
             'carousel' => array_map(function (File $file) {
                 return $file->getPath();
             }, $this->cardService->getCarouselFiles($card)),

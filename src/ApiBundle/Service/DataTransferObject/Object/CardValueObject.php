@@ -77,6 +77,8 @@ class CardValueObject implements \JsonSerializable
      */
     protected $representations;
 
+    protected $category;
+
     function jsonSerialize()
     {
         return [
@@ -92,6 +94,7 @@ class CardValueObject implements \JsonSerializable
             'arguments' => $this->getArguments(),
             'representations' => $this->getRepresentations(),
             'argument_filters' => $this->argumentFilters,
+            'category' => $this->category,
         ];
     }
 
