@@ -8,6 +8,7 @@ use BiBundle\Entity\Activation;
 use BiBundle\Entity\ActivationSetting;
 use BiBundle\Entity\ActivationStatus;
 use BiBundle\Entity\Card;
+use BiBundle\Entity\Purchase;
 use BiBundle\Entity\User as UserEntity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
@@ -20,6 +21,7 @@ class TestEntityFactory
     private $purgeAllowedClasses = [
         ActivationSetting::class,
         Activation::class,
+        Purchase::class,
     ];
 
     public function __construct(EntityManager $entityManager)
@@ -96,5 +98,22 @@ class TestEntityFactory
                 $this->purgeTestEntitiesClass($class);
             }
         }
+    }
+
+    /**
+     * @return Purchase
+     */
+    public function createPurchase(UserEntity $user)
+    {
+        $purchase = new Purchase();
+        $card = $this->entityManager->getRepository(Card::class)->findOneBy([]);
+        $purchase->setCard($card);
+        $purchase->setUser($user);
+        $purchase->setPrice($card->getPrice());
+
+        $this->entityManager->persist($purchase);
+        $this->entityManager->flush($purchase);
+
+        return $purchase;
     }
 }
