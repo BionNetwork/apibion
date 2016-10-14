@@ -7,11 +7,17 @@ use BiBundle\Entity\ArgumentFilter;
 use BiBundle\Entity\Card;
 use BiBundle\Entity\CardRepresentation;
 use BiBundle\Entity\File;
+use BiBundle\Service\CardCategoryService;
 use BiBundle\Service\CardService;
 use BiBundle\Service\Utils\HostBasedUrl;
 
+/**
+ * @property CardCategoryService cardCategoryService
+ */
 class CardTransferObject
 {
+    const NO_CATEGORY_KEY = 'no_category';
+
     /**
      * @var HostBasedUrl
      */
@@ -36,12 +42,14 @@ class CardTransferObject
         ArgumentTransferObject $argumentTransferObject,
         RepresentationTransferObject $representationTransferObject,
         HostBasedUrl $url,
-        CardService $cardService)
+        CardService $cardService,
+        CardCategoryService $cardCategoryService)
     {
         $this->url = $url;
         $this->argumentTransferObject = $argumentTransferObject;
         $this->representationTransferObject = $representationTransferObject;
         $this->cardService = $cardService;
+        $this->cardCategoryService = $cardCategoryService;
     }
 
     /**
@@ -69,10 +77,22 @@ class CardTransferObject
             if ($card->getCardCategory()) {
                 $result[$card->getCardCategory()->getId()][] = $this->getObjectData($card);
             } else {
-                $result['no_category'] = $this->getObjectData($card);
+                $result[self::NO_CATEGORY_KEY] = $this->getObjectData($card);
             }
         }
-        return $result;
+
+        $categorizedCards = [];
+        foreach ($result as $categoryId => $cards) {
+            if (self::NO_CATEGORY_KEY !== $categoryId && $category = $this->cardCategoryService->findById($categoryId)) {
+                $categorizedCards[$categoryId] = [
+                    'category' => ['id' => $category->getId(), 'name' => $category->getName()],
+                    'cards' => $cards
+                ];
+            } else {
+                $categorizedCards[self::NO_CATEGORY_KEY] = ['cards' => $cards];
+            }
+        }
+        return $categorizedCards;
     }
 
     /**

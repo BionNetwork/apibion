@@ -88,6 +88,7 @@ class CardValueObject implements \JsonSerializable
             'description_long' => $this->getDescriptionLong(),
             'rating' => $this->getRating(),
             'author' => $this->getAuthor(),
+            'price' => $this->price,
             'image' => $this->getImage(),
             'carousel' => $this->getCarousel(),
             'created_on' => $this->getCreatedOn(),

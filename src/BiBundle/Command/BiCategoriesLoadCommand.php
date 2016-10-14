@@ -15,12 +15,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class BiCategoriesLoadCommand extends ContainerAwareCommand
 {
-    /**
-     * Category name
-     *
-     * @var string
-     */
     const COMMERCIAL_OPERATIONS_CATEGORY_NAME = 'Финансы / Коммерческие операции';
+    const ADVERTISING_MARKETING_CATEGORY_NAME = "Реклама, маркетинг, сбыт";
+    const PROJECT_MANAGEMENT_CATEGORY_NAME = "Управление проектом";
+    const WAREHOUSE_CATEGORY_NAME = "Склад";
+    const PERSONNEL_MANAGEMENT_CATEGORY_NAME = "Управление персоналом";
+    const STRATEGY_AND_PLANNING_CATEGORY_NAME = "Стратегия и планирование";
 
     protected function configure()
     {
@@ -61,23 +61,23 @@ class BiCategoriesLoadCommand extends ContainerAwareCommand
             'name_en' => "Finance / Commercial operations"
         ],
         [
-            'name' => "Реклама, маркетинг, сбыт",
+            'name' => self::ADVERTISING_MARKETING_CATEGORY_NAME,
             'name_en' => "Advertising, marketing, sales"
         ],
         [
-            'name' => "Управление проектом",
+            'name' => self::PROJECT_MANAGEMENT_CATEGORY_NAME,
             'name_en' => "Project management"
         ],
         [
-            'name' => "Склад",
+            'name' => self::WAREHOUSE_CATEGORY_NAME,
             'name_en' => "Warehouse"
         ],
         [
-            'name' => "Управление персоналом",
+            'name' => self::PERSONNEL_MANAGEMENT_CATEGORY_NAME,
             'name_en' => "Personnel Management"
         ],
         [
-            'name' => "Стратегия и планирование",
+            'name' => self::STRATEGY_AND_PLANNING_CATEGORY_NAME,
             'name_en' => "Strategy and Planning"
         ]
     ];

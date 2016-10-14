@@ -32,4 +32,13 @@ class CardCategoryService
     {
         return $this->repository->findByFilter($filter);
     }
+
+    /**
+     * @param $id
+     * @return CardCategory|null|object
+     */
+    public function findById($id)
+    {
+        return $this->repository->find($id);
+    }
 }
