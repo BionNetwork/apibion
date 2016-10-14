@@ -62,7 +62,15 @@ class ResourceController extends RestController
         return $this->handleView($view);
     }
     /**
+     * ### Connection types
      *
+     * Postgresql
+     * Mysql
+     * MsSql
+     * Oracle
+     * Excel
+     * Csv
+     * Text
      *
      * @ApiDoc(
      *  section="5. Источники",
@@ -81,8 +89,14 @@ class ResourceController extends RestController
      *    }
      * )
      *
-     * @RequestParam(name="resource_file", description="Файл источника", nullable=false)
+     * @RequestParam(name="resource_file", description="Файл источника", nullable=true)
      * @RequestParam(name="activation_id", requirements="\d+", description="Идентификатор активации карточки", nullable=true)
+     * @RequestParam(name="connection_type", requirements="\w+", description="Тип соединения с источником", nullable=false)
+     * @RequestParam(name="connection_db", requirements="\w+", description="База данных для соединения с источником", nullable=true)
+     * @RequestParam(name="connection_host", description="Хост для соединения с базой источником", nullable=true)
+     * @RequestParam(name="connection_login", description="Логин для соединения с базой источника", nullable=true)
+     * @RequestParam(name="connection_pass", description="Пароль для соединения с базой источника", nullable=true)
+     * @RequestParam(name="connection_port", description="Порт для соединения с базой источника", nullable=true)
      *
      * @param Request $request
      *
@@ -93,7 +107,12 @@ class ResourceController extends RestController
     {
         $params = $this->getParams($params, 'resource');
 
-        $resource = new \BiBundle\Entity\Resource();
+        $service = $this->get('api.request.resource');
+        try {
+            $resource = $service->getResource($params);
+        } catch (\Exception $e) {
+            throw new HttpException(400, $e->getMessage());
+        }
 
         if($params['activation_id']) {
             $activationId = $params['activation_id'];
@@ -106,29 +125,14 @@ class ResourceController extends RestController
             $resource->setActivation($activation);
         }
 
-        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $resourceFile */
-        $resourceFile = $request->files->get('resource_file');
-        if (!$resourceFile) {
-            throw new HttpException(400, 'Файл не загружен');
-        }
-        if(false === strpos($resourceFile->getClientMimeType(), 'excel')) {
-            throw new HttpException(400, 'Некорректный тип файла');
-        }
-
         $resourceService = $this->get('bi.resource.service');
 
-        $uploadResourceService = $this->get('file.upload_resource');
-        $uploadResourceService->setUploadPath('uploads/resource/'.date("Ymd"));
-
-        $uploadedResourcePathArray = $uploadResourceService->upload($resourceFile);
-
-        $resource->addFile('excel', $uploadedResourcePathArray['path']);
         $resource->setUser($this->getUser());
 
         $resource = $resourceService->save($resource);
 
-        $service = $this->get('api.data.transfer_object.resource_transfer_object');
-        $view = $this->view($service->getObjectData($resource), 201);
+        $dto = $this->get('api.data.transfer_object.resource_transfer_object');
+        $view = $this->view($dto->getObjectData($resource), 201);
         return $this->handleView($view);
     }
 

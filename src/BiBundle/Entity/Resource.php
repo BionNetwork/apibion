@@ -7,6 +7,14 @@ namespace BiBundle\Entity;
  */
 class Resource
 {
+    const TYPE_TEXT = 'text';
+    const TYPE_CSV = 'csv';
+    const TYPE_EXCEL = 'excel';
+    const TYPE_ORACLE = 'oracle';
+    const TYPE_MSSQL = 'msSql';
+    const TYPE_MYSQL = 'mysql';
+    const TYPE_POSTGRESQL = 'postgresql';
+
     /**
      * @var integer
      */
@@ -206,15 +214,16 @@ class Resource
      *
      * @param $type
      * @param $path
+     * @param $mimeType
      */
-    public function addFile($type, $path)
+    public function addFile($type, $path, $mimeType)
     {
         $settings = $this->getSettings();
         if (!$settings) {
             $settings = [];
         }
         $settings['type'] = $type;
-        $settings['file'] = ['path' => $path];
+        $settings['file'] = ['path' => $path, 'mimeType' => $mimeType];
         $this->setSettings($settings);
     }
 }

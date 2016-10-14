@@ -53,27 +53,35 @@ class BackendService extends UserAwareService
         $request->setUri(UrlOptions::DATA_SOURCES_URL);
         $settings = $resource->getSettings();
 
-        $uploadDir = $this->getContainer()->getParameter('upload_dir');
-        $uploadFilePath = implode(DIRECTORY_SEPARATOR, [$uploadDir, $settings['file']['path']]);
-
-        $uploadable = new Backend\Uploadable;
-        $uploadable->setFilename(basename($uploadFilePath));
-        $uploadable->setName('file');
-        $uploadable->setPath($uploadFilePath);
-        $uploadable->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-
-        $request->addUploadable($uploadable);
-
         $body = [
             'db' => null,
             'host' => null,
             'port' => null,
             'login' => null,
             'password' => null,
-            'conn_type' => 'Excel',
+            'conn_type' => ucfirst($settings['type']),
             'user_id' => null,
             'settings' => [],
         ];
+
+        if (isset($settings['file'])) {
+            $uploadDir = $this->getContainer()->getParameter('upload_dir');
+            $uploadFilePath = implode(DIRECTORY_SEPARATOR, [$uploadDir, $settings['file']['path']]);
+
+            $uploadable = new Backend\Uploadable;
+            $uploadable->setFilename(basename($uploadFilePath));
+            $uploadable->setName('file');
+            $uploadable->setPath($uploadFilePath);
+            $uploadable->setContentType($settings['file']['mimeType']);
+
+            $request->addUploadable($uploadable);
+        } elseif(isset($settings['connection'])) {
+            $connection = $settings['connection'];
+            foreach (['db', 'host', 'port', 'login', 'password'] as $key) {
+                $body[$key] = $connection[$key];
+            }
+        }
+
         $request->setData($body);
 
         $respond = $client->send($request);

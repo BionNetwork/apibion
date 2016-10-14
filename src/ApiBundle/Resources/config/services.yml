@@ -31,6 +31,9 @@ services:
     api.key_provider:
         class: ApiBundle\Service\ApiKeyProvider
         arguments: ['@bi.service.token.storage', '@api.auth_options']
+    api.request.resource:
+        class: ApiBundle\Service\Request\ResourceRequest
+        arguments: ['@request_stack', '@file.upload_resource', '@validator']
     api.config.service:
         class: ApiBundle\Service\ConfigService
     api.activation_setting.controller:
