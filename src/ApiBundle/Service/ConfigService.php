@@ -126,6 +126,10 @@ class ConfigService
             'personnel' => 'Personnel',
             'sales_and_marketing' => 'Sales and marketing',
         ],
+        'dashboard' => [
+            'choose' => 'Choose',
+            'open' => 'Open',
+        ],
     ];
 
     private $ruStrings = [
@@ -228,6 +232,10 @@ class ConfigService
             'marketing_and_advertising' => 'Маркетинг и реклама',
             'personnel' => 'Персонал',
             'sales_and_marketing' => 'Продажа и сбыт',
+        ],
+        'dashboard' => [
+            'choose' => 'Действия',
+            'open' => 'Раскрыть',
         ],
     ];
 }
