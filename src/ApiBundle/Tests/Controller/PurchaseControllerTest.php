@@ -81,6 +81,7 @@ class PurchaseControllerTest extends ControllerTestCase
      */
     public function testPurchaseActivation(Purchase $purchase)
     {
+        $this->markTestSkipped('This action queries python backend');
         $this->client->request('POST', "/api/v1/purchases/{$purchase->getId()}/activations");
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $responseJson = json_decode($this->client->getResponse()->getContent(), true);

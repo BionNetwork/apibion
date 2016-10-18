@@ -86,4 +86,24 @@ class Bi extends AbstractGateway
             ];
         }
     }
+
+    /**
+     * @param Backend\Request $request
+     * @return \Zend\Http\Response
+     */
+    public function post(Backend\Request $request)
+    {
+        $client = new \Zend\Http\Client(
+            null,
+            [
+                'adapter' => new \Zend\Http\Client\Adapter\Curl(),
+                'verify' => false
+            ]
+        );
+        $client->setMethod(\Zend\Http\Request::METHOD_POST);
+        $client->setParameterPost($request->getData());
+        $client->setUri($this->processUri($request->getUri(), $request->getMethod()));
+
+        return $client->send();
+    }
 }

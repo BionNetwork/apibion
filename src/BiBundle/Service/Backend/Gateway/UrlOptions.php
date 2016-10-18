@@ -46,4 +46,6 @@ class UrlOptions
      * Send query to card
      */
     const CARDS_QUERY_URL = "/cubes/%d/query";
+
+    const CUBE_CREATE_URL = '/api/v1/cubes/';
 }

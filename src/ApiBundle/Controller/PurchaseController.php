@@ -2,6 +2,7 @@
 
 namespace ApiBundle\Controller;
 
+use BiBundle\Service\Backend\Exception;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\File;

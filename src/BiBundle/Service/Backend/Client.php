@@ -48,4 +48,8 @@ class Client
         return $response;
     }
 
+    public function post($request)
+    {
+        return $this->gateway->post($request);
+    }
 }

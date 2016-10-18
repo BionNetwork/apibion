@@ -405,4 +405,18 @@ class BackendService extends UserAwareService
 
         return $result;
     }
+
+    public function createActivation(Activation $activation)
+    {
+        if(!$activation->getId()) {
+            throw new \ErrorException('Activation has no id');
+        }
+        $request = new Request();
+        $request->setMethod(\Zend\Http\Request::METHOD_POST);
+        $request->setUri(UrlOptions::CUBE_CREATE_URL);
+        $request->setData(['key' => $activation->getId()]);
+        if(!$this->getClient()->post($request)->isSuccess()) {
+            throw new Exception('Unable to create activation');
+        }
+    }
 }

@@ -26,7 +26,7 @@ services:
         arguments: ['@doctrine.orm.entity_manager']
     bi.purchase.service:
         class: BiBundle\Service\PurchaseService
-        parent: bi.user_aware_service
+        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@bi.backend.service']
     bi.representation.service:
         class: BiBundle\Service\RepresentationService
         parent: bi.user_aware_service

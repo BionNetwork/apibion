@@ -3,6 +3,7 @@
 namespace BiBundle\Service;
 
 use BiBundle\BiBundle;
+use BiBundle\Entity\User;
 use BiBundle\Service\Exception\Purchase\AlreadyPurchasedException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
@@ -12,8 +13,20 @@ use BiBundle\Entity\Exception\ValidatorException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class PurchaseService extends UserAwareService
+/**
+ * @property EntityManager entityManager
+ * @property User user
+ * @property BackendService backendService
+ */
+class PurchaseService
 {
+    public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage, BackendService $backendService)
+    {
+        $this->entityManager = $entityManager;
+        $this->user = $tokenStorage->getToken()->getUser();
+        $this->backendService = $backendService;
+    }
+
     /**
      * Saves purchase
      *
@@ -22,9 +35,7 @@ class PurchaseService extends UserAwareService
      */
     public function save(\BiBundle\Entity\Purchase $purchase)
     {
-        $em = $this->getEntityManager();
-
-        $items = $this->getUser()->getPurchase();
+        $items = $this->user->getPurchase();
         $card = $purchase->getCard();
 
         // Прорверяем, нет ли карточки в перечне уже приобретенных
@@ -34,11 +45,11 @@ class PurchaseService extends UserAwareService
             }
         }
 
-        $purchase->setUser($this->getUser());
+        $purchase->setUser($this->user);
         $purchase->setPrice($card->getPrice());
 
-        $em->persist($purchase);
-        $em->flush();
+        $this->entityManager->persist($purchase);
+        $this->entityManager->flush();
 
         return $purchase;
     }
@@ -51,21 +62,22 @@ class PurchaseService extends UserAwareService
      */
     public function activate(\BiBundle\Entity\Purchase $purchase)
     {
-        $em = $this->getEntityManager();
-
         $activation = new \BiBundle\Entity\Activation();
-
         $activation->setCard($purchase->getCard());
-        $activation->setUser($this->getUser());
-
-        $activationStatus = $em->getRepository('BiBundle:ActivationStatus')->findOneBy([
+        $activation->setUser($this->user);
+        $activationStatus = $this->entityManager->getRepository('BiBundle:ActivationStatus')->findOneBy([
             'code' => \BiBundle\Entity\ActivationStatus::STATUS_PENDING
         ]);
-
         $activation->setActivationStatus($activationStatus);
-
-        $em->persist($activation);
-        $em->flush();
+        $this->entityManager->persist($activation);
+        $this->entityManager->flush();
+        try {
+            $this->backendService->createActivation($activation);
+        } catch (\Exception $e) {
+            $this->entityManager->remove($activation);
+            $this->entityManager->flush();
+            throw $e;
+        }
 
         return $activation;
     }
@@ -78,7 +90,6 @@ class PurchaseService extends UserAwareService
      */
     public function getUserCards(\BiBundle\Entity\User $user)
     {
-        $em = $this->getEntityManager();
-        return $em->getRepository('BiBundle:Purchase')->getUserCards($user);
+        return $this->entityManager->getRepository('BiBundle:Purchase')->getUserCards($user);
     }
 }

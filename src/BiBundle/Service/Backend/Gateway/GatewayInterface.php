@@ -25,4 +25,10 @@ interface GatewayInterface
      * @return mixed
      */
     public function send(Backend\Request $request);
+
+    /**
+     * @param Backend\Request $request
+     * @return \Zend\Http\Response
+     */
+    public function post(Backend\Request $request);
 }
