@@ -47,5 +47,5 @@ class UrlOptions
      */
     const CARDS_QUERY_URL = "/cubes/%d/query";
 
-    const CUBE_CREATE_URL = '/api/v1/cubes/';
+    const CUBE_CREATE_URL = '/cubes/';
 }
