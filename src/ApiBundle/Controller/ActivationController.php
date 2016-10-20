@@ -420,7 +420,10 @@ class ActivationController extends RestController
             foreach ($argumentBondList as $argument) {
                 $data[] = [
                     'argument' => $argument->getArgument()->getId(),
-                    'resource' => $argument->getResource()->getId(),
+                    'resource' => [
+                        'id' => $argument->getResource()->getId(),
+                        'remote_id' => $argument->getResource()->getRemoteId(),
+                    ],
                     'table_name' => $argument->getTableName(),
                     'column_name' => $argument->getColumnName()
                 ];
