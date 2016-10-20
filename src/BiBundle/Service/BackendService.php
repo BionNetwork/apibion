@@ -400,7 +400,7 @@ class BackendService extends UserAwareService
         $request = new Request();
         $request->setMethod(\Zend\Http\Request::METHOD_POST);
         $request->setUri(sprintf(UrlOptions::CARDS_QUERY_URL, $activation->getId()));
-        $request->setData(['query' => $query]);
+        $request->setData(['data' => $query]);
         $result = $this->getClient()->send($request);
 
         return $result;
