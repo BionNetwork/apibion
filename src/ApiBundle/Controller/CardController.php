@@ -4,6 +4,7 @@ namespace ApiBundle\Controller;
 
 use BiBundle\Entity\Card;
 use BiBundle\Entity\CardCategory;
+use BiBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -170,5 +171,46 @@ class CardController extends RestController
             $this->get('api.data.transfer_object.card_transfer_object')->getObjectListDataCategorized($cards)
         );
         return $this->handleView($view);
+    }
+
+    /**
+     *
+     *
+     * @ApiDoc(
+     *  section="2. Карточки",
+     *  description="Получение купленной карточки",
+     *  statusCodes={
+     *          200="Успех",
+     *          403="Карточка не куплена"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      },
+     *      {
+     *          "name"="Accept-Language",
+     *          "description"="translation language",
+     *          "required"=false
+     *      }
+     *    }
+     * )
+     *
+     * @Route(requirements={"card": "\d+"})
+     *
+     * @param Card $card
+     * @return Response
+     * @internal param Request $request
+     *
+     */
+    public function getCardPurchasedAction(Card $card)
+    {
+        if(!$this->get('bi.purchase.service')->isPurchased($card, $this->getUser())) {
+            return $this->handleView($this->view('Card is not purchased', 403));
+        }
+        return $this->handleView($this->view(
+            $this->get('api.data.transfer_object.card_transfer_object')->getObjectData($card))
+        );
     }
 }

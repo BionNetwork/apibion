@@ -92,4 +92,22 @@ class PurchaseService
     {
         return $this->entityManager->getRepository('BiBundle:Purchase')->getUserCards($user);
     }
+
+    /**
+     *
+     * @param Card $card
+     * @param User $user
+     * @return bool
+     */
+    public function isPurchased(Card $card, User $user)
+    {
+        foreach ($user->getPurchase() as $purchase) {
+            /** @var Purchase $purchase */
+            if($purchase->getCard() === $card) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
