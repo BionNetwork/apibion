@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity("name")
  */
-class FilterControlType
+class FilterType
 {
     /**
      * @var int
@@ -37,7 +37,7 @@ class FilterControlType
      *
      * @param string $name
      *
-     * @return FilterControlType
+     * @return FilterType
      */
     public function setName($name)
     {

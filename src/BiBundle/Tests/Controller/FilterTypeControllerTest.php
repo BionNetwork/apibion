@@ -4,17 +4,17 @@
 namespace BiBundle\Tests\Controller;
 
 
-class FilterControlTypeControllerTest extends ControllerTestCase
+class FilterTypeControllerTest extends ControllerTestCase
 {
     public function testIndexAction()
     {
-        $this->client->request('GET', '/filter-control-type/');
+        $this->client->request('GET', '/filters/types/');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
 
     public function testNewAction()
     {
-        $this->client->request('GET', '/filter-control-type/new');
+        $this->client->request('GET', '/filters/types/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
 }

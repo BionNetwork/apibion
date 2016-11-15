@@ -105,8 +105,8 @@ services:
     bi.argument.service:
         class: BiBundle\Service\ArgumentService
         arguments: ['@doctrine.orm.entity_manager']
-    bi.filter_control_type.service:
-        class: BiBundle\Service\FilterControlTypeService
+    bi.filter_type.service:
+        class: BiBundle\Service\FilterTypeService
         arguments: ['@doctrine.orm.entity_manager']
     bi.file.service:
         class: BiBundle\Service\FileService

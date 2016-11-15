@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header_content %}
-    Добавление типа
+    Добавление типа фильтра
 {% endblock %}
 
 {% block body %}
@@ -14,7 +14,7 @@
                 </div>
                 <div class="box-footer">
                     <ul class="pull-right">
-                        <a class="btn btn-default" href="{{ path('filter_control_type_index') }}">Отмена</a>
+                        <a class="btn btn-default" href="{{ path('filter_type_index') }}">Отмена</a>
                         <input type="submit" class="btn btn-primary" value="Сохранить"/>
                         {{ form_end(new_form) }}
                     </ul>

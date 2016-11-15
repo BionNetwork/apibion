@@ -54,11 +54,11 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\CardCategory
-    repository.filter_control_type_repository:
-        class: BiBundle\Repository\FilterControlTypeRepository
+    repository.filter_type_repository:
+        class: BiBundle\Repository\FilterTypeRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
-            - BiBundle\Entity\FilterControlType
+            - BiBundle\Entity\FilterType
     repository.file:
             class: BiBundle\Repository\FileRepository
             factory: ['@doctrine.orm.default_entity_manager', getRepository]

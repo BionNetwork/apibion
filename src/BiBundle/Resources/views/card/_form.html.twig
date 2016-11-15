@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="box box-primary">
+                {{ form_start(form) }}
+                <div class="box-header with-border">
+                    {% if form.vars.value.id is null %}
+                        <h3 class="box-title">Создание карточки</h3>
+                    {% else %}
+                        <h3 class="box-title">Редактирование карточки</h3>
+                    {% endif %}
+                </div>
+                <div class="box-header with-border">
+                    {% if form.vars.value.id is null %}
+                        <a class="btn" href="{{ path('card_new', {id: card.id, locale: 'en'}) }}">EN</a>
+                        <a class="btn" href="{{ path('card_new', {id: card.id, locale: 'ru'}) }}">RU</a>
+                    {% else %}
+                        <a class="btn" href="{{ path('card_edit', {id: card.id, locale: 'en'}) }}">EN</a>
+                        <a class="btn" href="{{ path('card_edit', {id: card.id, locale: 'ru'}) }}">RU</a>
+                    {% endif %}
+                </div>
+                <div class="box-body">
+                    {{ form_widget(form) }}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Arguments</label>
+                        <div class="col-sm-10">
+                            {% for argument in arguments %}
+                                <a href="{{ path('argument_edit', { 'id': argument.id }) }}"
+                                   class="btn btn-default">{{ argument.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <ul class="pull-right">
+                        <a class="btn btn-default" href="{{ path('card_index') }}">Отмена</a>
+                        <input type="submit" class="btn btn-primary" value="Сохранить"/>
+                        {{ form_end(form) }}
+                    </ul>
+
+                    {% if delete_form is defined %}
+                        {{ form_start(delete_form) }}
+                        <input id="delete_button" class="btn btn-danger pull-left btn-delete" type="submit" value="Delete">
+                        {{ confirm('#delete_button') }}
+                        {{ form_end(delete_form) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="box box-primary">
+                <div class="box-body">
+                    {{ form_start(upload_form) }}
+                    {{ form_widget(upload_form) }}
+                </div>
+                <div class="box-footer">
+                    <ul class="pull-right">
+                        <a class="btn btn-default" href="{{ path('card_index') }}">Отмена</a>
+                        <input type="submit" class="btn btn-primary" value="Сохранить"/>
+                        {{ form_end(upload_form) }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="box box-primary">
+                <div class="box-body">
+                    {% for file in files %}
+                        <div>
+                            <p>
+                                {% for image in file.cardCarouselImage %}
+                                    <b>Priority:</b> {{ image.priority }} <br/>
+                                {% endfor %}
+                                <b>Path:</b> {{ file.path }}
+                            </p>
+                            <img src="{{ file.path }}" width="500"/>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

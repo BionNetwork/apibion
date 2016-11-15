@@ -2,28 +2,28 @@
 
 namespace BiBundle\Controller;
 
-use BiBundle\Entity\FilterControlType;
-use BiBundle\Form\FilterControlTypeType;
-use BiBundle\Service\FilterControlTypeService;
+use BiBundle\Entity\FilterType;
+use BiBundle\Form\FilterTypeType;
+use BiBundle\Service\FilterTypeService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FilterControlTypeController extends Controller
+class FilterTypeController extends Controller
 {
     /**
-     * @var FilterControlTypeService
+     * @var FilterTypeService
      */
     private $service;
 
     /**
-     * FilterControlTypeController constructor
+     * FilterTypeController constructor
      *
-     * @param FilterControlTypeService $service
+     * @param FilterTypeService $service
      */
-    public function __construct(FilterControlTypeService $service)
+    public function __construct(FilterTypeService $service)
     {
         $this->service = $service;
     }
@@ -35,9 +35,9 @@ class FilterControlTypeController extends Controller
      */
     public function indexAction()
     {
-        $types = $this->get('repository.filter_control_type_repository')->findAll();
+        $types = $this->get('repository.filter_type_repository')->findAll();
 
-        return $this->render('@Bi/filter-control-type/index.html.twig', ['types' => $types]);
+        return $this->render('@Bi/filter-type/index.html.twig', ['types' => $types]);
     }
 
     /**
@@ -48,8 +48,8 @@ class FilterControlTypeController extends Controller
      */
     public function newAction(Request $request)
     {
-        $filterControlType = new FilterControlType();
-        $form = $this->createForm(FilterControlTypeType::class, $filterControlType);
+        $filterControlType = new FilterType();
+        $form = $this->createForm(FilterTypeType::class, $filterControlType);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,7 +57,7 @@ class FilterControlTypeController extends Controller
             return $this->redirectToRoute('filter_control_type_index');
         }
 
-        return $this->render('@Bi/filter-control-type/new.html.twig', [
+        return $this->render('@Bi/filter-type/new.html.twig', [
             'type' => $filterControlType,
             'new_form' => $form->createView(),
         ]);
@@ -66,57 +66,57 @@ class FilterControlTypeController extends Controller
     /**
      * Updates type
      *
-     * @param FilterControlType $filterControlType
+     * @param FilterType $filterType
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function editAction(FilterControlType $filterControlType, Request $request)
+    public function editAction(FilterType $filterType, Request $request)
     {
-        $deleteForm = $this->createDeleteForm($filterControlType);
-        $editForm = $this->createForm(FilterControlTypeType::class, $filterControlType);
+        $deleteForm = $this->createDeleteForm($filterType);
+        $editForm = $this->createForm(FilterTypeType::class, $filterType);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->service->update($filterControlType);
+            $this->service->update($filterType);
             return $this->redirectToRoute('filter_control_type_index');
         }
 
-        return $this->render('@Bi/filter-control-type/edit.html.twig', [
-            'type' => $filterControlType,
+        return $this->render('@Bi/filter-type/edit.html.twig', [
+            'type' => $filterType,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);
     }
 
     /**
-     * Deletes a FilterControlType entity
+     * Deletes entity
      *
-     * @param FilterControlType $filterControlType
+     * @param FilterType $filterType
      * @param Request $request
      * @return RedirectResponse
      */
-    public function deleteAction(FilterControlType $filterControlType, Request $request)
+    public function deleteAction(FilterType $filterType, Request $request)
     {
-        $form = $this->createDeleteForm($filterControlType);
+        $form = $this->createDeleteForm($filterType);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->service->delete($filterControlType);
+            $this->service->delete($filterType);
         }
 
         return $this->redirectToRoute('filter_control_type_index');
     }
 
     /**
-     * Creates a form to delete a FilterControlType entity.
+     * Creates a form to delete entity.
      *
-     * @param FilterControlType $filterControlType
+     * @param FilterType $filterType
      * @return Form
      */
-    private function createDeleteForm(FilterControlType $filterControlType)
+    private function createDeleteForm(FilterType $filterType)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('filter_control_type_delete', array('id' => $filterControlType->getId())))
+            ->setAction($this->generateUrl('filter_control_type_delete', array('id' => $filterType->getId())))
             ->setMethod('DELETE')
             ->getForm();
     }

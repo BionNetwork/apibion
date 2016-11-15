@@ -2,7 +2,7 @@
 
 {% block header_content %}
     {{ type.name }}
-    <small>редактирование типа</small>
+    <small>редактирование типа фильтра</small>
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
                 </div>
                 <div class="box-footer">
                     <ul class="pull-right">
-                        <a class="btn btn-default" href="{{ path('filter_control_type_index') }}">Отмена</a>
+                        <a class="btn btn-default" href="{{ path('filter_type_index') }}">Отмена</a>
                         <input type="submit" class="btn btn-primary" value="Сохранить"/>
                         {{ form_end(edit_form) }}
                     </ul>

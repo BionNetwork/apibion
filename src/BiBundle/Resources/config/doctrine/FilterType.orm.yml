@@ -1,7 +1,7 @@
-BiBundle\Entity\FilterControlType:
+BiBundle\Entity\FilterType:
     type: entity
-    table: null
-    repositoryClass: BiBundle\Repository\FilterControlTypeRepository
+    table: filter_control_type
+    repositoryClass: BiBundle\Repository\FilterTypeRepository
     id:
         id:
             type: integer

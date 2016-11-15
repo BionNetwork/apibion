@@ -20,7 +20,7 @@ class ArgumentFilter
      */
     private $arguments;
     /**
-     * @var \BiBundle\Entity\FilterControlType
+     * @var \BiBundle\Entity\FilterType
      */
     private $filterControlType;
     /**
@@ -105,9 +105,9 @@ class ArgumentFilter
     }
 
     /**
-     * Get filterControlType
+     * Get filter's type
      *
-     * @return \BiBundle\Entity\FilterControlType
+     * @return \BiBundle\Entity\FilterType
      */
     public function getFilterControlType()
     {
@@ -117,11 +117,11 @@ class ArgumentFilter
     /**
      * Set filterControlType
      *
-     * @param \BiBundle\Entity\FilterControlType $filterControlType
+     * @param \BiBundle\Entity\FilterType $filterControlType
      *
      * @return ArgumentFilter
      */
-    public function setFilterControlType(\BiBundle\Entity\FilterControlType $filterControlType = null)
+    public function setFilterControlType(\BiBundle\Entity\FilterType $filterControlType = null)
     {
         $this->filterControlType = $filterControlType;
 

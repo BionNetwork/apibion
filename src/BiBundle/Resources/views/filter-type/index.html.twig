@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header_content %}
-    Типы контролов фильтра
+    Типы фильтров
 {% endblock %}
 
 {% block body %}
@@ -21,13 +21,13 @@
                 </td>
                 <td>{{ type.name }}</td>
                 <td>
-                    <a href="{{ path('filter_control_type_edit', { 'id': type.id }) }}" class="btn btn-default">edit</a>
+                    <a href="{{ path('filter_type_edit', { 'id': type.id }) }}" class="btn btn-default">edit</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('filter_control_type_new') }}" class="btn btn-default">Create a new entry</a>
+    <a href="{{ path('filter_type_new') }}" class="btn btn-default">Create a new entry</a>
 
 {% endblock %}

@@ -2,10 +2,10 @@
 
 namespace BiBundle\Service;
 
-use BiBundle\Entity\FilterControlType;
+use BiBundle\Entity\FilterType;
 use Doctrine\ORM\EntityManager;
 
-class FilterControlTypeService
+class FilterTypeService
 {
     /**
      * @var EntityManager
@@ -17,18 +17,18 @@ class FilterControlTypeService
         $this->entityManager = $entityManager;
     }
 
-    public function create(FilterControlType $filterControlType)
+    public function create(FilterType $filterControlType)
     {
         $this->entityManager->persist($filterControlType);
         $this->entityManager->flush($filterControlType);
     }
 
-    public function update(FilterControlType $filterControlType)
+    public function update(FilterType $filterControlType)
     {
         $this->entityManager->flush($filterControlType);
     }
 
-    public function delete(FilterControlType $filterControlType)
+    public function delete(FilterType $filterControlType)
     {
         $this->entityManager->remove($filterControlType);
         $this->entityManager->flush($filterControlType);

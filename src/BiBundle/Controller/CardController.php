@@ -57,6 +57,9 @@ class CardController extends Controller
         $form = $this->createForm(CardType::class, $card);
         $form->handleRequest($request);
 
+        $uploadForm = $this->createForm('BiBundle\Form\CardCarouselFileType', []);
+        $uploadForm->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->create($card);
             return $this->redirectToRoute('card_edit', ['id' => $card->getId()]);
@@ -65,6 +68,9 @@ class CardController extends Controller
         return $this->render('@Bi/card/new.html.twig', [
             'card' => $card,
             'form' => $form->createView(),
+            'arguments' => [],
+            'files' => [],
+            'upload_form' => $uploadForm->createView()
         ]);
     }
 
@@ -125,7 +131,7 @@ class CardController extends Controller
             'card' => $card,
             'arguments' => $card->getArgument(),
             'files' => $files,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'upload_form' => $uploadForm->createView(),
         ]);

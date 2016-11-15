@@ -17,9 +17,9 @@ bi_card:
 bi_argument:
     resource: "@BiBundle/Resources/config/routing/argument.yml"
     prefix:   /argument
-bi_filter_control_type:
-    resource: "@BiBundle/Resources/config/routing/filter-control-type.yml"
-    prefix:   /filter-control-type
+bi_filter_type:
+    resource: "@BiBundle/Resources/config/routing/filter-type.yml"
+    prefix:   /filters/types
 task_homepage:
     path:     /
     defaults: { _controller: BiBundle:User:index }

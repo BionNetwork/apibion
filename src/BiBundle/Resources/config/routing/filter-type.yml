@@ -1,0 +1,19 @@
+filter_type_index:
+    path:     /
+    defaults: { _controller: bi.filter_type.controller:indexAction }
+    methods:  GET
+
+filter_type_new:
+    path:     /new
+    defaults: { _controller: bi.filter_type.controller:newAction }
+    methods:  [GET, POST]
+
+filter_type_edit:
+    path:     /{id}/edit
+    defaults: { _controller: bi.filter_type.controller:editAction }
+    methods:  [GET, POST]
+
+filter_type_delete:
+    path:     /{id}/delete
+    defaults: { _controller: bi.filter_type.controller:deleteAction }
+    methods:  DELETE
