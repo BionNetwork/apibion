@@ -107,7 +107,7 @@ services:
         arguments: ['@doctrine.orm.entity_manager']
     bi.filter_type.service:
         class: BiBundle\Service\FilterTypeService
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@repository.filter_type_repository']
     bi.file.service:
         class: BiBundle\Service\FileService
         arguments: ['@repository.file', '%web_root_directory%', '%web_upload_directory%']

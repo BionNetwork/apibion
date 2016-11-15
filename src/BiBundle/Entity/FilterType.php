@@ -21,6 +21,10 @@ class FilterType
      */
     private $name;
 
+    /**
+     * @var integer
+     */
+    private $sort = 0;
 
     /**
      * Get id
@@ -54,5 +58,30 @@ class FilterType
     public function getName()
     {
         return $this->name;
+    }
+
+
+    /**
+     * Set sort
+     *
+     * @param integer $sort
+     *
+     * @return FilterType
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Get sort
+     *
+     * @return integer
+     */
+    public function getSort()
+    {
+        return $this->sort;
     }
 }

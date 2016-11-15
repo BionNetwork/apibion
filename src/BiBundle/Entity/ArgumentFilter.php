@@ -22,7 +22,7 @@ class ArgumentFilter
     /**
      * @var \BiBundle\Entity\FilterType
      */
-    private $filterControlType;
+    private $filterType;
     /**
      * @var \BiBundle\Entity\Card
      */
@@ -109,21 +109,21 @@ class ArgumentFilter
      *
      * @return \BiBundle\Entity\FilterType
      */
-    public function getFilterControlType()
+    public function getFilterType()
     {
-        return $this->filterControlType;
+        return $this->filterType;
     }
 
     /**
-     * Set filterControlType
+     * Set filterType
      *
-     * @param \BiBundle\Entity\FilterType $filterControlType
+     * @param \BiBundle\Entity\FilterType $filterType
      *
      * @return ArgumentFilter
      */
-    public function setFilterControlType(\BiBundle\Entity\FilterType $filterControlType = null)
+    public function setFilterType(\BiBundle\Entity\FilterType $filterType = null)
     {
-        $this->filterControlType = $filterControlType;
+        $this->filterType = $filterType;
 
         return $this;
     }

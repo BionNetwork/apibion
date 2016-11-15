@@ -13,10 +13,10 @@ BiBundle\Entity\ArgumentFilter:
             type: string
             length: 255
     manyToOne:
-        filterControlType:
-            targetEntity: BiBundle\Entity\FilterControlType
+        filterType:
+            targetEntity: BiBundle\Entity\FilterType
             joinColumns:
-                filter_control_type_id:
+                filter_type_id:
                     referencedColumnName: id
         card:
             targetEntity: BiBundle\Entity\Card

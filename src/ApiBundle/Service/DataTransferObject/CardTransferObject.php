@@ -11,9 +11,6 @@ use BiBundle\Service\CardCategoryService;
 use BiBundle\Service\CardService;
 use BiBundle\Service\Utils\HostBasedUrl;
 
-/**
- * @property CardCategoryService cardCategoryService
- */
 class CardTransferObject
 {
     const NO_CATEGORY_KEY = 'no_category';
@@ -34,9 +31,13 @@ class CardTransferObject
     private $representationTransferObject;
 
     /**
-     * @var
+     * @var CardService
      */
     private $cardService;
+    /**
+     * @var CardCategoryService
+     */
+    private $cardCategoryService;
 
     public function __construct(
         ArgumentTransferObject $argumentTransferObject,
@@ -55,7 +56,7 @@ class CardTransferObject
     /**
      * Get cards list
      *
-     * @param Card $card
+     * @param array $data
      * @return array
      */
     public function getObjectListData(array $data)
@@ -103,9 +104,7 @@ class CardTransferObject
      */
     public function getObjectData($card)
     {
-        ### 8b188de9b1af75d8d2a83729b92cbc116390840a сломал CardRepository::findByFilter
         $card = $card instanceof Card ? $card : $this->cardService->findById($card['id']);
-        ### поэтому так
 
         $representations = $card->getCardRepresentation();
         $representationsArray = [];
@@ -145,6 +144,7 @@ class CardTransferObject
 
     /**
      * @param ArgumentFilter[] $argumentFilters
+     * @return array
      */
     private function serializeArgumentFilters(array $argumentFilters)
     {
@@ -153,7 +153,7 @@ class CardTransferObject
                 return [
                     'id' => $argumentFilter->getId(),
                     'label' => $argumentFilter->getLabel(),
-                    'filter_control_type' => $argumentFilter->getFilterControlType() ? $argumentFilter->getFilterControlType()->getName() : null,
+                    'filter_type' => $argumentFilter->getFilterType() ? $argumentFilter->getFilterType()->getName() : null,
                     'argument_ids' => array_map(
                         function (Argument $argument) {
                             return $argument->getId();

@@ -54,7 +54,7 @@ class FilterTypeController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->service->create($filterControlType);
-            return $this->redirectToRoute('filter_control_type_index');
+            return $this->redirectToRoute('filter_type_index');
         }
 
         return $this->render('@Bi/filter-type/new.html.twig', [
@@ -78,7 +78,7 @@ class FilterTypeController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->service->update($filterType);
-            return $this->redirectToRoute('filter_control_type_index');
+            return $this->redirectToRoute('filter_type_index');
         }
 
         return $this->render('@Bi/filter-type/edit.html.twig', [
@@ -104,7 +104,7 @@ class FilterTypeController extends Controller
             $this->service->delete($filterType);
         }
 
-        return $this->redirectToRoute('filter_control_type_index');
+        return $this->redirectToRoute('filter_type_index');
     }
 
     /**
@@ -116,7 +116,7 @@ class FilterTypeController extends Controller
     private function createDeleteForm(FilterType $filterType)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('filter_control_type_delete', array('id' => $filterType->getId())))
+            ->setAction($this->generateUrl('filter_type_delete', array('id' => $filterType->getId())))
             ->setMethod('DELETE')
             ->getForm();
     }

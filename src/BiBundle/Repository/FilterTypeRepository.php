@@ -10,4 +10,15 @@ namespace BiBundle\Repository;
  */
 class FilterTypeRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Fetches next sort value
+     *
+     * @return mixed
+     */
+    public function nextSortValue()
+    {
+        return $this->getEntityManager()->createQueryBuilder()->select('MAX(f.sort)')
+            ->from('BiBundle:FilterType', 'f')
+            ->getQuery()->getSingleScalarResult() + 10;
+    }
 }

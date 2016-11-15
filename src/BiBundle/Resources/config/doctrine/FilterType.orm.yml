@@ -1,6 +1,6 @@
 BiBundle\Entity\FilterType:
     type: entity
-    table: filter_control_type
+    table: filter_types
     repositoryClass: BiBundle\Repository\FilterTypeRepository
     id:
         id:
@@ -13,4 +13,10 @@ BiBundle\Entity\FilterType:
             type: string
             length: 255
             unique: true
+        sort:
+            type: integer
+            fixed: false
+            nullable: false
+            options:
+                default: 0
     lifecycleCallbacks: {  }
