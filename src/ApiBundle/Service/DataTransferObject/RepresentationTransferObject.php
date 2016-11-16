@@ -2,28 +2,28 @@
 
 namespace ApiBundle\Service\DataTransferObject;
 
-use BiBundle\Entity\Representation;
+use BiBundle\Entity\Chart;
 
 class RepresentationTransferObject
 {
     /**
      * Get representation's data normalized
      *
-     * @param Representation $representation
+     * @param Chart $chart
      * @return array
      */
-    public function getObjectData(Representation $representation)
+    public function getObjectData(Chart $chart)
     {
         $data = [
-            'id' => $representation->getId(),
-            'name' => $representation->getName(),
-            'code' => $representation->getCode(),
+            'id' => $chart->getId(),
+            'name' => $chart->getName(),
+            'code' => $chart->getCode(),
         ];
         return $data;
     }
 
     /**
-     * Get representations list
+     * Get charts list
      *
      * @param $data
      * @return array
@@ -32,8 +32,8 @@ class RepresentationTransferObject
     {
         $result = [];
 
-        foreach ($data as $representation) {
-            $item = $this->getObjectData($representation);
+        foreach ($data as $chart) {
+            $item = $this->getObjectData($chart);
             $result[] = $item;
         }
         return $result;

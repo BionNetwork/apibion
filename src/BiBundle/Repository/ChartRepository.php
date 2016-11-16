@@ -3,27 +3,27 @@
 namespace BiBundle\Repository;
 
 use Doctrine\ORM\AbstractQuery;
-use BiBundle\Entity\Representation;
+use BiBundle\Entity\Chart;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * RepresentationRepository
  */
-class RepresentationRepository extends \Doctrine\ORM\EntityRepository
+class ChartRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /**
-     * Find representations by filter
+     * Find charts by filter
      *
-     * @param \BiBundle\Entity\Filter\Representation $filter
+     * @param \BiBundle\Entity\Filter\Chart $filter
      * @return array
      */
-    public function findByFilter(\BiBundle\Entity\Filter\Representation $filter)
+    public function findByFilter(\BiBundle\Entity\Filter\Chart $filter)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('r')
-            ->from('BiBundle:Representation', 'r')
+            ->from('BiBundle:Chart', 'r')
             ->orderBy('r.createdOn', 'desc');
         if ($filter->id) {
             $qb->andWhere('r.id = :id');

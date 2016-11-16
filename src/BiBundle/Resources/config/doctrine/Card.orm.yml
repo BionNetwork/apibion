@@ -85,10 +85,10 @@ BiBundle\Entity\Card:
             column: updated_on
     oneToMany:
         purchase:
-            targetEntity: Purchase
+            targetEntity: BiBundle\Entity\Purchase
             mappedBy: card
-        cardRepresentation:
-            targetEntity: CardRepresentation
+        cardChart:
+            targetEntity: BiBundle\Entity\CardChart
             mappedBy: card
         argument:
             targetEntity: Argument

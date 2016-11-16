@@ -3,7 +3,7 @@
 namespace BiBundle\Repository;
 
 use Doctrine\ORM\AbstractQuery;
-use BiBundle\Entity\Representation;
+use BiBundle\Entity\Chart;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**

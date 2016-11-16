@@ -5,7 +5,7 @@ namespace BiBundle\Entity;
 /**
  * Representation
  */
-class Representation
+class Chart
 {
     /**
      * @var integer
@@ -33,7 +33,7 @@ class Representation
     private $updatedOn;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $card;
 
@@ -61,7 +61,7 @@ class Representation
      *
      * @param string $name
      *
-     * @return Representation
+     * @return Chart
      */
     public function setName($name)
     {
@@ -85,7 +85,7 @@ class Representation
      *
      * @param string $code
      *
-     * @return Representation
+     * @return Chart
      */
     public function setCode($code)
     {
@@ -109,7 +109,7 @@ class Representation
      *
      * @param \DateTime $createdOn
      *
-     * @return Representation
+     * @return Chart
      */
     public function setCreatedOn($createdOn)
     {
@@ -133,7 +133,7 @@ class Representation
      *
      * @param \DateTime $updatedOn
      *
-     * @return Representation
+     * @return Chart
      */
     public function setUpdatedOn($updatedOn)
     {
@@ -157,7 +157,7 @@ class Representation
      *
      * @param \BiBundle\Entity\Card $card
      *
-     * @return Representation
+     * @return Chart
      */
     public function addCard(\BiBundle\Entity\Card $card)
     {

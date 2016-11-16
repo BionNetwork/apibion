@@ -1,4 +1,4 @@
-BiBundle\Entity\CardRepresentation:
+BiBundle\Entity\CardChart:
     type: entity
     table: card_representation
     indexes:
@@ -31,14 +31,14 @@ BiBundle\Entity\CardRepresentation:
                 activation_id:
                     nullable: true
         card:
-            targetEntity: Card
-            inversedBy: cardRepresentation
+            targetEntity: BiBundle\Entity\Card
+            inversedBy: cardChart
             joinColumns:
                 card_id:
                     nullable: true
-        representation:
-            targetEntity: Representation
+        chart:
+            targetEntity: BiBundle\Entity\Chart
             joinColumns:
-                representation_id:
+                chart_id:
                     nullable: true
     lifecycleCallbacks: {  }

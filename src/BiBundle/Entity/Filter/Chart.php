@@ -2,10 +2,10 @@
 
 namespace BiBundle\Entity\Filter;
 
-class Representation extends AbstractFilter
+class Chart extends AbstractFilter
 {
     /**
-     * Идентификатор карточки
+     * Идентификатор графика
      * @var int
      */
     public $id;

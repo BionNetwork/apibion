@@ -5,7 +5,7 @@ namespace BiBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use BiBundle\Entity\Representation;
+use BiBundle\Entity\Chart;
 
 class LoadRepresentationData extends AbstractFixture
     implements OrderedFixtureInterface

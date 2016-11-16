@@ -27,8 +27,8 @@ services:
     bi.purchase.service:
         class: BiBundle\Service\PurchaseService
         arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@bi.backend.service']
-    bi.representation.service:
-        class: BiBundle\Service\RepresentationService
+    bi.chart.service:
+        class: BiBundle\Service\ChartService
         parent: bi.user_aware_service
     bi.activation.service:
         class: BiBundle\Service\ActivationService

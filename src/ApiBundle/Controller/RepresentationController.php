@@ -41,10 +41,10 @@ class RepresentationController extends RestController
      */
     public function getRepresentationsAction(ParamFetcher $paramFetcher)
     {
-        $representationService = $this->get('bi.representation.service');
+        $representationService = $this->get('bi.chart.service');
 
-        $params = $this->getParams($paramFetcher, 'representation');
-        $filter = new \BiBundle\Entity\Filter\Representation($params);
+        $params = $this->getParams($paramFetcher, 'chart');
+        $filter = new \BiBundle\Entity\Filter\Chart($params);
         $representationList = $representationService->getByFilter($filter);
 
         $service = $this->get('api.data.transfer_object.representation_transfer_object');

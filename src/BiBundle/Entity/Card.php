@@ -64,7 +64,7 @@ class Card
     /**
      * @var ArrayCollection
      */
-    private $cardRepresentation;
+    private $cardChart;
 
     /**
      * @var ArrayCollection
@@ -106,7 +106,7 @@ class Card
     public function __construct()
     {
         $this->purchase = new ArrayCollection();
-        $this->cardRepresentation = new ArrayCollection();
+        $this->cardChart = new ArrayCollection();
         $this->argument = new ArrayCollection();
         $this->cardCarouselImage = new ArrayCollection();
         $this->createdOn = new \DateTime();
@@ -351,38 +351,38 @@ class Card
     }
 
     /**
-     * Add cardRepresentation
+     * Add card chart
      *
-     * @param \BiBundle\Entity\CardRepresentation $cardRepresentation
+     * @param \BiBundle\Entity\CardChart $cardChart
      *
      * @return Card
      */
-    public function addCardRepresentation(\BiBundle\Entity\CardRepresentation $cardRepresentation)
+    public function addCardChart(\BiBundle\Entity\CardChart $cardChart)
     {
-        $this->cardRepresentation[] = $cardRepresentation;
-        $cardRepresentation->setCard($this);
+        $this->cardChart[] = $cardChart;
+        $cardChart->setCard($this);
 
         return $this;
     }
 
     /**
-     * Remove cardRepresentation
+     * Remove card chart
      *
-     * @param \BiBundle\Entity\CardRepresentation $cardRepresentation
+     * @param \BiBundle\Entity\CardChart $cardChart
      */
-    public function removeCardRepresentation(\BiBundle\Entity\CardRepresentation $cardRepresentation)
+    public function removeCardChart(\BiBundle\Entity\CardChart $cardChart)
     {
-        $this->cardRepresentation->removeElement($cardRepresentation);
+        $this->cardChart->removeElement($cardChart);
     }
 
     /**
-     * Get cardRepresentation
+     * Get charts
      *
      * @return ArrayCollection
      */
-    public function getCardRepresentation()
+    public function getCardChart()
     {
-        return $this->cardRepresentation;
+        return $this->cardChart;
     }
 
     /**

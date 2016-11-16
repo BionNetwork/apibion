@@ -7,9 +7,9 @@ use BiBundle\Entity\ArgumentFilter;
 use BiBundle\Entity\Card;
 use BiBundle\Entity\CardCarouselImage;
 use BiBundle\Entity\CardCategory;
-use BiBundle\Entity\CardRepresentation;
+use BiBundle\Entity\CardChart;
 use BiBundle\Entity\File;
-use BiBundle\Entity\Representation;
+use BiBundle\Entity\Chart;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -192,9 +192,9 @@ class BiCardsLoadCommand extends ContainerAwareCommand
     private function addRepresentations(Card $card, $representations)
     {
         foreach ($representations as $representation) {
-            $cardRepresentation = new CardRepresentation();
+            $cardRepresentation = new CardChart();
             $cardRepresentation->setCard($card);
-            $cardRepresentation->setRepresentation($this->entityManager->getRepository(Representation::class)->findOneBy(['code' => $representation]));
+            $cardRepresentation->setChart($this->entityManager->getRepository(Chart::class)->findOneBy(['code' => $representation]));
             $this->entityManager->persist($cardRepresentation);
             $this->entityManager->flush($cardRepresentation);
         }

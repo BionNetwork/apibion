@@ -3,9 +3,9 @@
 namespace BiBundle\Entity;
 
 /**
- * CardRepresentation
+ * CardChart
  */
-class CardRepresentation
+class CardChart
 {
     /**
      * @var integer
@@ -33,9 +33,9 @@ class CardRepresentation
     private $card;
 
     /**
-     * @var \BiBundle\Entity\Representation
+     * @var \BiBundle\Entity\Chart
      */
-    private $representation;
+    private $chart;
 
 
     public function __construct()
@@ -58,7 +58,7 @@ class CardRepresentation
      *
      * @param \DateTime $createdOn
      *
-     * @return CardRepresentation
+     * @return CardChart
      */
     public function setCreatedOn($createdOn)
     {
@@ -82,7 +82,7 @@ class CardRepresentation
      *
      * @param \DateTime $updatedOn
      *
-     * @return CardRepresentation
+     * @return CardChart
      */
     public function setUpdatedOn($updatedOn)
     {
@@ -106,7 +106,7 @@ class CardRepresentation
      *
      * @param \BiBundle\Entity\Activation $activation
      *
-     * @return CardRepresentation
+     * @return CardChart
      */
     public function setActivation(\BiBundle\Entity\Activation $activation = null)
     {
@@ -130,7 +130,7 @@ class CardRepresentation
      *
      * @param \BiBundle\Entity\Card $card
      *
-     * @return CardRepresentation
+     * @return CardChart
      */
     public function setCard(\BiBundle\Entity\Card $card = null)
     {
@@ -150,26 +150,26 @@ class CardRepresentation
     }
 
     /**
-     * Set representation
+     * Set chart
      *
-     * @param \BiBundle\Entity\Representation $representation
+     * @param \BiBundle\Entity\Chart $chart
      *
-     * @return CardRepresentation
+     * @return CardChart
      */
-    public function setRepresentation(\BiBundle\Entity\Representation $representation = null)
+    public function setChart(\BiBundle\Entity\Chart $chart = null)
     {
-        $this->representation = $representation;
+        $this->chart = $chart;
 
         return $this;
     }
 
     /**
-     * Get representation
+     * Get chart
      *
-     * @return \BiBundle\Entity\Representation
+     * @return \BiBundle\Entity\Chart
      */
-    public function getRepresentation()
+    public function getChart()
     {
-        return $this->representation;
+        return $this->chart;
     }
 }

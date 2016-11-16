@@ -5,7 +5,7 @@ namespace BiBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use BiBundle\Entity\CardRepresentation;
+use BiBundle\Entity\CardChart;
 
 class LoadCardRepresentationData extends AbstractFixture
     implements OrderedFixtureInterface

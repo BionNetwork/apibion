@@ -5,7 +5,7 @@ namespace ApiBundle\Service\DataTransferObject;
 use BiBundle\Entity\Argument;
 use BiBundle\Entity\ArgumentFilter;
 use BiBundle\Entity\Card;
-use BiBundle\Entity\CardRepresentation;
+use BiBundle\Entity\CardChart;
 use BiBundle\Entity\File;
 use BiBundle\Service\CardCategoryService;
 use BiBundle\Service\CardService;
@@ -106,11 +106,11 @@ class CardTransferObject
     {
         $card = $card instanceof Card ? $card : $this->cardService->findById($card['id']);
 
-        $representations = $card->getCardRepresentation();
+        $representations = $card->getCardChart();
         $representationsArray = [];
-        /** @var CardRepresentation $item */
+        /** @var CardChart $item */
         foreach ($representations as $item) {
-            $representationsArray[] = $item->getRepresentation();
+            $representationsArray[] = $item->getChart();
         }
         $data = [
             'id' => $card->getId(),

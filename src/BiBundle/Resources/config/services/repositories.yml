@@ -14,8 +14,8 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\Card
-    repository.representation_repository:
-        class: BiBundle\Repository\RepresentationRepository
+    repository.chart_repository:
+        class: BiBundle\Repository\ChartRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - BiBundle\Entity\Representation

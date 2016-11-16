@@ -1,7 +1,7 @@
-BiBundle\Entity\Representation:
+BiBundle\Entity\Chart:
     type: entity
     table: representation
-    repositoryClass: BiBundle\Repository\RepresentationRepository
+    repositoryClass: BiBundle\Repository\ChartRepository
     indexes:
         representation_create_on_idx:
             columns:
@@ -37,8 +37,8 @@ BiBundle\Entity\Representation:
             column: updated_on
     oneToMany:
         card:
-            targetEntity: Card
-            mappedBy: representation
+            targetEntity: BiBundle\Entity\Card
+            mappedBy: cardChart
             cascade: ["persist"]
             inversedBy: null
             orphanRemoval: false
