@@ -15,14 +15,14 @@ use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Controller\Annotations\Route;
 use BiBundle\Service\Upload\FilePathStrategy;
 
-class RepresentationController extends RestController
+class ChartController extends RestController
 {
 
     /**
      * @ApiDoc(
-     *  section="7. Представления",
+     *  section="7. Графики",
      *  resource=true,
-     *  description="Получение перечня представлений данных",
+     *  description="Получение списка возможных графиков",
      *  statusCodes={
      *         200="При успешном получении данных",
      *         400="Ошибка получения данных"
@@ -39,7 +39,7 @@ class RepresentationController extends RestController
      * @param ParamFetcher $paramFetcher
      * @return Response
      */
-    public function getRepresentationsAction(ParamFetcher $paramFetcher)
+    public function getChartsAction(ParamFetcher $paramFetcher)
     {
         $representationService = $this->get('bi.chart.service');
 
@@ -51,5 +51,4 @@ class RepresentationController extends RestController
         $view = $this->view($service->getObjectListData($representationList));
         return $this->handleView($view);
     }
-
 }

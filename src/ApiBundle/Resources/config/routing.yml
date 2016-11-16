@@ -7,14 +7,7 @@ api_user:
     resource: "ApiBundle\\Controller\\UserController"
 api_representation:
     type: rest
-    resource: "ApiBundle\\Controller\\RepresentationController"
-#api_profile:
-#    type: rest
-#    resource: "ApiBundle\\Controller\\ProfileController"
-#api_panel:
-#    type: rest
-#    prefix: 'panel'
-#    resource: "ApiBundle\\Controller\\ControlPanelController"
+    resource: "ApiBundle\\Controller\\ChartController"
 api_dashboard:
     type: rest
     resource: "ApiBundle\\Controller\\DashboardController"
