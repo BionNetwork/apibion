@@ -1,8 +1,8 @@
 BiBundle\Entity\CardChart:
     type: entity
-    table: card_representation
+    table: card_charts
     indexes:
-        card_representation_create_on_idx:
+        card_chart_create_on_idx:
             columns:
               - created_on
     id:

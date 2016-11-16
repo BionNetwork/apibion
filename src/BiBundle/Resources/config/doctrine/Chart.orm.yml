@@ -1,6 +1,6 @@
 BiBundle\Entity\Chart:
     type: entity
-    table: representation
+    table: charts
     repositoryClass: BiBundle\Repository\ChartRepository
     indexes:
         representation_create_on_idx:
