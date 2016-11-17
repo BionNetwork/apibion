@@ -61,14 +61,19 @@ class CardController extends Controller
         $uploadForm->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->service->create($card);
+            $this->service->save($card);
             return $this->redirectToRoute('card_edit', ['id' => $card->getId()]);
         }
+
+        $charts = $this->service->getCharts();
+        $filters = $this->service->getFilters();
 
         return $this->render('@Bi/card/new.html.twig', [
             'card' => $card,
             'form' => $form->createView(),
             'arguments' => [],
+            'charts' => $charts,
+            'filters' => $filters,
             'files' => [],
             'upload_form' => $uploadForm->createView()
         ]);
@@ -89,7 +94,7 @@ class CardController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->service->update();
+            $this->service->save($card);
             return $this->redirectToRoute('card_edit', ['id' => $card->getId()]);
         }
 
@@ -97,6 +102,9 @@ class CardController extends Controller
 
         $uploadForm = $this->createForm('BiBundle\Form\CardCarouselFileType', $files);
         $uploadForm->handleRequest($request);
+
+        $charts = $this->service->getCharts();
+        $filters = $this->service->getFilters();
 
         if ($uploadForm->isSubmitted() && $uploadForm->isValid()) {
 
@@ -132,6 +140,8 @@ class CardController extends Controller
             'arguments' => $card->getArgument(),
             'files' => $files,
             'form' => $editForm->createView(),
+            'charts' => $charts,
+            'filters' => $filters,
             'delete_form' => $deleteForm->createView(),
             'upload_form' => $uploadForm->createView(),
         ]);

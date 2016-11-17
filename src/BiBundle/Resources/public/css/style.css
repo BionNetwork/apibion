@@ -4,3 +4,13 @@
 .collection_widget_element .form-group {
   margin-top: 0;
 }
+.form-group-right {
+  float: right;
+  margin-bottom: 5px;
+}
+.btn-group > .btn.filter-delete {
+  margin-left: 10px;
+}
+.chart-item {
+  margin-left: 5px;
+}

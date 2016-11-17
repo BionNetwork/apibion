@@ -28,7 +28,7 @@ class CardService
      */
     public function getByFilter(\BiBundle\Entity\Filter\Card $filter)
     {
-        return $this->entityManager->getRepository('BiBundle:Card')->findByFilter($filter);
+        return $this->getEm()->getRepository('BiBundle:Card')->findByFilter($filter);
     }
 
     /**
@@ -38,24 +38,16 @@ class CardService
      */
     public function getAllCards()
     {
-        return $this->entityManager->getRepository('BiBundle:Card')->findAllCards();
+        return $this->getEm()->getRepository('BiBundle:Card')->findAllCards();
     }
 
     /**
      * @param Card $card
      */
-    public function create(Card $card)
+    public function save(Card $card)
     {
-        $this->entityManager->persist($card);
-        $this->entityManager->flush($card);
-    }
-
-    /**
-     *
-     */
-    public function update()
-    {
-        $this->entityManager->flush();
+        $this->getEm()->persist($card);
+        $this->getEm()->flush();
     }
 
     /**
@@ -63,8 +55,8 @@ class CardService
      */
     public function delete(Card $card)
     {
-        $this->entityManager->remove($card);
-        $this->entityManager->flush($card);
+        $this->getEm()->remove($card);
+        $this->getEm()->flush($card);
     }
 
     /**
@@ -73,7 +65,15 @@ class CardService
      */
     public function getCarouselFiles(Card $card)
     {
-        return $this->entityManager->getRepository('BiBundle:Card')->findCarouselFiles($card);
+        return $this->getEm()->getRepository('BiBundle:Card')->findCarouselFiles($card);
+    }
+
+    /**
+     * @return array|\BiBundle\Entity\Chart[]
+     */
+    public function getCharts()
+    {
+        return $this->getEm()->getRepository('BiBundle:Chart')->findAll();
     }
 
     /**
@@ -86,8 +86,8 @@ class CardService
         $cardCarouselImage = new CardCarouselImage();
         $cardCarouselImage->setCard($card);
         $cardCarouselImage->setFile($file);
-        $this->entityManager->persist($cardCarouselImage);
-        $this->entityManager->flush($cardCarouselImage);
+        $this->getEm()->persist($cardCarouselImage);
+        $this->getEm()->flush($cardCarouselImage);
 
         return $cardCarouselImage;
     }
@@ -97,8 +97,8 @@ class CardService
      */
     public function removeCarouselImage(CardCarouselImage $cardCarouselImage)
     {
-        $this->entityManager->remove($cardCarouselImage);
-        $this->entityManager->flush($cardCarouselImage);
+        $this->getEm()->remove($cardCarouselImage);
+        $this->getEm()->flush($cardCarouselImage);
     }
 
     /**
@@ -107,6 +107,22 @@ class CardService
      */
     public function findById($id)
     {
-        return $this->entityManager->getRepository('BiBundle:Card')->find($id);
+        return $this->getEm()->getRepository('BiBundle:Card')->find($id);
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEm()
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @return array|\BiBundle\Entity\FilterType[]
+     */
+    public function getFilters()
+    {
+        return $this->getEm()->getRepository('BiBundle:FilterType')->findBy([], ['sort' => 'ASC']);
     }
 }
