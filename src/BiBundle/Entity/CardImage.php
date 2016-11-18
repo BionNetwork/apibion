@@ -3,9 +3,9 @@
 namespace BiBundle\Entity;
 
 /**
- * CardCarouselImage
+ * CardImage
  */
-class CardCarouselImage
+class CardImage
 {
     /**
      * @var int
@@ -42,7 +42,7 @@ class CardCarouselImage
      *
      * @param integer $priority
      *
-     * @return CardCarouselImage
+     * @return CardImage
      */
     public function setPriority($priority)
     {
@@ -66,7 +66,7 @@ class CardCarouselImage
      *
      * @param File $file
      *
-     * @return CardCarouselImage
+     * @return CardImage
      */
     public function setFile(File $file = null)
     {
@@ -90,7 +90,7 @@ class CardCarouselImage
      *
      * @param Card $card
      *
-     * @return CardCarouselImage
+     * @return CardImage
      */
     public function setCard(Card $card = null)
     {

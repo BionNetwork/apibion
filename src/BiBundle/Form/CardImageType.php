@@ -3,7 +3,7 @@
 namespace BiBundle\Form;
 
 use BiBundle\Entity\Card;
-use BiBundle\Entity\CardCarouselImage;
+use BiBundle\Entity\CardImage;
 use BiBundle\Entity\File;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CardCarouselImageType extends AbstractType
+class CardImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -24,7 +24,7 @@ class CardCarouselImageType extends AbstractType
                 'disabled' => true,
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     return $repository->createQueryBuilder('f')
-                        ->leftJoin('f.cardCarouselImage', 'ci')
+                        ->leftJoin('f.cardImage', 'ci')
                         ->where('ci.card = :card')
                         ->orderBy('ci.priority', 'asc')
                         ->setParameter('card', $options['card']);
@@ -36,7 +36,7 @@ class CardCarouselImageType extends AbstractType
     {
         $resolver->setDefined('card');
         $resolver->setDefaults([
-            'data_class' => CardCarouselImage::class,
+            'data_class' => CardImage::class,
             'card' => new Card()
         ]);
     }

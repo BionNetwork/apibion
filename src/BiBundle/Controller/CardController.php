@@ -115,8 +115,8 @@ class CardController extends Controller
                 /** @var File[] $files */
                 foreach ($files as $file) {
                     if (in_array($file->getId(), $deletedFileIds)) {
-                        foreach ($file->getCardCarouselImage() as $cardCarouselImage) {
-                            $this->service->removeCarouselImage($cardCarouselImage);
+                        foreach ($file->getCardImage() as $cardImage) {
+                            $this->service->removeCarouselImage($cardImage);
                         }
                         $fileService->delete($file);
                     }

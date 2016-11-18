@@ -5,7 +5,7 @@ namespace BiBundle\Command;
 use BiBundle\Entity\Argument;
 use BiBundle\Entity\ArgumentFilter;
 use BiBundle\Entity\Card;
-use BiBundle\Entity\CardCarouselImage;
+use BiBundle\Entity\CardImage;
 use BiBundle\Entity\CardCategory;
 use BiBundle\Entity\CardChart;
 use BiBundle\Entity\File;
@@ -143,7 +143,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
         if (isset($cardData['image_file'])) {
             $this->checkImageFile($cardData['image_file']);
             $imageFile = $this->createImageFile($cardData['image_file']);
-            $card->setImageFile($imageFile);
+            $card->setImage($imageFile);
         }
         if (isset($cardData['carousel_files'])) {
             $priority = 0;
@@ -170,7 +170,7 @@ class BiCardsLoadCommand extends ContainerAwareCommand
 
     private function createCarouselImage(Card $card, $filename, $priority)
     {
-        $carouselImage = new CardCarouselImage();
+        $carouselImage = new CardImage();
         $imageFile = $this->createImageFile($filename);
         $carouselImage->setFile($imageFile);
         $carouselImage->setCard($card);

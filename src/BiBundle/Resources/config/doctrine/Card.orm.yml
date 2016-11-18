@@ -83,6 +83,9 @@ BiBundle\Entity\Card:
             nullable: true
             comment: 'Дата модификации'
             column: updated_on
+        data:
+            type: json_array
+            nullable: true
     oneToMany:
         purchase:
             targetEntity: BiBundle\Entity\Purchase
@@ -93,8 +96,8 @@ BiBundle\Entity\Card:
         argument:
             targetEntity: Argument
             mappedBy: card
-        cardCarouselImage:
-            targetEntity: CardCarouselImage
+        cardImage:
+            targetEntity: BiBundle\Entity\CardImage
             mappedBy: card
             orderBy: {'priority' : 'ASC'}
         argumentFilters:
@@ -107,9 +110,9 @@ BiBundle\Entity\Card:
             joinColumns:
                 category_id:
                     nullable: true
-        imageFile:
+        image:
                 targetEntity: BiBundle\Entity\File
                 joinColumns:
-                    image_file_id:
+                    image_id:
                         nullable: true
     lifecycleCallbacks: {  }

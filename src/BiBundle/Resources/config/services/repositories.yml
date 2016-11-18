@@ -65,7 +65,7 @@ services:
             arguments:
                 - BiBundle\Entity\File
     repository.card_carousel_image:
-            class: BiBundle\Repository\CardCarouselImageRepository
+            class: BiBundle\Repository\CardImageRepository
             factory: ['@doctrine.orm.default_entity_manager', getRepository]
             arguments:
-                - BiBundle\Entity\CardCarouselImage
+                - BiBundle\Entity\CardImage

@@ -3,7 +3,7 @@
 namespace BiBundle\Service;
 
 use BiBundle\Entity\Card;
-use BiBundle\Entity\CardCarouselImage;
+use BiBundle\Entity\CardImage;
 use BiBundle\Entity\File;
 use Doctrine\ORM\EntityManager;
 
@@ -79,26 +79,26 @@ class CardService
     /**
      * @param Card $card
      * @param File $file
-     * @return CardCarouselImage
+     * @return CardImage
      */
     public function createCarouselImage(Card $card, File $file)
     {
-        $cardCarouselImage = new CardCarouselImage();
-        $cardCarouselImage->setCard($card);
-        $cardCarouselImage->setFile($file);
-        $this->getEm()->persist($cardCarouselImage);
-        $this->getEm()->flush($cardCarouselImage);
+        $image = new CardImage();
+        $image->setCard($card);
+        $image->setFile($file);
+        $this->getEm()->persist($image);
+        $this->getEm()->flush($image);
 
-        return $cardCarouselImage;
+        return $image;
     }
 
     /**
-     * @param CardCarouselImage $cardCarouselImage
+     * @param CardImage $cardImage
      */
-    public function removeCarouselImage(CardCarouselImage $cardCarouselImage)
+    public function removeCarouselImage(CardImage $cardImage)
     {
-        $this->getEm()->remove($cardCarouselImage);
-        $this->getEm()->flush($cardCarouselImage);
+        $this->getEm()->remove($cardImage);
+        $this->getEm()->flush($cardImage);
     }
 
     /**

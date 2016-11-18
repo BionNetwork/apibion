@@ -7,6 +7,7 @@ use BiBundle\Entity\CardCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,8 +39,8 @@ class CardType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false
             ])
-            ->add('cardCarouselImage', CollectionType::class, [
-                'entry_type' => CardCarouselImageType::class,
+            ->add('cardImage', CollectionType::class, [
+                'entry_type' => CardImageType::class,
                 'entry_options' => [
                     'card' => $options['data'],
                     'label' => false
@@ -48,6 +49,9 @@ class CardType extends AbstractType
             ])->add('locale', TextType::class, [
                 'required' => false,
                 'attr' => ['readonly' => true]
+            ])
+            ->add('data', HiddenType::class, [
+                'data' => ''
             ]);
     }
 

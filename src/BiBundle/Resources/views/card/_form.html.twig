@@ -81,6 +81,26 @@
                                 </div>
                                 <div class="panel-footer">
                                     <div class="form-group-sm selected-filters">
+                                        {%  if(form.vars.data.data and form.vars.data.data.filters is defined) %}
+                                            {% for filter in form.vars.data.data.filters %}
+                                                {% set loopIndex = loop.index %}
+                                                <div class="filter-item">
+                                                    <span class="label label-primary">{{ filter.name }}</span>
+                                                    {% for chart in filter.charts %}
+                                                        <span class="label label-info chart-item">{{ chart.name }}</span>
+                                                    {% endfor %}
+                                                    <div class="btn-group" role="group" aria-label="...">
+                                                        <button type="button" class="btn btn-default filter-delete" onclick="filter.deleteItem(this)">Delete</button>
+                                                    </div>
+                                                    <input type="hidden" name="card[data][filters][{{ loop.index }}][id]" value="{{ filter.id }}"/>
+                                                    <input type="hidden" name="card[data][filters][{{ loop.index }}][name]" value="{{ filter.name }}"/>
+                                                    {% for chart in filter.charts %}
+                                                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][id]" value="{{ chart.id }}"/>
+                                                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][name]" value="{{ chart.name }}"/>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +148,7 @@
                     {% for file in files %}
                         <div>
                             <p>
-                                {% for image in file.cardCarouselImage %}
+                                {% for image in file.cardImage %}
                                     <b>Priority:</b> {{ image.priority }} <br/>
                                 {% endfor %}
                                 <b>Path:</b> {{ file.path }}

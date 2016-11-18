@@ -1,27 +1,27 @@
-BiBundle\Entity\CardCarouselImage:
+BiBundle\Entity\CardImage:
     type: entity
-    table: null
-    repositoryClass: BiBundle\Repository\CardCarouselImageRepository
+    table: card_images
+    repositoryClass: BiBundle\Repository\CardImageRepository
     id:
         id:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
     fields:
         priority:
             type: integer
             nullable: true
     manyToOne:
         file:
-            targetEntity: File
-            inversedBy: cardCarouselImage
+            targetEntity: BiBundle\Entity\File
+            inversedBy: cardImage
             joinColumns:
                 file_id:
                     nullable: true
         card:
             targetEntity: Card
-            inversedBy: cardCarouselImage
+            inversedBy: cardImage
             joinColumns:
                 card_id:
                     nullable: true

@@ -12,7 +12,7 @@ BiBundle\Entity\File:
         path:
             type: text
     oneToMany:
-        cardCarouselImage:
-            targetEntity: CardCarouselImage
+        cardImage:
+            targetEntity: BiBundle\Entity\CardImage
             mappedBy: file
     lifecycleCallbacks: {  }

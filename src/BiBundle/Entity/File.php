@@ -23,14 +23,14 @@ class File
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $cardCarouselImage;
+    private $cardImage;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->cardCarouselImage = new ArrayCollection();
+        $this->cardImage = new ArrayCollection();
     }
 
     /**
@@ -67,27 +67,27 @@ class File
     }
 
     /**
-     * Add cardCarouselImage
+     * Add cardImage
      *
-     * @param \BiBundle\Entity\CardCarouselImage $cardCarouselImage
+     * @param \BiBundle\Entity\CardImage $cardImage
      *
      * @return File
      */
-    public function addCardCarouselImage(\BiBundle\Entity\CardCarouselImage $cardCarouselImage)
+    public function addCardImage(\BiBundle\Entity\CardImage $cardImage)
     {
-        $this->cardCarouselImage[] = $cardCarouselImage;
+        $this->cardImage[] = $cardImage;
 
         return $this;
     }
 
     /**
-     * Remove cardCarouselImage
+     * Remove cardImage
      *
-     * @param \BiBundle\Entity\CardCarouselImage $cardCarouselImage
+     * @param \BiBundle\Entity\CardImage $cardImage
      */
-    public function removeCardCarouselImage(\BiBundle\Entity\CardCarouselImage $cardCarouselImage)
+    public function removeCardImage(\BiBundle\Entity\CardImage $cardImage)
     {
-        $this->cardCarouselImage->removeElement($cardCarouselImage);
+        $this->cardImage->removeElement($cardImage);
     }
 
     /**
@@ -95,8 +95,8 @@ class File
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCardCarouselImage()
+    public function getCardImage()
     {
-        return $this->cardCarouselImage;
+        return $this->cardImage;
     }
 }

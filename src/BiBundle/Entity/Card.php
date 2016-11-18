@@ -89,16 +89,23 @@ class Card
     /**
      * @var Collection
      */
-    private $cardCarouselImage;
+    private $cardImage;
 
     /**
      * @var File
      */
-    private $imageFile;
+    private $image;
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $argumentFilters;
+
+    /**
+     * data of filters and charts chained to card
+     *
+     * @var array
+     */
+    private $data;
 
     /**
      * Constructor
@@ -108,7 +115,7 @@ class Card
         $this->purchase = new ArrayCollection();
         $this->cardChart = new ArrayCollection();
         $this->argument = new ArrayCollection();
-        $this->cardCarouselImage = new ArrayCollection();
+        $this->cardImage = new ArrayCollection();
         $this->createdOn = new \DateTime();
         $this->updatedOn = new \DateTime();
     }
@@ -476,37 +483,37 @@ class Card
     }
 
     /**
-     * Add cardCarouselImage
+     * Add cardImage
      *
-     * @param CardCarouselImage $cardCarouselImage
+     * @param CardImage $cardImage
      *
      * @return Card
      */
-    public function addCardCarouselImage(CardCarouselImage $cardCarouselImage)
+    public function addCardImage(CardImage $cardImage)
     {
-        $this->cardCarouselImage[] = $cardCarouselImage;
+        $this->cardImage[] = $cardImage;
 
         return $this;
     }
 
     /**
-     * Remove cardCarouselImage
+     * Remove cardImage
      *
-     * @param CardCarouselImage $cardCarouselImage
+     * @param CardImage $cardImage
      */
-    public function removeCardCarouselImage(CardCarouselImage $cardCarouselImage)
+    public function removeCardImage(CardImage $cardImage)
     {
-        $this->cardCarouselImage->removeElement($cardCarouselImage);
+        $this->cardImage->removeElement($cardImage);
     }
 
     /**
-     * Get cardCarouselImage
+     * Get cardImage
      *
      * @return Collection
      */
-    public function getCardCarouselImage()
+    public function getCardImage()
     {
-        return $this->cardCarouselImage;
+        return $this->cardImage;
     }
 
     /**
@@ -514,21 +521,21 @@ class Card
      *
      * @return File
      */
-    public function getImageFile()
+    public function getImage()
     {
-        return $this->imageFile;
+        return $this->image;
     }
 
     /**
      * Set imageFile
      *
-     * @param File $imageFile
+     * @param File $image
      *
      * @return Card
      */
-    public function setImageFile(File $imageFile)
+    public function setImage(File $image)
     {
-        $this->imageFile = $imageFile;
+        $this->image = $image;
 
         return $this;
     }
@@ -565,5 +572,29 @@ class Card
     public function getArgumentFilters()
     {
         return $this->argumentFilters;
+    }
+
+    /**
+     * Set data
+     *
+     * @param array $data
+     *
+     * @return Card
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

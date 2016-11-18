@@ -65,7 +65,7 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('c.purchase', 'p')
             ->leftJoin('c.argument', 'a')
             ->leftJoin('c.cardRepresentation', 'cp')
-            ->leftJoin('c.cardCarouselImage', 'ci')
+            ->leftJoin('c.cardImage', 'ci')
             ->orderBy('c.createdOn', 'desc');
 
         return $qb->getQuery()->getResult();
@@ -83,7 +83,7 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $qb->select('f', 'ci')
             ->from('BiBundle:File', 'f')
-            ->leftJoin('f.cardCarouselImage', 'ci')
+            ->leftJoin('f.cardImage', 'ci')
             ->where('ci.card = :card')
             ->orderBy('ci.priority', 'asc')
             ->setParameter('card', $card);
