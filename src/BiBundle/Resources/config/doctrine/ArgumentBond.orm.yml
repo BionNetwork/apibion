@@ -22,10 +22,10 @@ BiBundle\Entity\ArgumentBond:
             column: column_name
     manyToOne:
         argument:
-            targetEntity: Argument
+            targetEntity: BiBundle\Entity\Argument
             cascade: {  }
             mappedBy: null
-            inversedBy: argument_bond
+            inversedBy: bonds
             joinColumns:
                 argument_id:
                     referencedColumnName: id
@@ -33,10 +33,10 @@ BiBundle\Entity\ArgumentBond:
                     onDelete: CASCADE
             orphanRemoval: false
         resource:
-            targetEntity: Resource
+            targetEntity: BiBundle\Entity\Resource
             cascade: {  }
             mappedBy: null
-            inversedBy: argument_bond
+            inversedBy: bonds
             joinColumns:
                 resource_id:
                     referencedColumnName: id
@@ -44,10 +44,10 @@ BiBundle\Entity\ArgumentBond:
                     onDelete: CASCADE
             orphanRemoval: false
         activation:
-            targetEntity: Activation
+            targetEntity: BiBundle\Entity\Activation
             cascade: {  }
             mappedBy: null
-            inversedBy: argument_bond
+            inversedBy: bonds
             joinColumns:
                 activation_id:
                     referencedColumnName: id

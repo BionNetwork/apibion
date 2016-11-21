@@ -2,6 +2,7 @@
 
 namespace BiBundle\Service;
 
+use BiBundle\Entity\Argument;
 use BiBundle\Entity\Card;
 use BiBundle\Entity\CardImage;
 use BiBundle\Entity\File;
@@ -42,12 +43,55 @@ class CardService
     }
 
     /**
+     * @param $id
+     * @return Argument|null|object
+     */
+    protected function getArgument($id)
+    {
+        return $this->getEm()->getRepository('BiBundle:Argument')->find($id);
+    }
+    /**
      * @param Card $card
      */
     public function save(Card $card)
     {
+        /** @var Argument $argument */
+        $arguments = $card->getArgument();
+
+        foreach ($arguments as $argument) {
+            if (null === $argument->getId()) {
+                $argument->setCard($card);
+                $this->getEm()->persist($argument);
+            }
+        }
+        $this->cleanArguments($card);
+
         $this->getEm()->persist($card);
         $this->getEm()->flush();
+    }
+
+    /**
+     * Удаление аргументов, не привязанных более к карточке
+     *
+     * @param Card $card
+     */
+    private function cleanArguments(Card $card)
+    {
+        $em = $this->getEm();
+
+        // Удаление целей проекта, которые более не привязаны к проекту
+        $goalRepo = $em->getRepository('BiBundle:Argument');
+        $arguments = $goalRepo->findBy(['card' => $card]);
+        $currentArguments = $card->getArgument();
+        $names = [];
+        foreach ($currentArguments as $argument) {
+            $names[] = $argument->getName();
+        }
+        foreach ($arguments as $argument) {
+            if (!in_array($argument->getName(), $names)) {
+                $em->remove($argument);
+            }
+        }
     }
 
     /**

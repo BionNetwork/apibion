@@ -42,6 +42,9 @@ BiBundle\Entity\Activation:
             cascade: ["persist"]
             inversedBy: null
             orphanRemoval: false
+        bonds:
+            targetEntity: BiBundle\Entity\ArgumentBond
+            mappedBy: activation
     manyToOne:
         card:
             targetEntity: Card

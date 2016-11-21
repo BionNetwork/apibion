@@ -69,6 +69,10 @@ class Argument
     private $argumentFilters;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $bonds;
+    /**
      * Constructor
      */
     public function __construct()
@@ -327,5 +331,39 @@ class Argument
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * Add bond
+     *
+     * @param \BiBundle\Entity\ArgumentBond $bond
+     *
+     * @return Argument
+     */
+    public function addBond(\BiBundle\Entity\ArgumentBond $bond)
+    {
+        $this->bonds[] = $bond;
+
+        return $this;
+    }
+
+    /**
+     * Remove bond
+     *
+     * @param \BiBundle\Entity\ArgumentBond $bond
+     */
+    public function removeBond(\BiBundle\Entity\ArgumentBond $bond)
+    {
+        $this->bonds->removeElement($bond);
+    }
+
+    /**
+     * Get bonds
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBonds()
+    {
+        return $this->bonds;
     }
 }

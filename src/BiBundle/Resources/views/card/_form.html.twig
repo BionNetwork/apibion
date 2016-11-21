@@ -5,42 +5,20 @@
 {% block _card_argument_widget %}
     <div class="form-group-sm selected-arguments">
         {% for argument in form.vars.data %}
-            {% set loopIndex = loop.index %}
+            {% set loopIndex = loop.index0 %}
             <div class="argument-item">
                 <span class="label label-primary">{{ argument.name }}</span>
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-default argument-delete">Delete</button>
                 </div>
-                <input type="hidden" name="card[argument][{{ loop.index }}][id]" value="{{ argument.id }}"/>
+                <input type="hidden" name="card[argument][{{ loopIndex }}][id]" value="{{ argument.id }}"/>
+                <input type="hidden" name="card[argument][{{ loopIndex }}][name]" value="{{ argument.name }}"/>
+                <input type="hidden" name="card[argument][{{ loopIndex }}][code]" value="{{ argument.code }}"/>
+                <input type="hidden" name="card[argument][{{ loopIndex }}][description]" value="{{ argument.description }}"/>
+                <input type="hidden" name="card[argument][{{ loopIndex }}][datatype]" value="{{ argument.datatype }}"/>
+                <input type="hidden" name="card[argument][{{ loopIndex }}][dimension]" value="{{ argument.dimension }}"/>
             </div>
         {% endfor %}
-    </div>
-{% endblock %}
-
-{% block _card_data_widget %}
-    <div class="form-group-sm selected-filters">
-        {%  if(form.vars.data and form.vars.data.filters is defined) %}
-            {% for filter in form.vars.data.filters %}
-                {% set loopIndex = loop.index %}
-                <div class="filter-item">
-                    <span class="label label-primary">{{ filter.title }} ({{ filter.name }})</span>
-                    {% for chart in filter.charts %}
-                        <span class="label label-info chart-item">{{ chart.name }}</span>
-                    {% endfor %}
-                    <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default filter-delete">Delete</button>
-                    </div>
-                    <input type="hidden" name="card[data][filters][{{ loop.index }}][id]" value="{{ filter.id }}"/>
-                    <input type="hidden" name="card[data][filters][{{ loop.index }}][title]" value="{{ filter.title }}"/>
-                    <input type="hidden" name="card[data][filters][{{ loop.index }}][name]" value="{{ filter.name }}"/>
-                    <input type="hidden" name="card[data][filters][{{ loop.index }}][type]" value="{{ filter.type }}"/>
-                    {% for chart in filter.charts %}
-                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][id]" value="{{ chart.id }}"/>
-                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][name]" value="{{ chart.name }}"/>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        {% endif %}
     </div>
 {% endblock %}
 
@@ -87,6 +65,7 @@
                             {{ form_row(form.cardCategory) }}
                             {{ form_row(form.cardImage) }}
                             {{ form_row(form.locale) }}
+                            {{ form_row(form.data) }}
                         </div>
                         <!-- Filters tab -->
                         <div role="tabpanel" class="tab-pane" id="filters">
@@ -129,7 +108,30 @@
                                     </div>
                                 </div>
                                 <div class="panel-footer">
-                                    {{ form_widget(form.data) }}
+                                    <div class="form-group-sm selected-filters">
+                                        {%  if(form.vars.data.data and form.vars.data.data.filters is defined) %}
+                                            {% for filter in form.vars.data.data.filters %}
+                                                {% set loopIndex = loop.index %}
+                                                <div class="filter-item">
+                                                    <span class="label label-primary">{{ filter.title }} ({{ filter.name }})</span>
+                                                    {% for chart in filter.charts %}
+                                                        <span class="label label-info chart-item">{{ chart.name }}</span>
+                                                    {% endfor %}
+                                                    <div class="btn-group" role="group" aria-label="...">
+                                                        <button type="button" class="btn btn-default filter-delete">Delete</button>
+                                                    </div>
+                                                    <input type="hidden" name="card[data][filters][{{ loopIndex }}][id]" value="{{ filter.id }}"/>
+                                                    <input type="hidden" name="card[data][filters][{{ loopIndex }}][title]" value="{{ filter.title }}"/>
+                                                    <input type="hidden" name="card[data][filters][{{ loopIndex }}][name]" value="{{ filter.name }}"/>
+                                                    <input type="hidden" name="card[data][filters][{{ loopIndex }}][type]" value="{{ filter.type }}"/>
+                                                    {% for chart in filter.charts %}
+                                                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][id]" value="{{ chart.id }}"/>
+                                                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][name]" value="{{ chart.name }}"/>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>

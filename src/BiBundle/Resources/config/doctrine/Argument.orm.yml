@@ -34,7 +34,7 @@ BiBundle\Entity\Argument:
               - translatable
         code:
             type: string
-            nullable: false
+            nullable: true
             comment: 'Аббревиатура аргумента'
             column: code
         dimension:
@@ -65,6 +65,10 @@ BiBundle\Entity\Argument:
                 card_id:
                     referencedColumnName: id
                     nullable: false
+    oneToMany:
+        bonds:
+            targetEntity: BiBundle\Entity\ArgumentBond
+            mappedBy: argument
     manyToMany:
         argumentFilters:
             targetEntity: BiBundle\Entity\ArgumentFilter

@@ -50,6 +50,11 @@ class Resource
      */
     private $settings;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $bonds;
+
     public function __construct()
     {
         $this->createdOn = new \DateTime();
@@ -225,5 +230,39 @@ class Resource
         $settings['type'] = $type;
         $settings['file'] = ['path' => $path, 'mimeType' => $mimeType];
         $this->setSettings($settings);
+    }
+
+    /**
+     * Add bond
+     *
+     * @param \BiBundle\Entity\ArgumentBond $bond
+     *
+     * @return Resource
+     */
+    public function addBond(\BiBundle\Entity\ArgumentBond $bond)
+    {
+        $this->bonds[] = $bond;
+
+        return $this;
+    }
+
+    /**
+     * Remove bond
+     *
+     * @param \BiBundle\Entity\ArgumentBond $bond
+     */
+    public function removeBond(\BiBundle\Entity\ArgumentBond $bond)
+    {
+        $this->bonds->removeElement($bond);
+    }
+
+    /**
+     * Get bonds
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBonds()
+    {
+        return $this->bonds;
     }
 }

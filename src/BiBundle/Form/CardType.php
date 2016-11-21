@@ -56,7 +56,7 @@ class CardType extends AbstractType
                 'entry_type' => CardArgumentType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => true,
+                'by_reference' => false,
                 'required' => false
             ]);
     }

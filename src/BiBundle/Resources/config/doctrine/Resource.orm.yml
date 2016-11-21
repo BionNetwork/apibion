@@ -35,6 +35,10 @@ BiBundle\Entity\Resource:
             type: json_array
             nullable: true
             comment: 'Настройки источника'
+    oneToMany:
+        bonds:
+            targetEntity: BiBundle\Entity\ArgumentBond
+            mappedBy: resource
     manyToOne:
         activation:
             targetEntity: Activation

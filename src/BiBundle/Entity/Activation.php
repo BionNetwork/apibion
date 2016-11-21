@@ -48,6 +48,10 @@ class Activation
     private $lastFilter;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $bonds;
+    /**
      * Constructor
      */
     public function __construct()
@@ -271,5 +275,39 @@ class Activation
     public function getLastFilter()
     {
         return $this->lastFilter;
+    }
+
+    /**
+     * Add bond
+     *
+     * @param \BiBundle\Entity\ArgumentBond $bond
+     *
+     * @return Activation
+     */
+    public function addBond(\BiBundle\Entity\ArgumentBond $bond)
+    {
+        $this->bonds[] = $bond;
+
+        return $this;
+    }
+
+    /**
+     * Remove bond
+     *
+     * @param \BiBundle\Entity\ArgumentBond $bond
+     */
+    public function removeBond(\BiBundle\Entity\ArgumentBond $bond)
+    {
+        $this->bonds->removeElement($bond);
+    }
+
+    /**
+     * Get bonds
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBonds()
+    {
+        return $this->bonds;
     }
 }

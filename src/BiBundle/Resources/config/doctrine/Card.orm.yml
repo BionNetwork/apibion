@@ -94,7 +94,7 @@ BiBundle\Entity\Card:
             targetEntity: BiBundle\Entity\CardChart
             mappedBy: card
         argument:
-            targetEntity: Argument
+            targetEntity: BiBundle\Entity\Argument
             mappedBy: card
             cascade: ["persist"]
             inversedBy: null

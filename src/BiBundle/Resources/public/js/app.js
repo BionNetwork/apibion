@@ -65,7 +65,7 @@ $(document).ready(function(){
             '<input type="hidden" name="card[argument][' + argumentCounter + '][name]" value="' + name + '"/>' +
             '<input type="hidden" name="card[argument][' + argumentCounter + '][code]" value="' + code + '"/>' +
             '<input type="hidden" name="card[argument][' + argumentCounter + '][description]" value="' + desc + '"/>' +
-            '<input type="hidden" name="card[argument][' + argumentCounter + '][datatype]" value="' + dataType.val() + '"/>';
+            '<input type="hidden" name="card[argument][' + argumentCounter + '][datatype]" value="' + dataType.val() + '"/>' +
             '<input type="hidden" name="card[argument][' + argumentCounter + '][dimension]" value="' + dimension.val() + '"/>';
         html += '</div>';
         $(".selected-arguments").append(html);
