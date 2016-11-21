@@ -9,6 +9,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Argument
 {
+    const TYPE_DATE = 'date';
+    const TYPE_TEXT = 'text';
+    const TYPE_NUMBER = 'number';
+    const TYPE_BOOL = 'bool';
+
     /**
      * @var integer
      */
@@ -286,8 +291,7 @@ class Argument
     /**
      * Add argumentFilter
      *
-     * @param \BiBundle\Entity\Argument $argumentFilter
-     *
+     * @param \BiBundle\Entity\ArgumentFilter $argumentFilter
      * @return Argument
      */
     public function addArgumentFilter(\BiBundle\Entity\ArgumentFilter $argumentFilter)
@@ -315,5 +319,13 @@ class Argument
     public function getArgumentFilters()
     {
         return $this->argumentFilters;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 }

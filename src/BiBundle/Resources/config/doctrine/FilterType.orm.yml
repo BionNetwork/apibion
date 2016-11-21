@@ -19,4 +19,8 @@ BiBundle\Entity\FilterType:
             nullable: false
             options:
                 default: 0
+        type:
+            type: string
+            length: 255
+            nullable: true
     lifecycleCallbacks: {  }

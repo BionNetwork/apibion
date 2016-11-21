@@ -2,6 +2,48 @@
 
 {% form_theme form _self %}
 
+{% block _card_argument_widget %}
+    <div class="form-group-sm selected-arguments">
+        {% for argument in form.vars.data %}
+            {% set loopIndex = loop.index %}
+            <div class="argument-item">
+                <span class="label label-primary">{{ argument.name }}</span>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default argument-delete">Delete</button>
+                </div>
+                <input type="hidden" name="card[argument][{{ loop.index }}][id]" value="{{ argument.id }}"/>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block _card_data_widget %}
+    <div class="form-group-sm selected-filters">
+        {%  if(form.vars.data and form.vars.data.filters is defined) %}
+            {% for filter in form.vars.data.filters %}
+                {% set loopIndex = loop.index %}
+                <div class="filter-item">
+                    <span class="label label-primary">{{ filter.title }} ({{ filter.name }})</span>
+                    {% for chart in filter.charts %}
+                        <span class="label label-info chart-item">{{ chart.name }}</span>
+                    {% endfor %}
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default filter-delete">Delete</button>
+                    </div>
+                    <input type="hidden" name="card[data][filters][{{ loop.index }}][id]" value="{{ filter.id }}"/>
+                    <input type="hidden" name="card[data][filters][{{ loop.index }}][title]" value="{{ filter.title }}"/>
+                    <input type="hidden" name="card[data][filters][{{ loop.index }}][name]" value="{{ filter.name }}"/>
+                    <input type="hidden" name="card[data][filters][{{ loop.index }}][type]" value="{{ filter.type }}"/>
+                    {% for chart in filter.charts %}
+                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][id]" value="{{ chart.id }}"/>
+                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][name]" value="{{ chart.name }}"/>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -30,36 +72,43 @@
                             <a href="#main" aria-controls="main" role="tab"
                                   data-toggle="tab">Main info</a></li>
                         <li role="presentation"><a href="#filters" aria-controls="other" role="tab" data-toggle="tab">Filters</a></li>
+                        <li role="presentation"><a href="#arguments" aria-controls="other" role="tab" data-toggle="tab">Arguments</a></li>
                     </ul>
 
                     <div class="tab-content top">
                         <div role="tabpanel" class="tab-pane active" id="main">
-                            {{ form_widget(form) }}
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Arguments</label>
-                                <div class="col-sm-10">
-                                    {% for argument in arguments %}
-                                        <a href="{{ path('argument_edit', { 'id': argument.id }) }}"
-                                           class="btn btn-default">{{ argument.name }}</a>
-                                    {% endfor %}
-                                </div>
-                            </div>
+                            {{ form_row(form.name) }}
+                            {{ form_row(form.description) }}
+                            {{ form_row(form.description_long) }}
+                            {{ form_row(form.rating) }}
+                            {{ form_row(form.author) }}
+                            {{ form_row(form.type) }}
+                            {{ form_row(form.price) }}
+                            {{ form_row(form.cardCategory) }}
+                            {{ form_row(form.cardImage) }}
+                            {{ form_row(form.locale) }}
                         </div>
                         <!-- Filters tab -->
-                        <div role="tabpanel" class="tab-pane active" id="filters">
+                        <div role="tabpanel" class="tab-pane" id="filters">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <label class="col-sm control-label">Filters</label>
+                                    <label for="" class="col-sm control-label">Name</label>
                                     <div class="form-group-sm form-group-right">
                                         <div class="col-sm-10">
                                             <input type="button" class="btn btn-info filter-add" value="Добавить">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" maxlength="255" name="cardFilters[title]" id="cardFilters-title">
+                                        </div>
+                                    </div>
+                                    <label class="col-sm control-label">Filters</label>
                                     <div class="form-group-sm">
-                                        <select name="cardFilters" class="form-control" id="cardFilters">
+                                        <select name="cardFilters[type]" class="form-control" id="cardFilters">
                                             <option value=""></option>
                                             {% for filter in filters %}
-                                                <option value="{{ filter.id }}">{{ filter.name }}</option>
+                                                <option value="{{ filter.id }}" data-type="{{ filter.type }}">{{ filter.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -80,28 +129,57 @@
                                     </div>
                                 </div>
                                 <div class="panel-footer">
-                                    <div class="form-group-sm selected-filters">
-                                        {%  if(form.vars.data.data and form.vars.data.data.filters is defined) %}
-                                            {% for filter in form.vars.data.data.filters %}
-                                                {% set loopIndex = loop.index %}
-                                                <div class="filter-item">
-                                                    <span class="label label-primary">{{ filter.name }}</span>
-                                                    {% for chart in filter.charts %}
-                                                        <span class="label label-info chart-item">{{ chart.name }}</span>
-                                                    {% endfor %}
-                                                    <div class="btn-group" role="group" aria-label="...">
-                                                        <button type="button" class="btn btn-default filter-delete" onclick="filter.deleteItem(this)">Delete</button>
-                                                    </div>
-                                                    <input type="hidden" name="card[data][filters][{{ loop.index }}][id]" value="{{ filter.id }}"/>
-                                                    <input type="hidden" name="card[data][filters][{{ loop.index }}][name]" value="{{ filter.name }}"/>
-                                                    {% for chart in filter.charts %}
-                                                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][id]" value="{{ chart.id }}"/>
-                                                        <input type="hidden" name="card[data][filters][{{ loopIndex }}][charts][{{ loop.index }}][name]" value="{{ chart.name }}"/>
-                                                    {% endfor %}
-                                                </div>
-                                            {% endfor %}
-                                        {% endif %}
+                                    {{ form_widget(form.data) }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Arguments tab -->
+                        <div role="tabpanel" class="tab-pane" id="arguments">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <label for="" class="col-sm control-label">Name</label>
+                                    <div class="form-group-sm form-group-right">
+                                        <div class="col-sm-10">
+                                            <input type="button" class="btn btn-info argument-add" value="Добавить">
+                                        </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" maxlength="255" name="cardArguments[name]" id="cardArguments-name">
+                                        </div>
+                                    </div>
+                                    <label for="" class="col-sm control-label">Code</label>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" maxlength="255" name="cardArguments[code]" id="cardArguments-code">
+                                        </div>
+                                    </div>
+                                    <label for="" class="col-sm control-label">Description</label>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <textarea class="form-control" name="cardArguments[description]" id="cardArguments-description"></textarea>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm control-label">Datatype</label>
+                                    <div class="form-group-sm">
+                                        <select name="cardArguments[datatype]" class="form-control" id="cardArgumentsType">
+                                            <option value="date">Date</option>
+                                            <option value="number">Number</option>
+                                            <option value="text">Text</option>
+                                            <option value="bool">Bool</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-sm control-label">Dimension</label>
+                                    <div class="form-group-sm">
+                                        <select name="cardArguments[dimension]" class="form-control" id="cardArgumentsDimension">
+                                            <option value="X">x</option>
+                                            <option value="Y">y</option>
+                                            <option value="">пусто</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    {{ form_widget(form.argument) }}
                                 </div>
                             </div>
                         </div>

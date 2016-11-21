@@ -59,11 +59,12 @@ BiBundle\Entity\Argument:
             column: updated_on
     manyToOne:
         card:
-            targetEntity: Card
+            targetEntity: BiBundle\Entity\Card
             inversedBy: argument
             joinColumns:
                 card_id:
-                    nullable: true
+                    referencedColumnName: id
+                    nullable: false
     manyToMany:
         argumentFilters:
             targetEntity: BiBundle\Entity\ArgumentFilter

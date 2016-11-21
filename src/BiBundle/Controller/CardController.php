@@ -71,7 +71,6 @@ class CardController extends Controller
         return $this->render('@Bi/card/new.html.twig', [
             'card' => $card,
             'form' => $form->createView(),
-            'arguments' => [],
             'charts' => $charts,
             'filters' => $filters,
             'files' => [],
@@ -137,7 +136,6 @@ class CardController extends Controller
 
         return $this->render('@Bi/card/edit.html.twig', [
             'card' => $card,
-            'arguments' => $card->getArgument(),
             'files' => $files,
             'form' => $editForm->createView(),
             'charts' => $charts,

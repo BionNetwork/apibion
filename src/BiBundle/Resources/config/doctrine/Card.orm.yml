@@ -96,6 +96,9 @@ BiBundle\Entity\Card:
         argument:
             targetEntity: Argument
             mappedBy: card
+            cascade: ["persist"]
+            inversedBy: null
+            orphanRemoval: false
         cardImage:
             targetEntity: BiBundle\Entity\CardImage
             mappedBy: card

@@ -33,7 +33,6 @@ class CardType extends AbstractType
             ->add('author')
             ->add('type')
             ->add('price')
-            ->add('cardCategory')
             ->add('cardCategory', EntityType::class, [
                 'class' => CardCategory::class,
                 'choice_label' => 'name',
@@ -52,6 +51,13 @@ class CardType extends AbstractType
             ])
             ->add('data', HiddenType::class, [
                 'data' => ''
+            ])
+            ->add('argument', CollectionType::class, [
+                'entry_type' => CardArgumentType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => true,
+                'required' => false
             ]);
     }
 
